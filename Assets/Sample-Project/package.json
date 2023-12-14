@@ -1,0 +1,20 @@
+{
+  "name": "sample-project",
+  "displayname": "Sample Project",
+  "version": "0.0.1",
+  "unity": "2021.3",
+  "description": "Sample. Change this!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willneedit/Unity-Template.git"
+  },
+  "keywords": [
+    "Sample"
+  ],
+  "author": "various",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/willneedit/Unity-Template/issues"
+  },
+  "homepage": "https://github.com/willneedit/Unity-Template#readme"
+}
