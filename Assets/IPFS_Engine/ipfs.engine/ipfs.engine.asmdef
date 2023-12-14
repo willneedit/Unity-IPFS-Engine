@@ -1,7 +1,10 @@
 {
-    "name": "ipfs.core",
+    "name": "ipfs.engine",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:e992fb8119031314d9e6982eec5e7002",
+        "GUID:c76a92b552904fd4cae1877bb4ffd18f"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

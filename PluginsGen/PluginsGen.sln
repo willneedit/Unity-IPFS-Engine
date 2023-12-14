@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{37167423-42CD-4FAB-9B0B-4A1D0F77BD67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ipfs.core-Plugins", "ipfs.core-Plugins\ipfs.core-Plugins.csproj", "{37167423-42CD-4FAB-9B0B-4A1D0F77BD67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ipfs.engine-Plugins", "ipfs.engine-Plugins\ipfs.engine-Plugins.csproj", "{B2136D6D-885D-47B9-8B20-65C087F8D58F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ipfs.peertalk-Plugins", "ipfs.peertalk-Plugins\ipfs.peertalk-Plugins.csproj", "{FB989A64-D328-4F6E-9FF2-84499461331D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{37167423-42CD-4FAB-9B0B-4A1D0F77BD67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37167423-42CD-4FAB-9B0B-4A1D0F77BD67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37167423-42CD-4FAB-9B0B-4A1D0F77BD67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2136D6D-885D-47B9-8B20-65C087F8D58F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2136D6D-885D-47B9-8B20-65C087F8D58F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2136D6D-885D-47B9-8B20-65C087F8D58F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2136D6D-885D-47B9-8B20-65C087F8D58F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB989A64-D328-4F6E-9FF2-84499461331D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB989A64-D328-4F6E-9FF2-84499461331D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB989A64-D328-4F6E-9FF2-84499461331D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB989A64-D328-4F6E-9FF2-84499461331D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,9 @@
 {
-    "name": "ipfs.core",
+    "name": "ipfs.peertalk",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:e992fb8119031314d9e6982eec5e7002"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
