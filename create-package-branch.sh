@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PKG_ROOT=Assets/Sample-Project
+PKG_ROOT=Assets/IPFS_Engine
 
 if [ "x$1" != "x" ]; then
   git tag raw-$1
