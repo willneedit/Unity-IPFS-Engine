@@ -1,0 +1,37 @@
+{
+    "name": "tests.ipfs.peertalk",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "ipfs.peertalk",
+        "ipfs.core"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "BouncyCastle.Crypto.dll",
+        "protobuf-net.dll",
+        "Makaretu.Dns.Multicast.dll",
+        "Makaretu.KBucket.dll",
+        "Nito.AsyncEx.Context.dll",
+        "Nito.AsyncEx.Coordination.dll",
+        "Nito.AsyncEx.Interop.WaitHandles.dll",
+        "Nito.AsyncEx.Oop.dll",
+        "Nito.AsyncEx.Tasks.dll",
+        "Nito.Cancellation.dll",
+        "Nito.Collections.Deque.dll",
+        "Nito.Disposables.dll",
+        "Semver.dll",
+        "Google.Protobuf.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
