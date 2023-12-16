@@ -13,7 +13,12 @@ namespace PeerTalk.Protocols
     public class Identitfy1Test
     {
         [Test]
-        public async void RoundTrip()
+        public void RoundTripAsync()
+		{
+			Task.Run(RoundTrip).Wait();
+		}
+
+		public async Task RoundTrip()
         {
             var peerA = new Peer
             {
@@ -51,7 +56,12 @@ namespace PeerTalk.Protocols
         }
 
         [Test]
-        public async void InvalidPublicKey()
+        public void InvalidPublicKeyAsync()
+		{
+			Task.Run(InvalidPublicKey).Wait();
+		}
+
+		public async Task InvalidPublicKey()
         {
             var peerA = new Peer
             {
@@ -89,7 +99,12 @@ namespace PeerTalk.Protocols
         }
 
         [Test]
-        public async void MustHavePublicKey()
+        public void MustHavePublicKeyAsync()
+		{
+			Task.Run(MustHavePublicKey).Wait();
+		}
+
+		public async Task MustHavePublicKey()
         {
             var peerA = new Peer
             {

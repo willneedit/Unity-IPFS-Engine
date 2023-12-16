@@ -54,7 +54,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Backoff_Increases()
+        public void Backoff_IncreasesAsync()
+		{
+			Task.Run(Backoff_Increases).Wait();
+		}
+
+		public async Task Backoff_Increases()
         {
             var peer = new Peer
             {
@@ -99,7 +104,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void PermanentlyDead()
+        public void PermanentlyDeadAsync()
+		{
+			Task.Run(PermanentlyDead).Wait();
+		}
+
+		public async Task PermanentlyDead()
         {
             var peer = new Peer
             {

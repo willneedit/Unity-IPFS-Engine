@@ -29,7 +29,12 @@ namespace PeerTalk.Routing
         };
 
         [Test]
-        public async void StoppedEventRaised()
+        public void StoppedEventRaisedAsync()
+		{
+			Task.Run(StoppedEventRaised).Wait();
+		}
+
+		public async Task StoppedEventRaised()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -41,7 +46,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void SeedsRoutingTableFromSwarm()
+        public void SeedsRoutingTableFromSwarmAsync()
+		{
+			Task.Run(SeedsRoutingTableFromSwarm).Wait();
+		}
+
+		public async Task SeedsRoutingTableFromSwarm()
         {
             var swarm = new Swarm { LocalPeer = self };
             var peer = swarm.RegisterPeerAddress("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h");
@@ -58,7 +68,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void AddDiscoveredPeerToRoutingTable()
+        public void AddDiscoveredPeerToRoutingTableAsync()
+		{
+			Task.Run(AddDiscoveredPeerToRoutingTable).Wait();
+		}
+
+		public async Task AddDiscoveredPeerToRoutingTable()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -75,7 +90,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void RemovesPeerFromRoutingTable()
+        public void RemovesPeerFromRoutingTableAsync()
+		{
+			Task.Run(RemovesPeerFromRoutingTable).Wait();
+		}
+
+		public async Task RemovesPeerFromRoutingTable()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -95,7 +115,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessFindNodeMessage_Self()
+        public void ProcessFindNodeMessage_SelfAsync()
+		{
+			Task.Run(ProcessFindNodeMessage_Self).Wait();
+		}
+
+		public async Task ProcessFindNodeMessage_Self()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -120,7 +145,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessFindNodeMessage_InRoutingTable()
+        public void ProcessFindNodeMessage_InRoutingTableAsync()
+		{
+			Task.Run(ProcessFindNodeMessage_InRoutingTable).Wait();
+		}
+
+		public async Task ProcessFindNodeMessage_InRoutingTable()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -148,7 +178,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessFindNodeMessage_InSwarm()
+        public void ProcessFindNodeMessage_InSwarmAsync()
+		{
+			Task.Run(ProcessFindNodeMessage_InSwarm).Wait();
+		}
+
+		public async Task ProcessFindNodeMessage_InSwarm()
         {
             var swarm = new Swarm { LocalPeer = self };
             var other = swarm.RegisterPeerAddress("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h");
@@ -178,7 +213,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessFindNodeMessage_Closest()
+        public void ProcessFindNodeMessage_ClosestAsync()
+		{
+			Task.Run(ProcessFindNodeMessage_Closest).Wait();
+		}
+
+		public async Task ProcessFindNodeMessage_Closest()
         {
             var swarm = new Swarm { LocalPeer = self };
             swarm.RegisterPeerAddress("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1a");
@@ -206,7 +246,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessFindNodeMessage_BadNodeId()
+        public void ProcessFindNodeMessage_BadNodeIdAsync()
+		{
+			Task.Run(ProcessFindNodeMessage_BadNodeId).Wait();
+		}
+
+		public async Task ProcessFindNodeMessage_BadNodeId()
         {
             var swarm = new Swarm { LocalPeer = self };
             swarm.RegisterPeerAddress("/ip4/127.0.0.1/tcp/4001/ipfs/QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1a");
@@ -234,7 +279,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessFindNodeMessage_NoOtherPeers()
+        public void ProcessFindNodeMessage_NoOtherPeersAsync()
+		{
+			Task.Run(ProcessFindNodeMessage_NoOtherPeers).Wait();
+		}
+
+		public async Task ProcessFindNodeMessage_NoOtherPeers()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -256,7 +306,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessGetProvidersMessage_HasCloserPeers()
+        public void ProcessGetProvidersMessage_HasCloserPeersAsync()
+		{
+			Task.Run(ProcessGetProvidersMessage_HasCloserPeers).Wait();
+		}
+
+		public async Task ProcessGetProvidersMessage_HasCloserPeers()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -280,7 +335,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessGetProvidersMessage_HasProvider()
+        public void ProcessGetProvidersMessage_HasProviderAsync()
+		{
+			Task.Run(ProcessGetProvidersMessage_HasProvider).Wait();
+		}
+
+		public async Task ProcessGetProvidersMessage_HasProvider()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -308,7 +368,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void ProcessAddProviderMessage()
+        public void ProcessAddProviderMessageAsync()
+		{
+			Task.Run(ProcessAddProviderMessage).Wait();
+		}
+
+		public async Task ProcessAddProviderMessage()
         {
             var swarm = new Swarm { LocalPeer = self };
             var dht = new Dht1 { Swarm = swarm };
@@ -345,7 +410,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void QueryIsCancelled_WhenDhtStops()
+        public void QueryIsCancelled_WhenDhtStopsAsync()
+		{
+			Task.Run(QueryIsCancelled_WhenDhtStops).Wait();
+		}
+
+		public async Task QueryIsCancelled_WhenDhtStops()
         {
             var unknownPeer = new MultiHash("QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCxxx");
             var swarm = new Swarm { LocalPeer = self };
@@ -359,7 +429,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void FindPeer_NoPeers()
+        public void FindPeer_NoPeersAsync()
+		{
+			Task.Run(FindPeer_NoPeers).Wait();
+		}
+
+		public async Task FindPeer_NoPeers()
         {
             var unknownPeer = new MultiHash("QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCxxx");
             var swarm = new Swarm { LocalPeer = self };
@@ -378,7 +453,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void FindPeer_Closest()
+        public void FindPeer_ClosestAsync()
+		{
+			Task.Run(FindPeer_Closest).Wait();
+		}
+
+		public async Task FindPeer_Closest()
         {
             var unknownPeer = new MultiHash("QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCxxx");
             var swarm = new Swarm { LocalPeer = self };
@@ -399,7 +479,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void Add_FindProviders()
+        public void Add_FindProvidersAsync()
+		{
+			Task.Run(Add_FindProviders).Wait();
+		}
+
+		public async Task Add_FindProviders()
         {
             Cid cid = "zBunRGrmCGokA1oMESGGTfrtcMFsVA8aEtcNzM54akPWXF97uXCqTjF3GZ9v8YzxHrG66J8QhtPFWwZebRZ2zeUEELu67";
             var swarm = new Swarm { LocalPeer = self };
@@ -420,7 +505,12 @@ namespace PeerTalk.Routing
         }
 
         [Test]
-        public async void Provide()
+        public void ProvideAsync()
+		{
+			Task.Run(Provide).Wait();
+		}
+
+		public async Task Provide()
         {
             Cid cid = "zBunRGrmCGokA1oMESGGTfrtcMFsVA8aEtcNzM54akPWXF97uXCqTjF3GZ9v8YzxHrG66J8QhtPFWwZebRZ2zeUEELu67";
             var swarm = new Swarm { LocalPeer = self };

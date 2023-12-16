@@ -54,7 +54,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Sends_Hello_OnConnect()
+        public void Sends_Hello_OnConnectAsync()
+		{
+			Task.Run(Sends_Hello_OnConnect).Wait();
+		}
+
+		public async Task Sends_Hello_OnConnect()
         {
             var topic = Guid.NewGuid().ToString();
 
@@ -103,7 +108,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Sends_NewSubscription()
+        public void Sends_NewSubscriptionAsync()
+		{
+			Task.Run(Sends_NewSubscription).Wait();
+		}
+
+		public async Task Sends_NewSubscription()
         {
             var topic = Guid.NewGuid().ToString();
 
@@ -152,7 +162,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Sends_CancelledSubscription()
+        public void Sends_CancelledSubscriptionAsync()
+		{
+			Task.Run(Sends_CancelledSubscription).Wait();
+		}
+
+		public async Task Sends_CancelledSubscription()
         {
             var topic = Guid.NewGuid().ToString();
 
@@ -212,7 +227,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Relays_PublishedMessage()
+        public void Relays_PublishedMessageAsync()
+		{
+			Task.Run(Relays_PublishedMessage).Wait();
+		}
+
+		public async Task Relays_PublishedMessage()
         {
             var topic = Guid.NewGuid().ToString();
 

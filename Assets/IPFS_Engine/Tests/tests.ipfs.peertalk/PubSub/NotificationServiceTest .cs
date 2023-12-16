@@ -23,7 +23,12 @@ namespace PeerTalk.PubSub
         Peer other2 = new Peer { Id = "QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvUJ" };
 
         [Test]
-        public async void MessageID_Increments()
+        public void MessageID_IncrementsAsync()
+		{
+			Task.Run(MessageID_Increments).Wait();
+		}
+
+		public async Task MessageID_Increments()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -40,7 +45,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Publish()
+        public void PublishAsync()
+		{
+			Task.Run(Publish).Wait();
+		}
+
+		public async Task Publish()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -59,7 +69,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Topics()
+        public void TopicsAsync()
+		{
+			Task.Run(Topics).Wait();
+		}
+
+		public async Task Topics()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -95,7 +110,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Subscribe()
+        public void SubscribeAsync()
+		{
+			Task.Run(Subscribe).Wait();
+		}
+
+		public async Task Subscribe()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -117,7 +137,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void Subscribe_HandlerExceptionIsIgnored()
+        public void Subscribe_HandlerExceptionIsIgnoredAsync()
+		{
+			Task.Run(Subscribe_HandlerExceptionIsIgnored).Wait();
+		}
+
+		public async Task Subscribe_HandlerExceptionIsIgnored()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -138,7 +163,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void DuplicateMessagesAreIgnored()
+        public void DuplicateMessagesAreIgnoredAsync()
+		{
+			Task.Run(DuplicateMessagesAreIgnored).Wait();
+		}
+
+		public async Task DuplicateMessagesAreIgnored()
         {
             var ns = new NotificationService { LocalPeer = self };
             ns.Routers.Add(new LoopbackRouter());
@@ -162,7 +192,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void SubscribedPeers_ForTopic()
+        public void SubscribedPeers_ForTopicAsync()
+		{
+			Task.Run(SubscribedPeers_ForTopic).Wait();
+		}
+
+		public async Task SubscribedPeers_ForTopic()
         {
             var topic1 = Guid.NewGuid().ToString();
             var topic2 = Guid.NewGuid().ToString();
@@ -189,7 +224,12 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async void SubscribedPeers_AllTopics()
+        public void SubscribedPeers_AllTopicsAsync()
+		{
+			Task.Run(SubscribedPeers_AllTopics).Wait();
+		}
+
+		public async Task SubscribedPeers_AllTopics()
         {
             var topic1 = Guid.NewGuid().ToString();
             var topic2 = Guid.NewGuid().ToString();

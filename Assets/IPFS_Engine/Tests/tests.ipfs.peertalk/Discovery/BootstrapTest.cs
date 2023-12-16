@@ -12,7 +12,12 @@ namespace PeerTalk.Discovery
     public class BootstrapTest
     {
         [Test]
-        public async void NullList()
+        public void NullListAsync()
+		{
+			Task.Run(NullList).Wait();
+		}
+
+		public async Task NullList()
         {
             var bootstrap = new Bootstrap { Addresses = null };
             int found = 0;
@@ -25,7 +30,12 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async void Discovered()
+        public void DiscoveredAsync()
+		{
+			Task.Run(Discovered).Wait();
+		}
+
+		public async Task Discovered()
         {
             var bootstrap = new Bootstrap
             {
@@ -48,7 +58,12 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async void Discovered_Multiple_Peers()
+        public void Discovered_Multiple_PeersAsync()
+		{
+			Task.Run(Discovered_Multiple_Peers).Wait();
+		}
+
+		public async Task Discovered_Multiple_Peers()
         {
             var bootstrap = new Bootstrap
             {
@@ -71,7 +86,12 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async void Stop_Removes_EventHandlers()
+        public void Stop_Removes_EventHandlersAsync()
+		{
+			Task.Run(Stop_Removes_EventHandlers).Wait();
+		}
+
+		public async Task Stop_Removes_EventHandlers()
         {
             var bootstrap = new Bootstrap
             {
@@ -95,7 +115,12 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async void Missing_ID_Is_Ignored()
+        public void Missing_ID_Is_IgnoredAsync()
+		{
+			Task.Run(Missing_ID_Is_Ignored).Wait();
+		}
+
+		public async Task Missing_ID_Is_Ignored()
         {
             var bootstrap = new Bootstrap
             {

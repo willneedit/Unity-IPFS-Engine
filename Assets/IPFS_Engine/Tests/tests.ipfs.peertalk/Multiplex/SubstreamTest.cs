@@ -60,7 +60,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void Reading()
+        public void ReadingAsync()
+		{
+			Task.Run(Reading).Wait();
+		}
+
+		public async Task Reading()
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
@@ -80,7 +85,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void Reading_Partial()
+        public void Reading_PartialAsync()
+		{
+			Task.Run(Reading_Partial).Wait();
+		}
+
+		public async Task Reading_Partial()
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
@@ -96,7 +106,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void Reading_Delayed_Partial()
+        public void Reading_Delayed_PartialAsync()
+		{
+			Task.Run(Reading_Delayed_Partial).Wait();
+		}
+
+		public async Task Reading_Delayed_Partial()
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
@@ -132,7 +147,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void Reading_ClosedStream()
+        public void Reading_ClosedStreamAsync()
+		{
+			Task.Run(Reading_ClosedStream).Wait();
+		}
+
+		public async Task Reading_ClosedStream()
         {
             var m1 = new byte[10];
             var stream = new Substream();
@@ -141,7 +161,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void Writing()
+        public void WritingAsync()
+		{
+			Task.Run(Writing).Wait();
+		}
+
+		public async Task Writing()
         {
             var ms = new MemoryStream();
             var muxer = new Muxer { Channel = ms };

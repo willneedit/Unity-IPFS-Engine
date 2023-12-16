@@ -30,7 +30,12 @@ namespace PeerTalk
         };
 
         [Test]
-        public async void Start_Stop()
+        public void Start_StopAsync()
+		{
+			Task.Run(Start_Stop).Wait();
+		}
+
+		public async Task Start_Stop()
         {
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
@@ -147,7 +152,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connect_Disconnect()
+        public void Connect_DisconnectAsync()
+		{
+			Task.Run(Connect_Disconnect).Wait();
+		}
+
+		public async Task Connect_Disconnect()
         {
             var peerB = new Peer
             {
@@ -210,7 +220,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connect_Disconnect_Reconnect()
+        public void Connect_Disconnect_ReconnectAsync()
+		{
+			Task.Run(Connect_Disconnect_Reconnect).Wait();
+		}
+
+		public async Task Connect_Disconnect_Reconnect()
         {
             var peerB = new Peer
             {
@@ -281,7 +296,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void RemotePeer_Contains_ConnectedAddress1()
+        public void RemotePeer_Contains_ConnectedAddress1Async()
+		{
+			Task.Run(RemotePeer_Contains_ConnectedAddress1).Wait();
+		}
+
+		public async Task RemotePeer_Contains_ConnectedAddress1()
         {
             var peerB = new Peer
             {
@@ -310,7 +330,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void RemotePeer_Contains_ConnectedAddress2()
+        public void RemotePeer_Contains_ConnectedAddress2Async()
+		{
+			Task.Run(RemotePeer_Contains_ConnectedAddress2).Wait();
+		}
+
+		public async Task RemotePeer_Contains_ConnectedAddress2()
         {
             // Only works on Windows because connecting to 127.0.0.100 is allowed
             // when listening on 0.0.0.0
@@ -349,7 +374,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connect_CancelsOnStop()
+        public void Connect_CancelsOnStopAsync()
+		{
+			Task.Run(Connect_CancelsOnStop).Wait();
+		}
+
+		public async Task Connect_CancelsOnStop()
         {
             var swarm = new Swarm { LocalPeer = self };
             var venus = new Peer
@@ -378,7 +408,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connect_IsPending()
+        public void Connect_IsPendingAsync()
+		{
+			Task.Run(Connect_IsPending).Wait();
+		}
+
+		public async Task Connect_IsPending()
         {
             var swarm = new Swarm { LocalPeer = self };
             var venus = new Peer
@@ -405,7 +440,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connect_WithSomeUnreachableAddresses()
+        public void Connect_WithSomeUnreachableAddressesAsync()
+		{
+			Task.Run(Connect_WithSomeUnreachableAddresses).Wait();
+		}
+
+		public async Task Connect_WithSomeUnreachableAddresses()
         {
             var bid = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h";
             var peerB = new Peer
@@ -442,7 +482,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void ConnectionEstablished()
+        public void ConnectionEstablishedAsync()
+		{
+			Task.Run(ConnectionEstablished).Wait();
+		}
+
+		public async Task ConnectionEstablished()
         {
             var peerB = new Peer
             {
@@ -636,7 +681,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connecting_To_Self_Indirect()
+        public void Connecting_To_Self_IndirectAsync()
+		{
+			Task.Run(Connecting_To_Self_Indirect).Wait();
+		}
+
+		public async Task Connecting_To_Self_Indirect()
         {
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
@@ -657,7 +707,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void PeerDisconnected()
+        public void PeerDisconnectedAsync()
+		{
+			Task.Run(PeerDisconnected).Wait();
+		}
+
+		public async Task PeerDisconnected()
         {
             var peerB = new Peer
             {
@@ -696,7 +751,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Listening()
+        public void ListeningAsync()
+		{
+			Task.Run(Listening).Wait();
+		}
+
+		public async Task Listening()
         {
             var peerA = new Peer
             {
@@ -734,7 +794,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Listening_Start_Stop()
+        public void Listening_Start_StopAsync()
+		{
+			Task.Run(Listening_Start_Stop).Wait();
+		}
+
+		public async Task Listening_Start_Stop()
         {
             var peer = new Peer
             {
@@ -767,7 +832,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Stop_Closes_Listeners()
+        public void Stop_Closes_ListenersAsync()
+		{
+			Task.Run(Stop_Closes_Listeners).Wait();
+		}
+
+		public async Task Stop_Closes_Listeners()
         {
             var peer = new Peer
             {
@@ -800,7 +870,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Listening_Event()
+        public void Listening_EventAsync()
+		{
+			Task.Run(Listening_Event).Wait();
+		}
+
+		public async Task Listening_Event()
         {
             var peer = new Peer
             {
@@ -828,7 +903,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Listening_AnyPort()
+        public void Listening_AnyPortAsync()
+		{
+			Task.Run(Listening_AnyPort).Wait();
+		}
+
+		public async Task Listening_AnyPort()
         {
             var peerA = new Peer
             {
@@ -867,7 +947,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Listening_IPv4Any()
+        public void Listening_IPv4AnyAsync()
+		{
+			Task.Run(Listening_IPv4Any).Wait();
+		}
+
+		public async Task Listening_IPv4Any()
         {
             var peerA = new Peer
             {
@@ -908,7 +993,12 @@ namespace PeerTalk
 
         [Test]
         [Category("IPv6")]
-        public async void Listening_IPv6Any()
+        public void Listening_IPv6AnyAsync()
+		{
+			Task.Run(Listening_IPv6Any).Wait();
+		}
+
+		public async Task Listening_IPv6Any()
         {
             var peerA = new Peer
             {
@@ -992,7 +1082,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Dial_Peer_No_Address()
+        public void Dial_Peer_No_AddressAsync()
+		{
+			Task.Run(Dial_Peer_No_Address).Wait();
+		}
+
+		public async Task Dial_Peer_No_Address()
         {
             var peer = new Peer
             {
@@ -1015,7 +1110,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Dial_Peer_Not_Listening()
+        public void Dial_Peer_Not_ListeningAsync()
+		{
+			Task.Run(Dial_Peer_Not_Listening).Wait();
+		}
+
+		public async Task Dial_Peer_Not_Listening()
         {
             var peer = new Peer
             {
@@ -1043,7 +1143,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Dial_Peer_UnknownProtocol()
+        public void Dial_Peer_UnknownProtocolAsync()
+		{
+			Task.Run(Dial_Peer_UnknownProtocol).Wait();
+		}
+
+		public async Task Dial_Peer_UnknownProtocol()
         {
             var peerB = new Peer
             {
@@ -1071,7 +1176,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Dial_Peer()
+        public void Dial_PeerAsync()
+		{
+			Task.Run(Dial_Peer).Wait();
+		}
+
+		public async Task Dial_Peer()
         {
             var peerB = new Peer
             {
@@ -1123,7 +1233,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void IsRunning()
+        public void IsRunningAsync()
+		{
+			Task.Run(IsRunning).Wait();
+		}
+
+		public async Task IsRunning()
         {
             var swarm = new Swarm { LocalPeer = self };
             Assert.IsFalse(swarm.IsRunning);
@@ -1136,7 +1251,12 @@ namespace PeerTalk
         }
 
         [Test]
-        public async void Connect_PrivateNetwork()
+        public void Connect_PrivateNetworkAsync()
+		{
+			Task.Run(Connect_PrivateNetwork).Wait();
+		}
+
+		public async Task Connect_PrivateNetwork()
         {
             var peerB = new Peer
             {

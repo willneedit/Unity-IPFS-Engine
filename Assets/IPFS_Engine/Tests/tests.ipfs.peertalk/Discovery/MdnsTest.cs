@@ -14,7 +14,12 @@ namespace PeerTalk.Discovery
     public class MdnsTest
     {
         [Test]
-        public async void DiscoveryNext()
+        public void DiscoveryNextAsync()
+		{
+			Task.Run(DiscoveryNext).Wait();
+		}
+
+		public async Task DiscoveryNext()
         {
             var serviceName = $"_{Guid.NewGuid()}._udp";
             var peer1 = new Peer
@@ -63,7 +68,12 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async void DiscoveryJs()
+        public void DiscoveryJsAsync()
+		{
+			Task.Run(DiscoveryJs).Wait();
+		}
+
+		public async Task DiscoveryJs()
         {
             var serviceName = $"_{Guid.NewGuid()}._udp";
             serviceName = "_foo._udp";

@@ -36,7 +36,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void NewStream_Send()
+        public void NewStream_SendAsync()
+		{
+			Task.Run(NewStream_Send).Wait();
+		}
+
+		public async Task NewStream_Send()
         {
             var channel = new MemoryStream();
             var muxer = new Muxer { Channel = channel, Initiator = true };
@@ -63,7 +68,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void NewStream_Receive()
+        public void NewStream_ReceiveAsync()
+		{
+			Task.Run(NewStream_Receive).Wait();
+		}
+
+		public async Task NewStream_Receive()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -79,7 +89,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void NewStream_AlreadyAssigned()
+        public void NewStream_AlreadyAssignedAsync()
+		{
+			Task.Run(NewStream_AlreadyAssigned).Wait();
+		}
+
+		public async Task NewStream_AlreadyAssigned()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -97,7 +112,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void NewStream_Event()
+        public void NewStream_EventAsync()
+		{
+			Task.Run(NewStream_Event).Wait();
+		}
+
+		public async Task NewStream_Event()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -116,7 +136,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void CloseStream_Event()
+        public void CloseStream_EventAsync()
+		{
+			Task.Run(CloseStream_Event).Wait();
+		}
+
+		public async Task CloseStream_Event()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -138,7 +163,12 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async void AcquireWrite()
+        public void AcquireWriteAsync()
+		{
+			Task.Run(AcquireWrite).Wait();
+		}
+
+		public async Task AcquireWrite()
         {
             var muxer = new Muxer();
             var tasks = new List<Task<string>>

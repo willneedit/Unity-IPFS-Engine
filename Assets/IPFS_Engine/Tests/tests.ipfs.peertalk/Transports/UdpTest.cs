@@ -52,7 +52,12 @@ namespace PeerTalk.Transports
         }
 
         [Test]
-        public async void  Listen()
+        public void  ListenAsync()
+		{
+			Task.Run( Listen).Wait();
+		}
+
+		public async Task  Listen()
         {
             var udp = new Udp();
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -83,7 +88,12 @@ namespace PeerTalk.Transports
 #if INCONSISTENT
         [Test]
         [Ignore("Sometimes fails")]
-        public async void NetworkTimeProtocol()
+        public void NetworkTimeProtocolAsync()
+		{
+			Task.Run(NetworkTimeProtocol).Wait();
+		}
+
+		public async Task NetworkTimeProtocol()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var server = await new MultiAddress("/dns4/time.windows.com/udp/123").ResolveAsync(cs.Token);
@@ -110,7 +120,12 @@ namespace PeerTalk.Transports
 #endif
 
         [Test]
-        public async void  SendReceive()
+        public void  SendReceiveAsync()
+		{
+			Task.Run( SendReceive).Wait();
+		}
+
+		public async Task  SendReceive()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var udp = new Udp();
