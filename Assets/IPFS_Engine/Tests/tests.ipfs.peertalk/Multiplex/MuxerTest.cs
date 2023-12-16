@@ -36,7 +36,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task NewStream_Send()
+        public async void NewStream_Send()
         {
             var channel = new MemoryStream();
             var muxer = new Muxer { Channel = channel, Initiator = true };
@@ -63,7 +63,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task NewStream_Receive()
+        public async void NewStream_Receive()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -79,7 +79,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task NewStream_AlreadyAssigned()
+        public async void NewStream_AlreadyAssigned()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -97,7 +97,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task NewStream_Event()
+        public async void NewStream_Event()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -116,7 +116,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task CloseStream_Event()
+        public async void CloseStream_Event()
         {
             var channel = new MemoryStream();
             var muxer1 = new Muxer { Channel = channel, Initiator = true };
@@ -138,7 +138,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task AcquireWrite()
+        public async void AcquireWrite()
         {
             var muxer = new Muxer();
             var tasks = new List<Task<string>>

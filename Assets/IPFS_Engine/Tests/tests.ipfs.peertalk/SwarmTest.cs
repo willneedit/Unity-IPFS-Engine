@@ -30,7 +30,7 @@ namespace PeerTalk
         };
 
         [Test]
-        public async Task Start_Stop()
+        public async void Start_Stop()
         {
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
@@ -147,7 +147,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connect_Disconnect()
+        public async void Connect_Disconnect()
         {
             var peerB = new Peer
             {
@@ -210,7 +210,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connect_Disconnect_Reconnect()
+        public async void Connect_Disconnect_Reconnect()
         {
             var peerB = new Peer
             {
@@ -281,7 +281,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task RemotePeer_Contains_ConnectedAddress1()
+        public async void RemotePeer_Contains_ConnectedAddress1()
         {
             var peerB = new Peer
             {
@@ -310,7 +310,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task RemotePeer_Contains_ConnectedAddress2()
+        public async void RemotePeer_Contains_ConnectedAddress2()
         {
             // Only works on Windows because connecting to 127.0.0.100 is allowed
             // when listening on 0.0.0.0
@@ -349,7 +349,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connect_CancelsOnStop()
+        public async void Connect_CancelsOnStop()
         {
             var swarm = new Swarm { LocalPeer = self };
             var venus = new Peer
@@ -378,7 +378,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connect_IsPending()
+        public async void Connect_IsPending()
         {
             var swarm = new Swarm { LocalPeer = self };
             var venus = new Peer
@@ -405,7 +405,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connect_WithSomeUnreachableAddresses()
+        public async void Connect_WithSomeUnreachableAddresses()
         {
             var bid = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h";
             var peerB = new Peer
@@ -442,7 +442,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task ConnectionEstablished()
+        public async void ConnectionEstablished()
         {
             var peerB = new Peer
             {
@@ -636,7 +636,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connecting_To_Self_Indirect()
+        public async void Connecting_To_Self_Indirect()
         {
             var swarm = new Swarm { LocalPeer = self };
             await swarm.StartAsync();
@@ -657,7 +657,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task PeerDisconnected()
+        public async void PeerDisconnected()
         {
             var peerB = new Peer
             {
@@ -696,7 +696,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Listening()
+        public async void Listening()
         {
             var peerA = new Peer
             {
@@ -734,7 +734,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Listening_Start_Stop()
+        public async void Listening_Start_Stop()
         {
             var peer = new Peer
             {
@@ -767,7 +767,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Stop_Closes_Listeners()
+        public async void Stop_Closes_Listeners()
         {
             var peer = new Peer
             {
@@ -800,7 +800,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Listening_Event()
+        public async void Listening_Event()
         {
             var peer = new Peer
             {
@@ -828,7 +828,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Listening_AnyPort()
+        public async void Listening_AnyPort()
         {
             var peerA = new Peer
             {
@@ -867,7 +867,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Listening_IPv4Any()
+        public async void Listening_IPv4Any()
         {
             var peerA = new Peer
             {
@@ -908,7 +908,7 @@ namespace PeerTalk
 
         [Test]
         [Category("IPv6")]
-        public async Task Listening_IPv6Any()
+        public async void Listening_IPv6Any()
         {
             var peerA = new Peer
             {
@@ -992,7 +992,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Dial_Peer_No_Address()
+        public async void Dial_Peer_No_Address()
         {
             var peer = new Peer
             {
@@ -1015,7 +1015,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Dial_Peer_Not_Listening()
+        public async void Dial_Peer_Not_Listening()
         {
             var peer = new Peer
             {
@@ -1043,7 +1043,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Dial_Peer_UnknownProtocol()
+        public async void Dial_Peer_UnknownProtocol()
         {
             var peerB = new Peer
             {
@@ -1071,7 +1071,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Dial_Peer()
+        public async void Dial_Peer()
         {
             var peerB = new Peer
             {
@@ -1123,7 +1123,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task IsRunning()
+        public async void IsRunning()
         {
             var swarm = new Swarm { LocalPeer = self };
             Assert.IsFalse(swarm.IsRunning);
@@ -1136,7 +1136,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connect_PrivateNetwork()
+        public async void Connect_PrivateNetwork()
         {
             var peerB = new Peer
             {

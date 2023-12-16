@@ -21,7 +21,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Resolving()
+        public async void Resolving()
         {
             var local = new MultiAddress("/ip4/127.0.0.1/tcp/5001");
             var r0 = await local.ResolveAsync();
@@ -30,7 +30,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Resolving_Dns()
+        public async void Resolving_Dns()
         {
             var dns = await new MultiAddress("/dns/libp2p.io/tcp/5001").ResolveAsync();
             Assert.AreNotEqual(0, dns.Count);
@@ -40,23 +40,23 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Resolving_HTTP()
+        public async void Resolving_HTTP()
         {
             var r = await new MultiAddress("/ip4/127.0.0.1/http").ResolveAsync();
-            Assert.AreEqual("/ip4/127.0.0.1/http/tcp/80", r.First());
+            Assert.AreEqual("/ip4/127.0.0.1/http/tcp/80", r.First().ToString());
 
             r = await new MultiAddress("/ip4/127.0.0.1/http/tcp/8080").ResolveAsync();
-            Assert.AreEqual("/ip4/127.0.0.1/http/tcp/8080", r.First());
+            Assert.AreEqual("/ip4/127.0.0.1/http/tcp/8080", r.First().ToString());
         }
 
         [Test]
-        public async Task Resolving_HTTPS()
+        public async void Resolving_HTTPS()
         {
             var r = await new MultiAddress("/ip4/127.0.0.1/https").ResolveAsync();
-            Assert.AreEqual("/ip4/127.0.0.1/https/tcp/443", r.First());
+            Assert.AreEqual("/ip4/127.0.0.1/https/tcp/443", r.First().ToString());
 
             r = await new MultiAddress("/ip4/127.0.0.1/https/tcp/4433").ResolveAsync();
-            Assert.AreEqual("/ip4/127.0.0.1/https/tcp/4433", r.First());
+            Assert.AreEqual("/ip4/127.0.0.1/https/tcp/4433", r.First().ToString());
         }
 
         [Test]

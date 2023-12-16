@@ -52,7 +52,7 @@ namespace PeerTalk.Transports
         }
 
         [Test]
-        public async void Listen()
+        public async void  Listen()
         {
             var udp = new Udp();
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -80,6 +80,7 @@ namespace PeerTalk.Transports
             }
         }
 
+#if INCONSISTENT
         [Test]
         [Ignore("Sometimes fails")]
         public async void NetworkTimeProtocol()
@@ -106,9 +107,10 @@ namespace PeerTalk.Transports
                 Assert.AreNotEqual(0x1B, ntpData[0]);
             }
         }
+#endif
 
         [Test]
-        public async void SendReceive()
+        public async void  SendReceive()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var udp = new Udp();

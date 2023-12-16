@@ -70,9 +70,10 @@ namespace PeerTalk.Transports
             });
         }
 
+#if INCONSISTENT
         [Test]
         [Ignore("Inconsistent results")]
-        public async Task TimeProtocol()
+        public async void TimeProtocol()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var server = await new MultiAddress("/dns4/time.nist.gov/tcp/37").ResolveAsync(cs.Token);
@@ -85,6 +86,7 @@ namespace PeerTalk.Transports
                 Assert.AreEqual(4, n); // sometimes zero!
             }
         }
+#endif
 
         [Test]
         public void Listen_Then_Cancel()
@@ -102,7 +104,7 @@ namespace PeerTalk.Transports
         }
 
         [Test]
-        public async Task Listen()
+        public async void Listen()
         {
             var tcp = new Tcp();
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -134,7 +136,7 @@ namespace PeerTalk.Transports
         }
 
         [Test]
-        public async Task Listen_Handler_Throws()
+        public async void Listen_Handler_Throws()
         {
             var tcp = new Tcp();
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
@@ -162,7 +164,7 @@ namespace PeerTalk.Transports
         }
 
         [Test]
-        public async Task SendReceive()
+        public async void SendReceive()
         {
             var cs = new CancellationTokenSource(TimeSpan.FromSeconds(30));
             var tcp = new Tcp();

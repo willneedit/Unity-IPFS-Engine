@@ -13,7 +13,7 @@ namespace PeerTalk.Protocols
     public class Identitfy1Test
     {
         [Test]
-        public async Task RoundTrip()
+        public async void RoundTrip()
         {
             var peerA = new Peer
             {
@@ -51,7 +51,7 @@ namespace PeerTalk.Protocols
         }
 
         [Test]
-        public async Task InvalidPublicKey()
+        public async void InvalidPublicKey()
         {
             var peerA = new Peer
             {
@@ -89,7 +89,7 @@ namespace PeerTalk.Protocols
         }
 
         [Test]
-        public async Task MustHavePublicKey()
+        public async void MustHavePublicKey()
         {
             var peerA = new Peer
             {

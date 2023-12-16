@@ -102,14 +102,14 @@ namespace PeerTalk
             Assert.IsTrue(manager.IsConnected(peer));
             Assert.AreEqual(1, manager.Connections.Count());
             Assert.IsNotNull(a.Stream);
-            Assert.AreEqual(address, peer.ConnectedAddress);
+            Assert.AreEqual(address, peer.ConnectedAddress.ToString());
 
             Assert.AreSame(b, manager.Add(b));
             Assert.IsTrue(manager.IsConnected(peer));
             Assert.AreEqual(2, manager.Connections.Count());
             Assert.IsNotNull(a.Stream);
             Assert.IsNotNull(b.Stream);
-            Assert.AreEqual(address, peer.ConnectedAddress);
+            Assert.AreEqual(address, peer.ConnectedAddress.ToString());
         }
 
         [Test]
@@ -127,21 +127,21 @@ namespace PeerTalk
             Assert.IsTrue(manager.IsConnected(peer));
             Assert.AreEqual(1, manager.Connections.Count());
             Assert.IsNotNull(a.Stream);
-            Assert.AreEqual(address1, peer.ConnectedAddress);
+            Assert.AreEqual(address1, peer.ConnectedAddress.ToString());
 
             Assert.AreSame(b, manager.Add(b));
             Assert.IsTrue(manager.IsConnected(peer));
             Assert.AreEqual(2, manager.Connections.Count());
             Assert.IsNotNull(a.Stream);
             Assert.IsNotNull(b.Stream);
-            Assert.AreEqual(address1, peer.ConnectedAddress);
+            Assert.AreEqual(address1, peer.ConnectedAddress.ToString());
 
             Assert.IsTrue(manager.Remove(a));
             Assert.IsTrue(manager.IsConnected(peer));
             Assert.AreEqual(1, manager.Connections.Count());
             Assert.IsNull(a.Stream);
             Assert.IsNotNull(b.Stream);
-            Assert.AreEqual(address2, peer.ConnectedAddress);
+            Assert.AreEqual(address2, peer.ConnectedAddress.ToString());
 
             Assert.IsTrue(manager.Remove(b));
             Assert.IsFalse(manager.IsConnected(peer));
@@ -165,7 +165,7 @@ namespace PeerTalk
             Assert.IsTrue(manager.IsConnected(peer));
             Assert.AreEqual(1, manager.Connections.Count());
             Assert.IsNotNull(a.Stream);
-            Assert.AreEqual(address, peer.ConnectedAddress);
+            Assert.AreEqual(address, peer.ConnectedAddress.ToString());
 
             a.Stream = null;
             Assert.AreSame(b, manager.Add(b));
@@ -173,7 +173,7 @@ namespace PeerTalk
             Assert.AreEqual(1, manager.Connections.Count());
             Assert.IsNull(a.Stream);
             Assert.IsNotNull(b.Stream);
-            Assert.AreEqual(address, peer.ConnectedAddress);
+            Assert.AreEqual(address, peer.ConnectedAddress.ToString());
         }
 
         [Test]

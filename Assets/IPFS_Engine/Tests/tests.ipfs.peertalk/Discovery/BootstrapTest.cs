@@ -12,7 +12,7 @@ namespace PeerTalk.Discovery
     public class BootstrapTest
     {
         [Test]
-        public async Task NullList()
+        public async void NullList()
         {
             var bootstrap = new Bootstrap { Addresses = null };
             int found = 0;
@@ -25,7 +25,7 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async Task Discovered()
+        public async void Discovered()
         {
             var bootstrap = new Bootstrap
             {
@@ -48,7 +48,7 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async Task Discovered_Multiple_Peers()
+        public async void Discovered_Multiple_Peers()
         {
             var bootstrap = new Bootstrap
             {
@@ -71,7 +71,7 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async Task Stop_Removes_EventHandlers()
+        public async void Stop_Removes_EventHandlers()
         {
             var bootstrap = new Bootstrap
             {
@@ -95,7 +95,7 @@ namespace PeerTalk.Discovery
         }
 
         [Test]
-        public async Task Missing_ID_Is_Ignored()
+        public async void Missing_ID_Is_Ignored()
         {
             var bootstrap = new Bootstrap
             {

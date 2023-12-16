@@ -11,7 +11,7 @@ namespace PeerTalk.SecureCommunication
     public class Psk1ProtectorTest
     {
         [Test]
-        public async Task Protect()
+        public async void Protect()
         {
             var psk = new PreSharedKey().Generate();
             var protector = new Psk1Protector { Key = psk };

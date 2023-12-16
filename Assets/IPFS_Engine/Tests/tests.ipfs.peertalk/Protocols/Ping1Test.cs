@@ -28,7 +28,7 @@ namespace PeerTalk.Protocols
 
 
         [Test]
-        public async Task MultiAddress()
+        public async void MultiAddress()
         {
             var swarmB = new Swarm { LocalPeer = other };
             await swarmB.StartAsync();
@@ -56,7 +56,7 @@ namespace PeerTalk.Protocols
         }
 
         [Test]
-        public async Task PeerId()
+        public async void PeerId()
         {
             var swarmB = new Swarm { LocalPeer = other };
             await swarmB.StartAsync();

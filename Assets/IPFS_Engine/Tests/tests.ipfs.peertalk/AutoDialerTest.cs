@@ -42,7 +42,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connects_OnPeerDiscovered_When_Below_MinConnections()
+        public async void Connects_OnPeerDiscovered_When_Below_MinConnections()
         {
             var swarmA = new Swarm { LocalPeer = peerA };
             await swarmA.StartAsync();
@@ -76,7 +76,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Noop_OnPeerDiscovered_When_NotBelow_MinConnections()
+        public async void Noop_OnPeerDiscovered_When_NotBelow_MinConnections()
         {
             var swarmA = new Swarm { LocalPeer = peerA };
             await swarmA.StartAsync();
@@ -111,7 +111,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Connects_OnPeerDisconnected_When_Below_MinConnections()
+        public async void Connects_OnPeerDisconnected_When_Below_MinConnections()
         {
             var swarmA = new Swarm { LocalPeer = peerA };
             await swarmA.StartAsync();

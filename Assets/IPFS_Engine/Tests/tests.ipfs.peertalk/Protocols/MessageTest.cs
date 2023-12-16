@@ -12,7 +12,7 @@ namespace PeerTalk.Protocols
     public class MessageTest
     {
         [Test]
-        public async Task Encoding()
+        public async void Encoding()
         {
             var ms = new MemoryStream();
             await Message.WriteAsync("a", ms);
@@ -24,7 +24,7 @@ namespace PeerTalk.Protocols
         }
 
         [Test]
-        public async Task RoundTrip()
+        public async void RoundTrip()
         {
             var msg = "/foobar/0.42.0";
             var ms = new MemoryStream();

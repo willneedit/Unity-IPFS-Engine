@@ -13,7 +13,7 @@ namespace PeerTalk
     public class StreamExtensionsTest
     {
         [Test]
-        public async Task ReadAsync()
+        public async void ReadAsync()
         {
             var expected = new byte[] { 1, 2, 3, 4 };
             using (var ms = new MemoryStream(expected))
@@ -49,7 +49,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task ReadAsync_Cancel()
+        public async void ReadAsync_Cancel()
         {
             var expected = new byte[] { 1, 2, 3, 4 };
             var actual = new byte[expected.Length];

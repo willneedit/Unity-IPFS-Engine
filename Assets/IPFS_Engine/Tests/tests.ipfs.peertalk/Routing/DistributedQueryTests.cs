@@ -12,7 +12,7 @@ namespace PeerTalk.Routing
     public class DistributedQueryTest
     {
         [Test]
-        public async Task Cancelling()
+        public async void Cancelling()
         {
             var dquery = new DistributedQuery<Peer>
             {

@@ -23,7 +23,7 @@ namespace PeerTalk.PubSub
         Peer other2 = new Peer { Id = "QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvUJ" };
 
         [Test]
-        public async Task MessageID_Increments()
+        public async void MessageID_Increments()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -40,7 +40,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Publish()
+        public async void Publish()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -59,7 +59,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Topics()
+        public async void Topics()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -95,7 +95,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Subscribe()
+        public async void Subscribe()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -117,7 +117,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Subscribe_HandlerExceptionIsIgnored()
+        public async void Subscribe_HandlerExceptionIsIgnored()
         {
             var ns = new NotificationService { LocalPeer = self };
             await ns.StartAsync();
@@ -138,7 +138,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task DuplicateMessagesAreIgnored()
+        public async void DuplicateMessagesAreIgnored()
         {
             var ns = new NotificationService { LocalPeer = self };
             ns.Routers.Add(new LoopbackRouter());
@@ -162,7 +162,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task SubscribedPeers_ForTopic()
+        public async void SubscribedPeers_ForTopic()
         {
             var topic1 = Guid.NewGuid().ToString();
             var topic2 = Guid.NewGuid().ToString();
@@ -189,7 +189,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task SubscribedPeers_AllTopics()
+        public async void SubscribedPeers_AllTopics()
         {
             var topic1 = Guid.NewGuid().ToString();
             var topic2 = Guid.NewGuid().ToString();

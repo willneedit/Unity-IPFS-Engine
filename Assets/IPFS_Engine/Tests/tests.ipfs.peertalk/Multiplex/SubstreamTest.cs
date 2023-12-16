@@ -60,7 +60,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task Reading()
+        public async void Reading()
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
@@ -80,7 +80,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task Reading_Partial()
+        public async void Reading_Partial()
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
@@ -96,7 +96,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task Reading_Delayed_Partial()
+        public async void Reading_Delayed_Partial()
         {
             var m1 = new byte[] { 1, 2, 3, 4 };
             var m2 = new byte[m1.Length];
@@ -132,7 +132,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task Reading_ClosedStream()
+        public async void Reading_ClosedStream()
         {
             var m1 = new byte[10];
             var stream = new Substream();
@@ -141,7 +141,7 @@ namespace PeerTalk.Multiplex
         }
 
         [Test]
-        public async Task Writing()
+        public async void Writing()
         {
             var ms = new MemoryStream();
             var muxer = new Muxer { Channel = ms };

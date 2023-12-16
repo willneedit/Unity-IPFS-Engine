@@ -54,7 +54,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task Backoff_Increases()
+        public async void Backoff_Increases()
         {
             var peer = new Peer
             {
@@ -99,7 +99,7 @@ namespace PeerTalk
         }
 
         [Test]
-        public async Task PermanentlyDead()
+        public async void PermanentlyDead()
         {
             var peer = new Peer
             {
@@ -134,8 +134,9 @@ namespace PeerTalk
                 {
                     if (manager.DeadPeers[peer].NextAttempt == DateTime.MaxValue)
                         return;
+                    await Task.Yield();
                 }
-                Assert.Fail("not truely dead");
+                Assert.Fail("not truly dead");
             }
             finally
             {

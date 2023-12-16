@@ -54,7 +54,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Sends_Hello_OnConnect()
+        public async void Sends_Hello_OnConnect()
         {
             var topic = Guid.NewGuid().ToString();
 
@@ -87,7 +87,7 @@ namespace PeerTalk.PubSub
                 {
                     if (DateTime.Now > endTime)
                         Assert.Fail("timeout");
-                    await Task.Delay(100);
+                    await Task.Yield();
                     peers = (await ns2.PeersAsync(topic)).ToArray();
                 }
                 CollectionAssert.Contains(peers, self);
@@ -103,7 +103,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Sends_NewSubscription()
+        public async void Sends_NewSubscription()
         {
             var topic = Guid.NewGuid().ToString();
 
@@ -136,7 +136,7 @@ namespace PeerTalk.PubSub
                 {
                     if (DateTime.Now > endTime)
                         Assert.Fail("timeout");
-                    await Task.Delay(100);
+                    await Task.Yield();
                     peers = (await ns2.PeersAsync(topic)).ToArray();
                 }
                 CollectionAssert.Contains(peers, self);
@@ -152,7 +152,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Sends_CancelledSubscription()
+        public async void Sends_CancelledSubscription()
         {
             var topic = Guid.NewGuid().ToString();
 
@@ -212,7 +212,7 @@ namespace PeerTalk.PubSub
         }
 
         [Test]
-        public async Task Relays_PublishedMessage()
+        public async void Relays_PublishedMessage()
         {
             var topic = Guid.NewGuid().ToString();
 
