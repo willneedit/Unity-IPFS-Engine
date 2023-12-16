@@ -10,7 +10,7 @@ namespace Ipfs.Engine
     [TestFixture]
     public class NameApiTest
     {
-#if true
+#if false
         [Test]
         public void CrashesNeedFixing()
         {
@@ -43,25 +43,27 @@ namespace Ipfs.Engine
 		public async Task Resolve_DnsLink_Recursive()
         {
             var path = await ipfs.Name.ResolveAsync("/ipns/ipfs.io/media", true);
-            StringAssert.StartsWith(path, "/ipfs/");
-            StringAssert.EndsWith(path, "/media");
+            StringAssert.StartsWith("/ipfs/", path);
+            StringAssert.EndsWith("/media", path);
 
             path = await ipfs.Name.ResolveAsync("ipfs.io/media", true);
-            StringAssert.StartsWith(path, "/ipfs/");
-            StringAssert.EndsWith(path, "/media");
+            StringAssert.StartsWith("/ipfs/", path);
+            StringAssert.EndsWith("/media", path);
 
             path = await ipfs.Name.ResolveAsync("/ipfs.io/media", true);
-            StringAssert.StartsWith(path, "/ipfs/");
-            StringAssert.EndsWith(path, "/media");
+            StringAssert.StartsWith("/ipfs/", path);
+            StringAssert.EndsWith("/media", path);
         }
 
         [Test]
+        public void Resolve_NoDnsLinkAsync()
+        {
+            Task.Run(Resolve_NoDnsLink).Wait();
+        }
+
         public void Resolve_NoDnsLink()
         {
-            ExceptionAssert.Throws<Exception>(() =>
-            {
-                var _ = ipfs.Dns.ResolveAsync("google.com").Result;
-            });
+            ExceptionAssert.Throws<Exception>(() => ipfs.Name.ResolveAsync("google.com").Wait());
         }
 #endif
     }

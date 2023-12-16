@@ -23,7 +23,7 @@ namespace Ipfs.Engine
         {
             var ipfs = TestFixture.Ipfs;
             var config = await ipfs.Config.GetAsync();
-            StringAssert.StartsWith(config["Addresses"]["API"].Value<string>(), apiAddress);
+            StringAssert.StartsWith(apiAddress, config["Addresses"]["API"].Value<string>());
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace Ipfs.Engine
         {
             var ipfs = TestFixture.Ipfs;
             var api = await ipfs.Config.GetAsync("Addresses.API");
-            StringAssert.StartsWith(api.Value<string>(), apiAddress);
+            StringAssert.StartsWith(apiAddress, api.Value<string>());
         }
 
         [Test]
@@ -49,8 +49,8 @@ namespace Ipfs.Engine
         {
             var ipfs = TestFixture.Ipfs;
             var addresses = await ipfs.Config.GetAsync("Addresses");
-            StringAssert.StartsWith(addresses["API"].Value<string>(), apiAddress);
-            StringAssert.StartsWith(addresses["Gateway"].Value<string>(), gatewayAddress);
+            StringAssert.StartsWith(apiAddress, addresses["API"].Value<string>());
+            StringAssert.StartsWith(gatewayAddress, addresses["Gateway"].Value<string>());
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Ipfs.Engine
         {
             var ipfs = TestFixture.Ipfs;
             var api = ipfs.Config.GetAsync("Addresses.API").Result;
-            StringAssert.StartsWith(api.Value<string>(), apiAddress);
+            StringAssert.StartsWith(apiAddress, api.Value<string>());
 
             ExceptionAssert.Throws<Exception>(() => { var x = ipfs.Config.GetAsync("Addresses.api").Result; });
         }
@@ -75,7 +75,7 @@ namespace Ipfs.Engine
             const string value = "foobar";
             var ipfs = TestFixture.Ipfs;
             await ipfs.Config.SetAsync(key, value);
-            Assert.AreEqual(value, await ipfs.Config.GetAsync(key));
+            Assert.AreEqual(value, (await ipfs.Config.GetAsync(key)).ToString());
         }
 
         [Test]
@@ -90,7 +90,7 @@ namespace Ipfs.Engine
             JToken value = JToken.Parse("['http://example.io']");
             var ipfs = TestFixture.Ipfs;
             await ipfs.Config.SetAsync(key, value);
-            Assert.AreEqual("http://example.io", ipfs.Config.GetAsync(key).Result[0]);
+            Assert.AreEqual("http://example.io", ipfs.Config.GetAsync(key).Result[0].ToString());
         }
 
     }

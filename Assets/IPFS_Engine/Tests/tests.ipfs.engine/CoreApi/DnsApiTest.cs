@@ -10,13 +10,6 @@ namespace Ipfs.Engine
     [TestFixture]
     public class DnsApiTest
     {
-#if true
-        [Test]
-        public void CrashesNeedFixing() 
-        {
-            Assert.AreEqual(true, false);
-        }
-#else
         IpfsEngine ipfs = TestFixture.Ipfs;
 
         [Test]
@@ -32,12 +25,14 @@ namespace Ipfs.Engine
         }
 
         [Test]
+        public void Resolve_NoLinkAsync()
+        {
+            Task.Run(Resolve_NoLink).Wait();
+        }
+
         public void Resolve_NoLink()
         {
-            ExceptionAssert.Throws<Exception>(() =>
-            {
-                var _ = ipfs.Dns.ResolveAsync("google.com").Result;
-            });
+            ExceptionAssert.Throws<Exception>(() => ipfs.Dns.ResolveAsync("google.com").Wait());
         }
 
         [Test]
@@ -49,8 +44,7 @@ namespace Ipfs.Engine
 		public async Task Resolve_Recursive()
         {
             var path = await ipfs.Dns.ResolveAsync("ipfs.io", true);
-            StringAssert.StartsWith(path, "/ipfs/");
+            StringAssert.StartsWith("/ipfs/", path);
         }
-#endif
     }
 }

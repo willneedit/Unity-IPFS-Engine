@@ -24,9 +24,9 @@ namespace Ipfs.Engine
             var peer = await ipfs.Generic.IdAsync();
             Assert.AreEqual(peer.GetType(), typeof(Peer));
             Assert.IsNotNull(peer.Addresses);
-            StringAssert.StartsWith(peer.AgentVersion, "net-ipfs/");
+            StringAssert.StartsWith("net-ipfs/", peer.AgentVersion);
             Assert.IsNotNull(peer.Id);
-            StringAssert.StartsWith(peer.ProtocolVersion, "ipfs/");
+            StringAssert.StartsWith("ipfs/", peer.ProtocolVersion);
             Assert.IsNotNull(peer.PublicKey);
 
             Assert.IsTrue(peer.IsValid());
@@ -141,7 +141,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("Need a working IPNS")]
+        [Ignore("Need a working IPNS - possible infinite loop!")]
         public void Resolve_DnsLink_RecursiveAsync()
 		{
 			Task.Run(Resolve_DnsLink_Recursive).Wait();

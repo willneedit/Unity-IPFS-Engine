@@ -49,7 +49,7 @@ namespace Ipfs.Engine
             var password = "password".ToCharArray();
             var ipfs = TestFixture.Ipfs;
             var pem = await ipfs.Key.ExportAsync("self", password);
-            StringAssert.StartsWith(pem, "-----BEGIN ENCRYPTED PRIVATE KEY-----");
+            StringAssert.StartsWith("-----BEGIN ENCRYPTED PRIVATE KEY-----", pem);
 
             var keys = await ipfs.Key.ListAsync();
             var self = keys.Single(k => k.Name == "self");
@@ -133,7 +133,7 @@ Rw==
             await ipfs.Key.RemoveAsync("jsipfs");
             var key = await ipfs.Key.ImportAsync("jsipfs", pem, password);
             Assert.AreEqual("jsipfs", key.Name);
-            Assert.AreEqual("QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb", key.Id);
+            Assert.AreEqual("QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb", key.Id.ToString());
 
             var keychain = await ipfs.KeyChainAsync();
             var pubkey = await keychain.GetPublicKeyAsync("jsipfs");
@@ -260,7 +260,7 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
             await ipfs.Key.RemoveAsync("ob1");
             var key = await ipfs.Key.ImportAsync("ob1", pem);
             Assert.AreEqual("ob1", key.Name);
-            Assert.AreEqual("QmUUYGCaT2eYDH8RT7dJSM9zMexZGEnf6fMUy6nD9C31xZ", key.Id);
+            Assert.AreEqual("QmUUYGCaT2eYDH8RT7dJSM9zMexZGEnf6fMUy6nD9C31xZ", key.Id.ToString());
 
             var keychain = await ipfs.KeyChainAsync();
             var privateKey = await keychain.GetPrivateKeyAsync("ob1");
@@ -461,7 +461,7 @@ MC4CAQAwBQYDK2VwBCIEIGJnyy3U4ksTQoRBz3mf1dxeFDPXZBrwh7gD7SqMg+/i
             await ipfs.Key.RemoveAsync("oed1");
             var key = await ipfs.Key.ImportAsync("oed1", pem);
             Assert.AreEqual("oed1", key.Name);
-            Assert.AreEqual("18n3naE9kBZoVvgYMV6saMZe3jn87dZiNbQ22BhxKTwU5yUoGfvBL1R3eScjokDGBk7i", key.Id);
+            Assert.AreEqual("18n3naE9kBZoVvgYMV6saMZe3jn87dZiNbQ22BhxKTwU5yUoGfvBL1R3eScjokDGBk7i", key.Id.ToString());
 
             var keychain = await ipfs.KeyChainAsync();
             var privateKey = await keychain.GetPrivateKeyAsync("oed1");

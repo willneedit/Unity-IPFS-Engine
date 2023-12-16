@@ -96,25 +96,7 @@ namespace Common.Logging.XSimple
             FormatOutput(sb, level, message, e);
 
             // Print to the appropriate destination
-#if !SILVERLIGHT
-            ConsoleColor color;
-            if (this.useColor && colors.TryGetValue(level, out color))
-            {
-                var originalColor = Console.ForegroundColor;
-                try
-                {
-                    Console.ForegroundColor = color;
-                    Console.Out.WriteLine(sb.ToString());
-                    return;
-                }
-                finally
-                {
-                    Console.ForegroundColor = originalColor;
-                }
-            }
-
-#endif
-            Console.Out.WriteLine(sb.ToString());
+            UnityEngine.Debug.Log(sb.ToString());
         }
     }
 }

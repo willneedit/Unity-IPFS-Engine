@@ -62,7 +62,7 @@ namespace Ipfs.Engine
             Assert.AreEqual(expected["a"], actual["a"]);
 
             var value = (string)await ipfs.Dag.GetAsync(expectedId + "/a");
-            Assert.AreEqual(expected["a"], value);
+            Assert.AreEqual(expected["a"].ToString(), value);
         }
 
         [Test]

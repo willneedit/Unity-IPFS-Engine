@@ -32,7 +32,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74#issuecomment-500668261")]
+        // [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74#issuecomment-500668261")]
         public void Mars_InfoAsync()
 		{
 			Task.Run(Mars_Info).Wait();
@@ -40,14 +40,15 @@ namespace Ipfs.Engine
 
 		public async Task Mars_Info()
         {
-            var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
+            // var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3"; // Outdated ID?
+            var marsId = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd";
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             try
             {
                 var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 var mars = await ipfs.Dht.FindPeerAsync(marsId, cts.Token);
-                Assert.AreEqual(marsId, mars.Id);
+                Assert.AreEqual(marsId, mars.Id.ToString());
                 Assert.IsNotNull(mars.Addresses);
                 Assert.IsTrue(mars.IsValid());
             }
@@ -58,7 +59,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74 - Bootstrap servers don't relay folders")]
         public void FindProviderAsync()
 		{
 			Task.Run(FindProvider).Wait();
@@ -66,13 +67,18 @@ namespace Ipfs.Engine
 
 		public async Task FindProvider()
         {
+            void ProvidersFound(Peer peer)
+            {
+                throw new NotImplementedException();
+            }
+
             var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
             try
             {
                 var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
-                var providers = await ipfs.Dht.FindProvidersAsync(folder, 1, null, cts.Token);
+                var providers = await ipfs.Dht.FindProvidersAsync(folder, 1, ProvidersFound, cts.Token);
                 Assert.AreEqual(1, providers.Count());
             }
             finally
@@ -80,7 +86,6 @@ namespace Ipfs.Engine
                 await ipfs.StopAsync();
             }
         }
-
     }
 }
 

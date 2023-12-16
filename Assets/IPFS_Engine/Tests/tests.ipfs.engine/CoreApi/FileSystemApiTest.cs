@@ -226,7 +226,7 @@ namespace Ipfs.Engine
         {
             AddFile(); // warm up
 
-            var path = "star_trails.mp4";
+            var path = "Assets/IPFS_Engine/Tests/tests.ipfs.engine/star_trails.mp4";
             var ipfs = TestFixture.Ipfs;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -268,7 +268,7 @@ namespace Ipfs.Engine
         {
             AddFile(); // warm up
 
-            var path = "starx2.mp4";
+            var path = "Assets/IPFS_Engine/Tests/tests.ipfs.engine/starx2.mp4";
             var ipfs = TestFixture.Ipfs;
             var stopWatch = new Stopwatch();
             stopWatch.Start();
@@ -872,7 +872,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
+        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74 - Bootstrap servers don't relay files")]
         public void ReadTextFromNetworkAsync()
 		{
 			Task.Run(ReadTextFromNetwork).Wait();
