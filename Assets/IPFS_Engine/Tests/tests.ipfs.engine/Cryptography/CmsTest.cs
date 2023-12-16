@@ -12,7 +12,12 @@ namespace Ipfs.Engine.Cryptography
     public class CmsTest
     {
         [Test]
-        public async void ReadCms()
+        public void ReadCmsAsync()
+		{
+			Task.Run(ReadCms).Wait();
+		}
+
+		public async Task ReadCms()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -62,7 +67,12 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         }
 
         [Test]
-        public async void ReadCms_FailsWithoutKey()
+		public void ReadCms_FailsWithoutKeyAsync()
+		{
+			Task.Run(ReadCms_FailsWithoutKey).Wait();
+		}
+
+		public async Task ReadCms_FailsWithoutKey()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -83,7 +93,12 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         }
 
         [Test]
-        public async void CreateCms_Rsa()
+        public void CreateCms_RsaAsync()
+		{
+			Task.Run(CreateCms_Rsa).Wait();
+		}
+
+		public async Task CreateCms_Rsa()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -102,7 +117,12 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
         }
 
         [Test]
-        public async void CreateCms_Secp256k1()
+        public void CreateCms_Secp256k1Async()
+		{
+			Task.Run(CreateCms_Secp256k1).Wait();
+		}
+
+		public async Task CreateCms_Secp256k1()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -122,7 +142,12 @@ nHILFmhac/+a/StQOKuf9dx5qXeGvt9LnwKuGGSfNX4g+dTkoa6N
 
         [Test]
         [Ignore("NYI")]
-        public async void CreateCms_Ed25519()
+        public void CreateCms_Ed25519Async()
+		{
+			Task.Run(CreateCms_Ed25519).Wait();
+		}
+
+		public async Task CreateCms_Ed25519()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();

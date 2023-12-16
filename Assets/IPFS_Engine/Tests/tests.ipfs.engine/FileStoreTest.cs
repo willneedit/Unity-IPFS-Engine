@@ -40,7 +40,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PutAndGet()
+        public void PutAndGetAsync()
+		{
+			Task.Run(PutAndGet).Wait();
+		}
+
+		public async Task PutAndGet()
         {
             var store = Store;
 
@@ -57,7 +62,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void TryGet()
+        public void TryGetAsync()
+		{
+			Task.Run(TryGet).Wait();
+		}
+
+		public async Task TryGet()
         {
             var store = Store;
             await store.PutAsync(3, a);
@@ -81,7 +91,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove()
+        public void RemoveAsync()
+		{
+			Task.Run(Remove).Wait();
+		}
+
+		public async Task Remove()
         {
             var store = Store;
             await store.PutAsync(4, a);
@@ -92,14 +107,24 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove_Unknown()
+        public void Remove_UnknownAsync()
+		{
+			Task.Run(Remove_Unknown).Wait();
+		}
+
+		public async Task Remove_Unknown()
         {
             var store = Store;
             await store.RemoveAsync(5);
         }
 
         [Test]
-        public async void Length()
+        public void LengthAsync()
+		{
+			Task.Run(Length).Wait();
+		}
+
+		public async Task Length()
         {
             var store = Store;
             await store.PutAsync(6, a);
@@ -109,7 +134,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Length_Unknown()
+        public void Length_UnknownAsync()
+		{
+			Task.Run(Length_Unknown).Wait();
+		}
+
+		public async Task Length_Unknown()
         {
             var store = Store;
             var length = await store.LengthAsync(7);
@@ -117,7 +147,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Values()
+        public void ValuesAsync()
+		{
+			Task.Run(Values).Wait();
+		}
+
+		public async Task Values()
         {
             var store = Store;
             await store.PutAsync(8, new Entity { Value = "v0" });
@@ -128,7 +163,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Names()
+        public void NamesAsync()
+		{
+			Task.Run(Names).Wait();
+		}
+
+		public async Task Names()
         {
             var store = Store;
             await store.PutAsync(11, a);
@@ -139,7 +179,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Atomic()
+        public void AtomicAsync()
+		{
+			Task.Run(Atomic).Wait();
+		}
+
+		public async Task Atomic()
         {
             var store = Store;
             int nTasks = 100;

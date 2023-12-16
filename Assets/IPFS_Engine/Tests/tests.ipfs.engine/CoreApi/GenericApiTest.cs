@@ -13,7 +13,12 @@ namespace Ipfs.Engine
     {
 
         [Test]
-        public async void Local_Info()
+        public void Local_InfoAsync()
+		{
+			Task.Run(Local_Info).Wait();
+		}
+
+		public async Task Local_Info()
         {
             var ipfs = TestFixture.Ipfs;
             var peer = await ipfs.Generic.IdAsync();
@@ -28,7 +33,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Mars_Info()
+		public void Mars_InfoAsync()
+		{
+			Task.Run(Mars_Info).Wait();
+		}
+
+		public async Task Mars_Info()
         {
             var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
             var marsAddr = $"/ip6/::1/p2p/{marsId}";
@@ -42,7 +52,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Version_Info()
+        public void Version_InfoAsync()
+		{
+			Task.Run(Version_Info).Wait();
+		}
+
+		public async Task Version_Info()
         {
             var ipfs = TestFixture.Ipfs;
             var versions = await ipfs.Generic.VersionAsync();
@@ -52,7 +67,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Shutdown()
+        public void ShutdownAsync()
+		{
+			Task.Run(Shutdown).Wait();
+		}
+
+		public async Task Shutdown()
         {
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
@@ -60,7 +80,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Resolve_Cid()
+        public void Resolve_CidAsync()
+		{
+			Task.Run(Resolve_Cid).Wait();
+		}
+
+		public async Task Resolve_Cid()
         {
             var ipfs = TestFixture.Ipfs;
             var actual = await ipfs.Generic.ResolveAsync("QmYNQJoKGNHTpPxCBPh9KkDpaExgd2duMa3aF6ytMpHdao");
@@ -71,7 +96,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Resolve_Cid_Path()
+        public void Resolve_Cid_PathAsync()
+		{
+			Task.Run(Resolve_Cid_Path).Wait();
+		}
+
+		public async Task Resolve_Cid_Path()
         {
             var ipfs = TestFixture.Ipfs;
             var temp = FileSystemApiTest.MakeTemp();
@@ -98,7 +128,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Resolve_DnsLink()
+        public void Resolve_DnsLinkAsync()
+		{
+			Task.Run(Resolve_DnsLink).Wait();
+		}
+
+		public async Task Resolve_DnsLink()
         {
             var ipfs = TestFixture.Ipfs;
             var path = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io");
@@ -107,7 +142,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("Need a working IPNS")]
-        public async void Resolve_DnsLink_Recursive()
+        public void Resolve_DnsLink_RecursiveAsync()
+		{
+			Task.Run(Resolve_DnsLink_Recursive).Wait();
+		}
+
+		public async Task Resolve_DnsLink_Recursive()
         {
             var ipfs = TestFixture.Ipfs;
 

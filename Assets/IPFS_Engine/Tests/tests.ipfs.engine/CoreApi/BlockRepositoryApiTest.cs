@@ -21,7 +21,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Stats()
+		public void StatsAsync()
+		{
+			Task.Run(Stats).Wait();
+		}
+
+		public async Task Stats()
         {
             var stats = await ipfs.BlockRepository.StatisticsAsync();
             var version = await ipfs.BlockRepository.VersionAsync();
@@ -29,7 +34,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GarbageCollection()
+		public void GarbageCollectionAsync()
+		{
+			Task.Run(GarbageCollection).Wait();
+		}
+
+		public async Task GarbageCollection()
         {
             var pinned = await ipfs.Block.PutAsync(new byte[256], pin: true);
             var unpinned = await ipfs.Block.PutAsync(new byte[512], pin: false);
@@ -43,7 +53,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void VersionFileMissing()
+        public void VersionFileMissingAsync()
+		{
+			Task.Run(VersionFileMissing).Wait();
+		}
+
+		public async Task VersionFileMissing()
         {
             var versionPath = Path.Combine(ipfs.Options.Repository.ExistingFolder(), "version");
             var versionBackupPath = versionPath + ".bak";

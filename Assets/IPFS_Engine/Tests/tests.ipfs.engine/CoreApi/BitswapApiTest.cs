@@ -17,7 +17,12 @@ namespace Ipfs.Engine
         IpfsEngine ipfsOther = TestFixture.IpfsOther;
 
         [Test]
-        public async void Wants()
+		public void WantsAsync()
+		{
+			Task.Run(Wants).Wait();
+		}
+
+		public async Task Wants()
         {
             await ipfs.StartAsync();
             try
@@ -49,7 +54,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Unwant()
+		public void UnwantAsync()
+		{
+			Task.Run(Unwant).Wait();
+		}
+
+		public async Task Unwant()
         {
             await ipfs.StartAsync();
             try
@@ -80,7 +90,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void OnConnect_Sends_WantList()
+        public void OnConnect_Sends_WantListAsync()
+		{
+			Task.Run(OnConnect_Sends_WantList).Wait();
+		}
+
+		public async Task OnConnect_Sends_WantList()
         {
             ipfs.Options.Discovery.DisableMdns = true;
             ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
@@ -123,7 +138,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetsBlock_OnConnect()
+        public void GetsBlock_OnConnectAsync()
+		{
+			Task.Run(GetsBlock_OnConnect).Wait();
+		}
+
+		public async Task GetsBlock_OnConnect()
         {
             ipfs.Options.Discovery.DisableMdns = true;
             ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
@@ -181,7 +201,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetsBlock_OnConnect_Bitswap1()
+        public void GetsBlock_OnConnect_Bitswap1Async()
+		{
+			Task.Run(GetsBlock_OnConnect_Bitswap1).Wait();
+		}
+
+		public async Task GetsBlock_OnConnect_Bitswap1()
         {
             var originalProtocols = (await ipfs.BitswapService).Protocols;
             var otherOriginalProtocols = (await ipfsOther.BitswapService).Protocols;
@@ -253,7 +278,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetsBlock_OnConnect_Bitswap11()
+        public void GetsBlock_OnConnect_Bitswap11Async()
+		{
+			Task.Run(GetsBlock_OnConnect_Bitswap11).Wait();
+		}
+
+		public async Task GetsBlock_OnConnect_Bitswap11()
         {
             var originalProtocols = (await ipfs.BitswapService).Protocols;
             var otherOriginalProtocols = (await ipfsOther.BitswapService).Protocols;
@@ -325,7 +355,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetsBlock_OnRequest()
+        public void GetsBlock_OnRequestAsync()
+		{
+			Task.Run(GetsBlock_OnRequest).Wait();
+		}
+
+		public async Task GetsBlock_OnRequest()
         {
             ipfs.Options.Discovery.DisableMdns = true;
             ipfs.Options.Discovery.BootstrapPeers = new MultiAddress[0];
@@ -357,7 +392,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetsBlock_Cidv1()
+        public void GetsBlock_Cidv1Async()
+		{
+			Task.Run(GetsBlock_Cidv1).Wait();
+		}
+
+		public async Task GetsBlock_Cidv1()
         {
             await ipfs.StartAsync();
             await ipfsOther.StartAsync();
@@ -382,7 +422,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetBlock_Timeout()
+        public void GetBlock_TimeoutAsync()
+		{
+			Task.Run(GetBlock_Timeout).Wait();
+		}
+
+		public async Task GetBlock_Timeout()
         {
             var block = new DagNode(Encoding.UTF8.GetBytes("BitswapApiTest unknown block"));
 
@@ -404,7 +449,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PeerLedger()
+        public void PeerLedgerAsync()
+		{
+			Task.Run(PeerLedger).Wait();
+		}
+
+		public async Task PeerLedger()
         {
             await ipfs.StartAsync();
             try

@@ -14,7 +14,12 @@ namespace Ipfs.Engine.Cryptography
     public class CertTest
     {
         [Test]
-        public async void Create_Rsa()
+        public void Create_RsaAsync()
+		{
+			Task.Run(Create_Rsa).Wait();
+		}
+
+		public async Task Create_Rsa()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -33,7 +38,12 @@ namespace Ipfs.Engine.Cryptography
         }
 
         [Test]
-        public async void Create_Secp256k1()
+		public void Create_Secp256k1Async()
+		{
+			Task.Run(Create_Secp256k1).Wait();
+		}
+
+		public async Task Create_Secp256k1()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -52,7 +62,12 @@ namespace Ipfs.Engine.Cryptography
         }
 
         [Test]
-        public async void Create_Ed25519()
+        public void Create_Ed25519Async()
+		{
+			Task.Run(Create_Ed25519).Wait();
+		}
+
+		public async Task Create_Ed25519()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();

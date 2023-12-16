@@ -156,7 +156,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Stat_Inline_CID()
+		public void Stat_Inline_CIDAsync()
+		{
+			Task.Run(Stat_Inline_CID).Wait();
+		}
+
+		public async Task Stat_Inline_CID()
         {
             var cts = new CancellationTokenSource(300);
             var cid = new Cid
@@ -170,7 +175,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Stat_Unknown()
+		public void Stat_UnknownAsync()
+		{
+			Task.Run(Stat_Unknown).Wait();
+		}
+
+		public async Task Stat_Unknown()
         {
             var cid = "QmPv52ekjS75L4JmHpXVeuJ5uX2ecSfSZo88NSyxwA3rFF";
             var block = await ipfs.Block.StatAsync(cid);
@@ -178,7 +188,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove()
+        public void RemoveAsync()
+		{
+			Task.Run(Remove).Wait();
+		}
+
+		public async Task Remove()
         {
             var _ = ipfs.Block.PutAsync(blob).Result;
             var cid = await ipfs.Block.RemoveAsync(id);
@@ -186,7 +201,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove_Inline_CID()
+        public void Remove_Inline_CIDAsync()
+		{
+			Task.Run(Remove_Inline_CID).Wait();
+		}
+
+		public async Task Remove_Inline_CID()
         {
             var cid = new Cid
             {
@@ -204,14 +224,24 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove_Unknown_OK()
+        public void Remove_Unknown_OKAsync()
+		{
+			Task.Run(Remove_Unknown_OK).Wait();
+		}
+
+		public async Task Remove_Unknown_OK()
         {
             var cid = await ipfs.Block.RemoveAsync("QmPv52ekjS75L4JmHpXVeuJ5uX2ecSfSZo88NSyxwA3rFF", true);
             Assert.AreEqual(null, cid);
         }
 
         [Test]
-        public async void Get_Inline_CID()
+        public void Get_Inline_CIDAsync()
+		{
+			Task.Run(Get_Inline_CID).Wait();
+		}
+
+		public async Task Get_Inline_CID()
         {
             var cts = new CancellationTokenSource(300);
             var cid = new Cid
@@ -226,7 +256,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Put_Informs_Bitswap()
+        public void Put_Informs_BitswapAsync()
+		{
+			Task.Run(Put_Informs_Bitswap).Wait();
+		}
+
+		public async Task Put_Informs_Bitswap()
         {
             var data = Guid.NewGuid().ToByteArray();
             var cid = new Cid { Hash = MultiHash.ComputeHash(data) };
@@ -241,7 +276,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Put_Informs_Dht()
+        public void Put_Informs_DhtAsync()
+		{
+			Task.Run(Put_Informs_Dht).Wait();
+		}
+
+		public async Task Put_Informs_Dht()
         {
             var data = Guid.NewGuid().ToByteArray();
             var ipfs = TestFixture.Ipfs;

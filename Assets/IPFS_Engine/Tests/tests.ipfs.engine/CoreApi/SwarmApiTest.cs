@@ -17,7 +17,12 @@ namespace Ipfs.Engine
         readonly MultiAddress somewhere = "/ip4/127.0.0.1";
 
         [Test]
-        public async void Filter_Add_Remove()
+        public void Filter_Add_RemoveAsync()
+		{
+			Task.Run(Filter_Add_Remove).Wait();
+		}
+
+		public async Task Filter_Add_Remove()
         {
             var addr = await ipfs.Swarm.AddAddressFilterAsync(somewhere);
             Assert.IsNotNull(addr);
@@ -34,7 +39,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
-        public async void Connect_Disconnect_Mars()
+        public void Connect_Disconnect_MarsAsync()
+		{
+			Task.Run(Connect_Disconnect_Mars).Wait();
+		}
+
+		public async Task Connect_Disconnect_Mars()
         {
             var mars = "/dns/mars.i.ipfs.io/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ";
             await ipfs.StartAsync();
@@ -53,7 +63,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("TODO: Move to interop tests")]
-        public async void JsIPFS_Connect()
+        public void JsIPFS_ConnectAsync()
+		{
+			Task.Run(JsIPFS_Connect).Wait();
+		}
+
+		public async Task JsIPFS_Connect()
         {
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var remoteId = "QmXFX2P5ammdmXQgfqGkfswtEVFsZUJ5KeHRXQYCTdiTAb";
@@ -69,7 +84,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("TODO: Move to interop tests")]
-        public async void GoIPFS_Connect()
+        public void GoIPFS_ConnectAsync()
+		{
+			Task.Run(GoIPFS_Connect).Wait();
+		}
+
+		public async Task GoIPFS_Connect()
         {
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var remoteId = "QmdoxrwszT6b9srLXHYBPFVRXmZSFAosWLXoQS9TEEAaix";
@@ -85,7 +105,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("TODO: Move to interop tests")]
-        public async void GoIPFS_Connect_v0_4_17()
+        public void GoIPFS_Connect_v0_4_17Async()
+		{
+			Task.Run(GoIPFS_Connect_v0_4_17).Wait();
+		}
+
+		public async Task GoIPFS_Connect_v0_4_17()
         {
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var remoteId = "QmSoLer265NRgSp2LA3dPaeykiS1J6DifTC88f5uVQKNAd";
@@ -100,7 +125,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PrivateNetwork_WithOptionsKey()
+        public void PrivateNetwork_WithOptionsKeyAsync()
+		{
+			Task.Run(PrivateNetwork_WithOptionsKey).Wait();
+		}
+
+		public async Task PrivateNetwork_WithOptionsKey()
         {
             using (var ipfs = CreateNode())
             {
@@ -121,7 +151,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PrivateNetwork_WithSwarmKeyFile()
+        public void PrivateNetwork_WithSwarmKeyFileAsync()
+		{
+			Task.Run(PrivateNetwork_WithSwarmKeyFile).Wait();
+		}
+
+		public async Task PrivateNetwork_WithSwarmKeyFile()
         {
             using (var ipfs = CreateNode())
             {

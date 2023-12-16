@@ -14,7 +14,12 @@ namespace Ipfs.Engine
     {
 
         [Test]
-        public async void Local_Info()
+        public void Local_InfoAsync()
+		{
+			Task.Run(Local_Info).Wait();
+		}
+
+		public async Task Local_Info()
         {
             var ipfs = TestFixture.Ipfs;
             var locaId = (await ipfs.LocalPeer).Id;
@@ -28,7 +33,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74#issuecomment-500668261")]
-        public async void Mars_Info()
+        public void Mars_InfoAsync()
+		{
+			Task.Run(Mars_Info).Wait();
+		}
+
+		public async Task Mars_Info()
         {
             var marsId = "QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3";
             var ipfs = TestFixture.Ipfs;
@@ -49,7 +59,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
-        public async void FindProvider()
+        public void FindProviderAsync()
+		{
+			Task.Run(FindProvider).Wait();
+		}
+
+		public async Task FindProvider()
         {
             var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
             var ipfs = TestFixture.Ipfs;

@@ -16,7 +16,12 @@ namespace Ipfs.Engine
         string blob64 = "YmxvcmI"; // base 64 encoded with no padding
 
         [Test]
-        public async void Get_Raw()
+        public void Get_RawAsync()
+		{
+			Task.Run(Get_Raw).Wait();
+		}
+
+		public async Task Get_Raw()
         {
             var cid = await ipfs.Block.PutAsync(blob, contentType: "raw");
             Assert.AreEqual("bafkreiaxnnnb7qz2focittuqq3ya25q7rcv3bqynnczfzako47346wosmu", (string)cid);
@@ -38,7 +43,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PutAndGet_JSON()
+        public void PutAndGet_JSONAsync()
+		{
+			Task.Run(PutAndGet_JSON).Wait();
+		}
+
+		public async Task PutAndGet_JSON()
         {
             var expected = new JObject();
             expected["a"] = "alpha";
@@ -57,7 +67,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("CBOR 4.x useCamelCase=false")]
-        public async void PutAndGet_poco()
+        public void PutAndGet_pocoAsync()
+		{
+			Task.Run(PutAndGet_poco).Wait();
+		}
+
+		public async Task PutAndGet_poco()
         {
             var expected = new name { first = "John", last = "Smith" };
             var id = await ipfs.Dag.PutAsync(expected);
@@ -74,7 +89,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("CBOR 4.x useCamelCase=false")]
-        public async void PutAndGet_poco_CidEncoding()
+        public void PutAndGet_poco_CidEncodingAsync()
+		{
+			Task.Run(PutAndGet_poco_CidEncoding).Wait();
+		}
+
+		public async Task PutAndGet_poco_CidEncoding()
         {
             var expected = new name { first = "John", last = "Smith" };
             var id = await ipfs.Dag.PutAsync(expected, encoding: "base32");
@@ -92,7 +112,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PutAndGet_POCO()
+        public void PutAndGet_POCOAsync()
+		{
+			Task.Run(PutAndGet_POCO).Wait();
+		}
+
+		public async Task PutAndGet_POCO()
         {
             var expected = new Name { First = "John", Last = "Smith" };
             var id = await ipfs.Dag.PutAsync(expected);
@@ -108,7 +133,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void PutAndGet_POCO_CidEncoding()
+        public void PutAndGet_POCO_CidEncodingAsync()
+		{
+			Task.Run(PutAndGet_POCO_CidEncoding).Wait();
+		}
+
+		public async Task PutAndGet_POCO_CidEncoding()
         {
             var expected = new Name { First = "John", Last = "Smith" };
             var id = await ipfs.Dag.PutAsync(expected, encoding: "base32");
@@ -127,7 +157,12 @@ namespace Ipfs.Engine
 
 
         [Test]
-        public async void Get_Raw2()
+        public void Get_Raw2Async()
+		{
+			Task.Run(Get_Raw2).Wait();
+		}
+
+		public async Task Get_Raw2()
         {
             var data = Encoding.UTF8.GetBytes("abc");
             var id = await ipfs.Block.PutAsync(data, "raw");
@@ -140,7 +175,12 @@ namespace Ipfs.Engine
         // https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/DAG.md
         [Test]
         [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/30")]
-        public async void Example1()
+        public void Example1Async()
+		{
+			Task.Run(Example1).Wait();
+		}
+
+		public async Task Example1()
         {
             Cid expected = "zBwWX9ecx5F4X54WAjmFLErnBT6ByfNxStr5ovowTL7AhaUR98RWvXPS1V3HqV1qs3r5Ec5ocv7eCdbqYQREXNUfYNuKG";
             var obj = new { simple = "object" };

@@ -12,7 +12,12 @@ namespace Ipfs.Engine
     public class PinApiTest
     {
         [Test]
-        public async void Add_Remove()
+        public void Add_RemoveAsync()
+		{
+			Task.Run(Add_Remove).Wait();
+		}
+
+		public async Task Add_Remove()
         {
             var ipfs = TestFixture.Ipfs;
             var result = await ipfs.FileSystem.AddTextAsync("I am pinned");
@@ -30,7 +35,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove_Unknown()
+		public void Remove_UnknownAsync()
+		{
+			Task.Run(Remove_Unknown).Wait();
+		}
+
+		public async Task Remove_Unknown()
         {
             var ipfs = TestFixture.Ipfs;
             var dag = new DagNode(Encoding.UTF8.GetBytes("some unknown info for net-ipfs-engine-pin-test"));
@@ -38,7 +48,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Inline_Cid()
+        public void Inline_CidAsync()
+		{
+			Task.Run(Inline_Cid).Wait();
+		}
+
+		public async Task Inline_Cid()
         {
             var ipfs = TestFixture.Ipfs;
             var cid = new Cid
@@ -70,7 +85,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_Recursive()
+        public void Add_RecursiveAsync()
+		{
+			Task.Run(Add_Recursive).Wait();
+		}
+
+		public async Task Add_Recursive()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -86,7 +106,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove_Recursive()
+        public void Remove_RecursiveAsync()
+		{
+			Task.Run(Remove_Recursive).Wait();
+		}
+
+		public async Task Remove_Recursive()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions

@@ -17,7 +17,12 @@ namespace Ipfs.Engine
     {
 
         [Test]
-        public async void AddText()
+        public void AddTextAsync()
+		{
+			Task.Run(AddText).Wait();
+		}
+
+		public async Task AddText()
         {
             var ipfs = TestFixture.Ipfs;
             var node = (UnixFileSystem.FileSystemNode) await ipfs.FileSystem.AddTextAsync("hello world");
@@ -36,7 +41,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void AddEmptyText()
+        public void AddEmptyTextAsync()
+		{
+			Task.Run(AddEmptyText).Wait();
+		}
+
+		public async Task AddEmptyText()
         {
             var ipfs = TestFixture.Ipfs;
             var node = (UnixFileSystem.FileSystemNode)await ipfs.FileSystem.AddTextAsync("");
@@ -55,7 +65,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void AddEmpty_Check_Object()
+        public void AddEmpty_Check_ObjectAsync()
+		{
+			Task.Run(AddEmpty_Check_Object).Wait();
+		}
+
+		public async Task AddEmpty_Check_Object()
         {
             // see https://github.com/ipfs/js-ipfs-unixfs/pull/25
             var ipfs = TestFixture.Ipfs;
@@ -67,7 +82,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void AddDuplicateWithPin()
+        public void AddDuplicateWithPinAsync()
+		{
+			Task.Run(AddDuplicateWithPin).Wait();
+		}
+
+		public async Task AddDuplicateWithPin()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -88,7 +108,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_SizeChunking()
+        public void Add_SizeChunkingAsync()
+		{
+			Task.Run(Add_SizeChunking).Wait();
+		}
+
+		public async Task Add_SizeChunking()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -111,7 +136,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void StreamBehaviour()
+        public void StreamBehaviourAsync()
+        {
+            Task.Run(StreamBehaviour).Wait();
+        }
+
+		public async Task StreamBehaviour()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -128,19 +158,22 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_HashAlgorithm()
+        public void Add_HashAlgorithm()
         {
-            var ipfs = TestFixture.Ipfs;
-            var options = new AddFileOptions
+            Task.Run(async () =>
             {
-                Hash = "blake2b-256",
-                RawLeaves = true
-            };
-            var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
-            Assert.AreEqual("bafk2bzaceaswza5ss4iu2ia3galz6pyo6dfm5f4dmiw2lf2de22dmf4k533ba", (string)node.Id);
+                var ipfs = TestFixture.Ipfs;
+                var options = new AddFileOptions
+                {
+                    Hash = "blake2b-256",
+                    RawLeaves = true
+                };
+                var node = await ipfs.FileSystem.AddTextAsync("hello world", options);
+                Assert.AreEqual("bafk2bzaceaswza5ss4iu2ia3galz6pyo6dfm5f4dmiw2lf2de22dmf4k533ba", (string)node.Id);
 
-            var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
-            Assert.AreEqual("hello world", text);
+                var text = await ipfs.FileSystem.ReadAllTextAsync(node.Id);
+                Assert.AreEqual("hello world", text);
+            }).Wait();
         }
 
         [Test]
@@ -271,7 +304,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void AddFile_Wrap()
+        public void AddFile_WrapAsync()
+		{
+			Task.Run(AddFile_Wrap).Wait();
+		}
+
+		public async Task AddFile_Wrap()
         {
             var path = "hello.txt";
             File.WriteAllText(path, "hello world");
@@ -297,7 +335,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_Raw()
+        public void Add_RawAsync()
+		{
+			Task.Run(Add_Raw).Wait();
+		}
+
+		public async Task Add_Raw()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -315,7 +358,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_Inline()
+        public void Add_InlineAsync()
+		{
+			Task.Run(Add_Inline).Wait();
+		}
+
+		public async Task Add_Inline()
         {
             var ipfs = TestFixture.Ipfs;
             var original = ipfs.Options.Block.AllowInlineCid;
@@ -340,7 +388,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_RawAndChunked()
+        public void Add_RawAndChunkedAsync()
+		{
+			Task.Run(Add_RawAndChunked).Wait();
+		}
+
+		public async Task Add_RawAndChunked()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -363,7 +416,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_Protected()
+        public void Add_ProtectedAsync()
+		{
+			Task.Run(Add_Protected).Wait();
+		}
+
+		public async Task Add_Protected()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -380,7 +438,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_Protected_Chunked()
+        public void Add_Protected_ChunkedAsync()
+		{
+			Task.Run(Add_Protected_Chunked).Wait();
+		}
+
+		public async Task Add_Protected_Chunked()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -397,7 +460,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_OnlyHash()
+        public void Add_OnlyHashAsync()
+		{
+			Task.Run(Add_OnlyHash).Wait();
+		}
+
+		public async Task Add_OnlyHash()
         {
             var ipfs = TestFixture.Ipfs;
             var nodes = new string[] {
@@ -433,7 +501,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void ReadWithOffset()
+        public void ReadWithOffsetAsync()
+		{
+			Task.Run(ReadWithOffset).Wait();
+		}
+
+		public async Task ReadWithOffset()
         {
             var text = "hello world";
             var ipfs = TestFixture.Ipfs;
@@ -455,7 +528,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_RawWithLength()
+        public void Read_RawWithLengthAsync()
+		{
+			Task.Run(Read_RawWithLength).Wait();
+		}
+
+		public async Task Read_RawWithLength()
         {
             var text = "hello world";
             var ipfs = TestFixture.Ipfs;
@@ -480,7 +558,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_ChunkedWithLength()
+        public void Read_ChunkedWithLengthAsync()
+		{
+			Task.Run(Read_ChunkedWithLength).Wait();
+		}
+
+		public async Task Read_ChunkedWithLength()
         {
             var text = "hello world";
             var ipfs = TestFixture.Ipfs;
@@ -502,7 +585,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_ProtectedWithLength()
+        public void Read_ProtectedWithLengthAsync()
+		{
+			Task.Run(Read_ProtectedWithLength).Wait();
+		}
+
+		public async Task Read_ProtectedWithLength()
         {
             var text = "hello world";
             var ipfs = TestFixture.Ipfs;
@@ -527,7 +615,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_ProtectedChunkedWithLength()
+        public void Read_ProtectedChunkedWithLengthAsync()
+		{
+			Task.Run(Read_ProtectedChunkedWithLength).Wait();
+		}
+
+		public async Task Read_ProtectedChunkedWithLength()
         {
             var text = "hello world";
             var ipfs = TestFixture.Ipfs;
@@ -553,7 +646,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_ProtectedMissingKey()
+        public void Read_ProtectedMissingKeyAsync()
+		{
+			Task.Run(Read_ProtectedMissingKey).Wait();
+		}
+
+		public async Task Read_ProtectedMissingKey()
         {
             var text = "hello world";
             var ipfs = TestFixture.Ipfs;
@@ -578,7 +676,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void AddFile_WithProgress()
+        public void AddFile_WithProgressAsync()
+		{
+			Task.Run(AddFile_WithProgress).Wait();
+		}
+
+		public async Task AddFile_WithProgress()
         {
             var path = Path.GetTempFileName();
             File.WriteAllText(path, "hello world");
@@ -730,7 +833,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void AddDirectoryRecursive_ObjectLinks()
+        public void AddDirectoryRecursive_ObjectLinksAsync()
+		{
+			Task.Run(AddDirectoryRecursive_ObjectLinks).Wait();
+		}
+
+		public async Task AddDirectoryRecursive_ObjectLinks()
         {
             var ipfs = TestFixture.Ipfs;
             var temp = MakeTemp();
@@ -765,7 +873,12 @@ namespace Ipfs.Engine
 
         [Test]
         [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74")]
-        public async void ReadTextFromNetwork()
+        public void ReadTextFromNetworkAsync()
+		{
+			Task.Run(ReadTextFromNetwork).Wait();
+		}
+
+		public async Task ReadTextFromNetwork()
         {
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
@@ -786,7 +899,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_From_OtherNode()
+        public void Read_From_OtherNodeAsync()
+		{
+			Task.Run(Read_From_OtherNode).Wait();
+		}
+
+		public async Task Read_From_OtherNode()
         {
             using (var a = new TempNode())
             using (var b = new TempNode())
@@ -832,7 +950,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetTar()
+        public void GetTarAsync()
+		{
+			Task.Run(GetTar).Wait();
+		}
+
+		public async Task GetTar()
         {
             var ipfs = TestFixture.Ipfs;
             var temp = MakeTemp();
@@ -865,7 +988,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetTar_RawLeaves()
+        public void GetTar_RawLeavesAsync()
+		{
+			Task.Run(GetTar_RawLeaves).Wait();
+		}
+
+		public async Task GetTar_RawLeaves()
         {
             var ipfs = TestFixture.Ipfs;
             var temp = MakeTemp();
@@ -902,7 +1030,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void GetTar_EmptyDirectory()
+        public void GetTar_EmptyDirectoryAsync()
+		{
+			Task.Run(GetTar_EmptyDirectory).Wait();
+		}
+
+		public async Task GetTar_EmptyDirectory()
         {
             var ipfs = TestFixture.Ipfs;
             var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -922,7 +1055,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Isssue108()
+        public void Isssue108Async()
+		{
+			Task.Run(Isssue108).Wait();
+		}
+
+		public async Task Isssue108()
         {
             var ipfs = TestFixture.Ipfs;
             var options = new AddFileOptions
@@ -938,7 +1076,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Read_SameFile_DifferentCids()
+        public void Read_SameFile_DifferentCidsAsync()
+		{
+			Task.Run(Read_SameFile_DifferentCids).Wait();
+		}
+
+		public async Task Read_SameFile_DifferentCids()
         {
             var ipfs = TestFixture.Ipfs;
             var text = "\"hello world\" \r\n";

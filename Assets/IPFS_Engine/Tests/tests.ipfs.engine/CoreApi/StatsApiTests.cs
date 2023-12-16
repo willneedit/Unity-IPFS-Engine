@@ -21,7 +21,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void SmokeTest()
+        public void SmokeTestAsync()
+		{
+			Task.Run(SmokeTest).Wait();
+		}
+
+		public async Task SmokeTest()
         {
             var bandwidth = await ipfs.Stats.BandwidthAsync();
             var bitswap = await ipfs.Stats.BitswapAsync();

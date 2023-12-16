@@ -10,10 +10,22 @@ namespace Ipfs.Engine
     [TestFixture]
     public class NameApiTest
     {
+#if true
+        [Test]
+        public void CrashesNeedFixing()
+        {
+            Assert.AreEqual(true, false);
+        }
+#else
         IpfsEngine ipfs = TestFixture.Ipfs;
 
         [Test]
-        public async void Resolve_DnsLink()
+        public void Resolve_DnsLinkAsync()
+		{
+			Task.Run(Resolve_DnsLink).Wait();
+		}
+
+		public async Task Resolve_DnsLink()
         {
             var iopath = await ipfs.Name.ResolveAsync("ipfs.io");
             Assert.IsNotNull(iopath);
@@ -23,7 +35,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Resolve_DnsLink_Recursive()
+        public void Resolve_DnsLink_RecursiveAsync()
+		{
+			Task.Run(Resolve_DnsLink_Recursive).Wait();
+		}
+
+		public async Task Resolve_DnsLink_Recursive()
         {
             var path = await ipfs.Name.ResolveAsync("/ipns/ipfs.io/media", true);
             StringAssert.StartsWith(path, "/ipfs/");
@@ -46,5 +63,6 @@ namespace Ipfs.Engine
                 var _ = ipfs.Dns.ResolveAsync("google.com").Result;
             });
         }
+#endif
     }
 }

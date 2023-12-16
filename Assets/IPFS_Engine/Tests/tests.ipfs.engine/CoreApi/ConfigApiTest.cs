@@ -14,7 +14,12 @@ namespace Ipfs.Engine
         const string gatewayAddress = "/ip4/127.0.0.1/tcp/";
 
         [Test]
-        public async void Get_Entire_Config()
+		public void Get_Entire_ConfigAsync()
+		{
+			Task.Run(Get_Entire_Config).Wait();
+		}
+
+		public async Task Get_Entire_Config()
         {
             var ipfs = TestFixture.Ipfs;
             var config = await ipfs.Config.GetAsync();
@@ -22,7 +27,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Get_Scalar_Key_Value()
+		public void Get_Scalar_Key_ValueAsync()
+		{
+			Task.Run(Get_Scalar_Key_Value).Wait();
+		}
+
+		public async Task Get_Scalar_Key_Value()
         {
             var ipfs = TestFixture.Ipfs;
             var api = await ipfs.Config.GetAsync("Addresses.API");
@@ -30,7 +40,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Get_Object_Key_Value()
+        public void Get_Object_Key_ValueAsync()
+		{
+			Task.Run(Get_Object_Key_Value).Wait();
+		}
+
+		public async Task Get_Object_Key_Value()
         {
             var ipfs = TestFixture.Ipfs;
             var addresses = await ipfs.Config.GetAsync("Addresses");
@@ -49,7 +64,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Set_String_Value()
+        public void Set_String_ValueAsync()
+		{
+			Task.Run(Set_String_Value).Wait();
+		}
+
+		public async Task Set_String_Value()
         {
             const string key = "foo";
             const string value = "foobar";
@@ -59,7 +79,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Set_JSON_Value()
+        public void Set_JSON_ValueAsync()
+		{
+			Task.Run(Set_JSON_Value).Wait();
+		}
+
+		public async Task Set_JSON_Value()
         {
             const string key = "API.HTTPHeaders.Access-Control-Allow-Origin";
             JToken value = JToken.Parse("['http://example.io']");

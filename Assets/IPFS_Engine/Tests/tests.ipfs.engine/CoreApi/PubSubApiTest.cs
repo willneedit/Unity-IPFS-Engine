@@ -31,7 +31,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Subscribed_Topics()
+        public void Subscribed_TopicsAsync()
+		{
+			Task.Run(Subscribed_Topics).Wait();
+		}
+
+		public async Task Subscribed_Topics()
         {
             var ipfs = TestFixture.Ipfs;
             var topic = Guid.NewGuid().ToString();
@@ -54,7 +59,12 @@ namespace Ipfs.Engine
         volatile int messageCount = 0;
 
         [Test]
-        public async void Subscribe()
+        public void SubscribeAsync()
+		{
+			Task.Run(Subscribe).Wait();
+		}
+
+		public async Task Subscribe()
         {
             messageCount = 0;
             var ipfs = TestFixture.Ipfs;
@@ -80,7 +90,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Subscribe_Mutiple_Messages()
+        public void Subscribe_Mutiple_MessagesAsync()
+		{
+			Task.Run(Subscribe_Mutiple_Messages).Wait();
+		}
+
+		public async Task Subscribe_Mutiple_Messages()
         {
             messageCount = 0;
             var messages = "hello world this is pubsub".Split();
@@ -110,7 +125,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Multiple_Subscribe_Mutiple_Messages()
+        public void Multiple_Subscribe_Mutiple_MessagesAsync()
+		{
+			Task.Run(Multiple_Subscribe_Mutiple_Messages).Wait();
+		}
+
+		public async Task Multiple_Subscribe_Mutiple_Messages()
         {
             messageCount = 0;
             var messages = "hello world this is pubsub".Split();
@@ -145,7 +165,12 @@ namespace Ipfs.Engine
         volatile int messageCount1 = 0;
 
         [Test]
-        public async void Unsubscribe()
+        public void UnsubscribeAsync()
+		{
+			Task.Run(Unsubscribe).Wait();
+		}
+
+		public async Task Unsubscribe()
         {
             messageCount1 = 0;
             var ipfs = TestFixture.Ipfs;
@@ -174,7 +199,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Subscribe_BinaryMessage()
+        public void Subscribe_BinaryMessageAsync()
+		{
+			Task.Run(Subscribe_BinaryMessage).Wait();
+		}
+
+		public async Task Subscribe_BinaryMessage()
         {
             var messages = new List<IPublishedMessage>();
             var expected = new byte[] { 0, 1, 2, 4, (byte)'a', (byte)'b', 0xfe, 0xff };
@@ -202,7 +232,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Subscribe_StreamMessage()
+        public void Subscribe_StreamMessageAsync()
+		{
+			Task.Run(Subscribe_StreamMessage).Wait();
+		}
+
+		public async Task Subscribe_StreamMessage()
         {
             var messages = new List<IPublishedMessage>();
             var expected = new byte[] { 0, 1, 2, 4, (byte)'a', (byte)'b', 0xfe, 0xff };

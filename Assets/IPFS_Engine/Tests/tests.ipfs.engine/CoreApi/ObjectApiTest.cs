@@ -16,14 +16,24 @@ namespace Ipfs.Engine.CoreApi
         IpfsEngine ipfs = TestFixture.Ipfs;
 
         [Test]
-        public async void New_Template_Null()
+		public void New_Template_NullAsync()
+		{
+			Task.Run(New_Template_Null).Wait();
+		}
+
+		public async Task New_Template_Null()
         {
             var node = await ipfs.Object.NewAsync();
             Assert.AreEqual("QmdfTbBqBPQ7VNxZEYEj14VmRuZBkqFbiwReogJgS1zR1n", (string)node.Id);
         }
 
         [Test]
-        public async void New_Template_UnixfsDir()
+		public void New_Template_UnixfsDirAsync()
+		{
+			Task.Run(New_Template_UnixfsDir).Wait();
+		}
+
+		public async Task New_Template_UnixfsDir()
         {
             var node = await ipfs.Object.NewAsync("unixfs-dir");
             Assert.AreEqual("QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn", (string)node.Id);
@@ -42,7 +52,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Put_Get_Dag()
+        public void Put_Get_DagAsync()
+		{
+			Task.Run(Put_Get_Dag).Wait();
+		}
+
+		public async Task Put_Get_Dag()
         {
             var adata = Encoding.UTF8.GetBytes("alpha");
             var bdata = Encoding.UTF8.GetBytes("beta");
@@ -58,7 +73,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Put_Get_Data()
+        public void Put_Get_DataAsync()
+		{
+			Task.Run(Put_Get_Data).Wait();
+		}
+
+		public async Task Put_Get_Data()
         {
             var adata = Encoding.UTF8.GetBytes("alpha");
             var bdata = Encoding.UTF8.GetBytes("beta");
@@ -73,7 +93,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Data()
+        public void DataAsync()
+		{
+			Task.Run(Data).Wait();
+		}
+
+		public async Task Data()
         {
             var adata = Encoding.UTF8.GetBytes("alpha");
             var node = await ipfs.Object.PutAsync(adata);
@@ -86,7 +111,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Links()
+        public void LinksAsync()
+		{
+			Task.Run(Links).Wait();
+		}
+
+		public async Task Links()
         {
             var adata = Encoding.UTF8.GetBytes("alpha");
             var bdata = Encoding.UTF8.GetBytes("beta");
@@ -100,7 +130,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Stat()
+        public void StatAsync()
+		{
+			Task.Run(Stat).Wait();
+		}
+
+		public async Task Stat()
         {
             var data1 = Encoding.UTF8.GetBytes("Some data 1");
             var data2 = Encoding.UTF8.GetBytes("Some data 2");
@@ -116,7 +151,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Get_Nonexistent()
+        public void Get_NonexistentAsync()
+		{
+			Task.Run(Get_Nonexistent).Wait();
+		}
+
+		public async Task Get_Nonexistent()
         {
             var data = Encoding.UTF8.GetBytes("Some data for net-ipfs-engine-test that cannot be found");
             var node = new DagNode(data);
@@ -135,7 +175,12 @@ namespace Ipfs.Engine.CoreApi
 
         [Test]
         /// <seealso href="https://github.com/ipfs/js-ipfs/issues/2084"/>
-        public async void Get_Inlinefile()
+        public void Get_InlinefileAsync()
+		{
+			Task.Run(Get_Inlinefile).Wait();
+		}
+
+		public async Task Get_Inlinefile()
         {
             var original = ipfs.Options.Block.AllowInlineCid;
             try
@@ -156,7 +201,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Links_InlineCid()
+        public void Links_InlineCidAsync()
+		{
+			Task.Run(Links_InlineCid).Wait();
+		}
+
+		public async Task Links_InlineCid()
         {
             var original = ipfs.Options.Block.AllowInlineCid;
             try
@@ -177,7 +227,12 @@ namespace Ipfs.Engine.CoreApi
         }
 
         [Test]
-        public async void Links_RawCid()
+        public void Links_RawCidAsync()
+		{
+			Task.Run(Links_RawCid).Wait();
+		}
+
+		public async Task Links_RawCid()
         {
             var blob = new byte[2048];
             var cid = await ipfs.Block.PutAsync(blob, contentType: "raw");

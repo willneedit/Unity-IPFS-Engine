@@ -26,7 +26,12 @@ namespace Ipfs.Engine.Migration
         }
 
         [Test]
-        public async void MigrateToLowestThenHighest()
+        public void MigrateToLowestThenHighestAsync()
+		{
+			Task.Run(MigrateToLowestThenHighest).Wait();
+		}
+
+		public async Task MigrateToLowestThenHighest()
         {
             using (var ipfs = new TempNode())
             {

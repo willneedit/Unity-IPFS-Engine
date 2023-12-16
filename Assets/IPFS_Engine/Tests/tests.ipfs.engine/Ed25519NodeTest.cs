@@ -13,7 +13,12 @@ namespace Ipfs.Engine
     public class Ed25519NodeTest
     {
         [Test]
-        public async void Can_Create()
+        public void Can_CreateAsync()
+		{
+			Task.Run(Can_Create).Wait();
+		}
+
+		public async Task Can_Create()
         {
             var ed = await CreateNode();
             try
@@ -29,7 +34,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void CanConnect()
+        public void CanConnectAsync()
+		{
+			Task.Run(CanConnect).Wait();
+		}
+
+		public async Task CanConnect()
         {
             var ed = await CreateNode();
             try

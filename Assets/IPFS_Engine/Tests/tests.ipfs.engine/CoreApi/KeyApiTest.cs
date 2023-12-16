@@ -23,7 +23,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Self_Key_Exists()
+        public void Self_Key_ExistsAsync()
+		{
+			Task.Run(Self_Key_Exists).Wait();
+		}
+
+		public async Task Self_Key_Exists()
         {
             var ipfs = TestFixture.Ipfs;
             var keys = await ipfs.Key.ListAsync();
@@ -34,7 +39,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Export_Import()
+        public void Export_ImportAsync()
+		{
+			Task.Run(Export_Import).Wait();
+		}
+
+		public async Task Export_Import()
         {
             var password = "password".ToCharArray();
             var ipfs = TestFixture.Ipfs;
@@ -59,7 +69,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Import_Wrong_Password()
+        public void Import_Wrong_PasswordAsync()
+		{
+			Task.Run(Import_Wrong_Password).Wait();
+		}
+
+		public async Task Import_Wrong_Password()
         {
             var password = "password".ToCharArray();
             var ipfs = TestFixture.Ipfs;
@@ -73,7 +88,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Import_JSIPFS_Node()
+        public void Import_JSIPFS_NodeAsync()
+		{
+			Task.Run(Import_JSIPFS_Node).Wait();
+		}
+
+		public async Task Import_JSIPFS_Node()
         {
             string pem = @"-----BEGIN ENCRYPTED PRIVATE KEY-----
 MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
@@ -148,7 +168,12 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
         }
 
         [Test]
-        public async void Create_RSA_Key()
+        public void Create_RSA_KeyAsync()
+		{
+			Task.Run(Create_RSA_Key).Wait();
+		}
+
+		public async Task Create_RSA_Key()
         {
             var name = "net-engine-test-create";
             var ipfs = TestFixture.Ipfs;
@@ -171,7 +196,12 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
         }
 
         [Test]
-        public async void Create_Bitcoin_Key()
+        public void Create_Bitcoin_KeyAsync()
+		{
+			Task.Run(Create_Bitcoin_Key).Wait();
+		}
+
+		public async Task Create_Bitcoin_Key()
         {
             var name = "test-bitcoin";
             var ipfs = TestFixture.Ipfs;
@@ -209,7 +239,12 @@ MIIFDTA/BgkqhkiG9w0BBQ0wMjAaBgkqhkiG9w0BBQwwDQQILdGJynKmkrMCAWQw
         }
 
         [Test]
-        public async void Import_OpenSSL_Bitcoin()
+        public void Import_OpenSSL_BitcoinAsync()
+		{
+			Task.Run(Import_OpenSSL_Bitcoin).Wait();
+		}
+
+		public async Task Import_OpenSSL_Bitcoin()
         {
             // Created with:
             //   openssl ecparam -name secp256k1 -genkey -noout -out secp256k1-key.pem
@@ -233,7 +268,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Remove_Key()
+        public void Remove_KeyAsync()
+		{
+			Task.Run(Remove_Key).Wait();
+		}
+
+		public async Task Remove_Key()
         {
             var name = "net-engine-test-remove";
             var ipfs = TestFixture.Ipfs;
@@ -252,7 +292,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Rename_Key()
+        public void Rename_KeyAsync()
+		{
+			Task.Run(Rename_Key).Wait();
+		}
+
+		public async Task Rename_Key()
         {
             var name = "net-engine-test-rename0";
             var newName = "net-engine-test-rename1";
@@ -271,7 +316,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Remove_Unknown_Key()
+        public void Remove_Unknown_KeyAsync()
+		{
+			Task.Run(Remove_Unknown_Key).Wait();
+		}
+
+		public async Task Remove_Unknown_Key()
         {
             var name = "net-engine-test-remove-unknown";
             var ipfs = TestFixture.Ipfs;
@@ -281,7 +331,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Rename_Unknown_Key()
+        public void Rename_Unknown_KeyAsync()
+		{
+			Task.Run(Rename_Unknown_Key).Wait();
+		}
+
+		public async Task Rename_Unknown_Key()
         {
             var name = "net-engine-test-rename-unknown";
             var ipfs = TestFixture.Ipfs;
@@ -302,7 +357,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void UnsafeKeyName()
+        public void UnsafeKeyNameAsync()
+		{
+			Task.Run(UnsafeKeyName).Wait();
+		}
+
+		public async Task UnsafeKeyName()
         {
             var name = "../../../../../../../foo.key";
             var ipfs = TestFixture.Ipfs;
@@ -325,7 +385,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Create_Ed25519_Key()
+        public void Create_Ed25519_KeyAsync()
+		{
+			Task.Run(Create_Ed25519_Key).Wait();
+		}
+
+		public async Task Create_Ed25519_Key()
         {
             var name = "test-ed25519";
             var ipfs = TestFixture.Ipfs;
@@ -363,7 +428,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Ed25519_Id_IdentityHash_of_PublicKey()
+        public void Ed25519_Id_IdentityHash_of_PublicKeyAsync()
+		{
+			Task.Run(Ed25519_Id_IdentityHash_of_PublicKey).Wait();
+		}
+
+		public async Task Ed25519_Id_IdentityHash_of_PublicKey()
         {
             var name = "test-ed25519-id-hash";
             var ipfs = TestFixture.Ipfs;
@@ -372,7 +442,12 @@ IyIjAQyiOZZ5e8ozKAp5QFjQ/StM1uInn0v7Oi3vQRfbOOXcLXJL
         }
 
         [Test]
-        public async void Import_OpenSSL_Ed25519()
+        public void Import_OpenSSL_Ed25519Async()
+		{
+			Task.Run(Import_OpenSSL_Ed25519).Wait();
+		}
+
+		public async Task Import_OpenSSL_Ed25519()
         {
             // Created with:
             //   openssl genpkey -algorithm ED25519 -out k4.pem

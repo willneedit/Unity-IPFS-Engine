@@ -13,7 +13,12 @@ namespace Ipfs.Engine.Cryptography
     public class Rfc8410Test
     {
         [Test]
-        public async void ReadPrivateKey()
+        public void ReadPrivateKeyAsync()
+		{
+			Task.Run(ReadPrivateKey).Wait();
+		}
+
+		public async Task ReadPrivateKey()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();
@@ -39,7 +44,12 @@ MC4CAQAwBQYDK2VwBCIEINTuctv5E1hK1bbY8fdp+K06/nwoy/HU++CXqI9EdVhC
         }
 
         [Test]
-        public async void ReadPrivateAndPublicKey()
+        public void ReadPrivateAndPublicKeyAsync()
+		{
+			Task.Run(ReadPrivateAndPublicKey).Wait();
+		}
+
+		public async Task ReadPrivateAndPublicKey()
         {
             var ipfs = TestFixture.Ipfs;
             var keychain = await ipfs.KeyChainAsync();

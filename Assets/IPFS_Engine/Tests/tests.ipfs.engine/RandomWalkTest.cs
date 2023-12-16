@@ -14,7 +14,12 @@ namespace Ipfs.Engine
     public class RandomWalkTest
     {
         [Test]
-        public async void CanStartAndStop()
+        public void CanStartAndStopAsync()
+		{
+			Task.Run(CanStartAndStop).Wait();
+		}
+
+		public async Task CanStartAndStop()
         {
             var walk = new RandomWalk();
             await walk.StartAsync();
@@ -36,7 +41,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void CanStopMultipletimes()
+        public void CanStopMultipletimesAsync()
+		{
+			Task.Run(CanStopMultipletimes).Wait();
+		}
+
+		public async Task CanStopMultipletimes()
         {
             var walk = new RandomWalk();
             await walk.StartAsync();

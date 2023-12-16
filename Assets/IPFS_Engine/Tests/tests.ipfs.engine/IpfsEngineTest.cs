@@ -22,7 +22,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Can_Dispose()
+		public void Can_DisposeAsync()
+		{
+			Task.Run(Can_Dispose).Wait();
+		}
+
+		public async Task Can_Dispose()
         {
             using (var node = new TempNode())
             {
@@ -31,7 +36,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void SecureString_Passphrase()
+		public void SecureString_PassphraseAsync()
+		{
+			Task.Run(SecureString_Passphrase).Wait();
+		}
+
+		public async Task SecureString_Passphrase()
         { 
             var secret = "this is not a secure pass phrase";
             var ipfs = new IpfsEngine(secret.ToCharArray());
@@ -46,7 +56,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void IpfsPass_Passphrase()
+        public void IpfsPass_PassphraseAsync()
+		{
+			Task.Run(IpfsPass_Passphrase).Wait();
+		}
+
+		public async Task IpfsPass_Passphrase()
         {
             var secret = "this is not a secure pass phrase";
             var ipfs = new IpfsEngine(secret.ToCharArray());
@@ -67,7 +82,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Wrong_Passphrase()
+        public void Wrong_PassphraseAsync()
+		{
+			Task.Run(Wrong_Passphrase).Wait();
+		}
+
+		public async Task Wrong_Passphrase()
         {
             var ipfs1 = TestFixture.Ipfs;
             await ipfs1.KeyChainAsync();
@@ -89,7 +109,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Can_Start_And_Stop()
+        public void Can_Start_And_StopAsync()
+		{
+			Task.Run(Can_Start_And_Stop).Wait();
+		}
+
+		public async Task Can_Start_And_Stop()
         {
             var ipfs = TestFixture.Ipfs;
             var peer = await ipfs.LocalPeer;
@@ -115,7 +140,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Can_Start_And_Stop_MultipleEngines()
+        public void Can_Start_And_Stop_MultipleEnginesAsync()
+		{
+			Task.Run(Can_Start_And_Stop_MultipleEngines).Wait();
+		}
+
+		public async Task Can_Start_And_Stop_MultipleEngines()
         {
             var ipfs1 = TestFixture.Ipfs;
             var ipfs2 = TestFixture.IpfsOther;
@@ -137,7 +167,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Can_Use_Private_Node()
+        public void Can_Use_Private_NodeAsync()
+		{
+			Task.Run(Can_Use_Private_Node).Wait();
+		}
+
+		public async Task Can_Use_Private_Node()
         {
             using (var ipfs = new TempNode())
             {
@@ -148,7 +183,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void LocalPeer()
+        public void LocalPeerAsync()
+		{
+			Task.Run(LocalPeer).Wait();
+		}
+
+		public async Task LocalPeer()
         {
             var ipfs = TestFixture.Ipfs;
             Task<Peer>[] tasks = new Task<Peer>[]
@@ -161,7 +201,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void KeyChain()
+        public void KeyChainAsync()
+		{
+			Task.Run(KeyChain).Wait();
+		}
+
+		public async Task KeyChain()
         {
             var ipfs = TestFixture.Ipfs;
             Task<KeyChain>[] tasks = new Task<KeyChain>[]
@@ -174,7 +219,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void KeyChain_GetKey()
+        public void KeyChain_GetKeyAsync()
+		{
+			Task.Run(KeyChain_GetKey).Wait();
+		}
+
+		public async Task KeyChain_GetKey()
         {
             var ipfs = TestFixture.Ipfs;
             var keyChain = await ipfs.KeyChainAsync();
@@ -184,7 +234,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Swarm_Gets_Bootstrap_Peers()
+        public void Swarm_Gets_Bootstrap_PeersAsync()
+		{
+			Task.Run(Swarm_Gets_Bootstrap_Peers).Wait();
+		}
+
+		public async Task Swarm_Gets_Bootstrap_Peers()
         {
             var ipfs = TestFixture.Ipfs;
             var bootPeers = (await ipfs.Bootstrap.ListAsync()).ToArray();
@@ -212,7 +267,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Start_NoListeners()
+        public void Start_NoListenersAsync()
+		{
+			Task.Run(Start_NoListeners).Wait();
+		}
+
+		public async Task Start_NoListeners()
         {
             var ipfs = TestFixture.Ipfs;
             var swarm = await ipfs.Config.GetAsync("Addresses.Swarm");
@@ -229,7 +289,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Start_InvalidListener()
+        public void Start_InvalidListenerAsync()
+		{
+			Task.Run(Start_InvalidListener).Wait();
+		}
+
+		public async Task Start_InvalidListener()
         {
             var ipfs = TestFixture.Ipfs;
             var swarm = await ipfs.Config.GetAsync("Addresses.Swarm");

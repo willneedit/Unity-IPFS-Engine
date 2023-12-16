@@ -14,7 +14,12 @@ namespace Ipfs.Engine
         MultiAddress somewhere = "/ip4/127.0.0.1/tcp/4009/ipfs/QmPv52ekjS75L4JmHpXVeuJ5uX2ecSfSZo88NSyxwA3rAQ";
 
         [Test]
-        public async void Add_Remove()
+		public void Add_RemoveAsync()
+		{
+			Task.Run(Add_Remove).Wait();
+		}
+
+		public async Task Add_Remove()
         {
             var addr = await ipfs.Bootstrap.AddAsync(somewhere);
             Assert.IsNotNull(addr);
@@ -30,7 +35,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void List()
+        public void ListAsync()
+		{
+			Task.Run(List).Wait();
+		}
+
+		public async Task List()
         {
             var addrs = await ipfs.Bootstrap.ListAsync();
             Assert.IsNotNull(addrs);
@@ -38,7 +48,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Remove_All()
+        public void Remove_AllAsync()
+		{
+			Task.Run(Remove_All).Wait();
+		}
+
+		public async Task Remove_All()
         {
             var original = await ipfs.Bootstrap.ListAsync();
             await ipfs.Bootstrap.RemoveAllAsync();
@@ -51,7 +66,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Add_Defaults()
+        public void Add_DefaultsAsync()
+		{
+			Task.Run(Add_Defaults).Wait();
+		}
+
+		public async Task Add_Defaults()
         {
             var original = await ipfs.Bootstrap.ListAsync();
             await ipfs.Bootstrap.RemoveAllAsync();
@@ -72,7 +92,12 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        public async void Override_FactoryDefaults()
+        public void Override_FactoryDefaultsAsync()
+		{
+			Task.Run(Override_FactoryDefaults).Wait();
+		}
+
+		public async Task Override_FactoryDefaults()
         {
             var original = ipfs.Options.Discovery.BootstrapPeers;
             try
