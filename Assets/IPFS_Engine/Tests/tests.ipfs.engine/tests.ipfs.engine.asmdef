@@ -1,0 +1,33 @@
+{
+    "name": "tests.ipfs.engine",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "ipfs.engine",
+        "ipfs.peertalk",
+        "ipfs.core"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Google.Protobuf.dll",
+        "Newtonsoft.Json.dll",
+        "BouncyCastle.Crypto.dll",
+        "Common.Logging.dll",
+        "ICSharpCode.SharpZipLib.dll",
+        "CBOR.dll",
+        "protobuf-net.dll",
+        "Common.Logging.Core.dll",
+        "Nito.AsyncEx.Coordination.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
