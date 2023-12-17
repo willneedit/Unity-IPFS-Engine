@@ -8,7 +8,9 @@ fi
 
 git branch -D package &> /dev/null || echo "package branch not found (but it's okay)"
 git checkout -b package
-#git clean -fdx
+git add -f ${PKG_ROOT}/Plugins*
+git commit -m "Chore: Added precompiled plugin binaries"
+git clean -fdx
 git rm -rf "*"
 git restore --staged "${PKG_ROOT}"
 git restore "${PKG_ROOT}"
