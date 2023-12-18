@@ -151,8 +151,9 @@ namespace Ipfs.Engine
         {
             var ipfs = TestFixture.Ipfs;
 
-            var media = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media");
-            var actual = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media", recursive: true);
+            var media = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media", false);
+            // Safeguard against infinite recursion
+            var actual = await ipfs.Generic.ResolveAsync("/ipns/ipfs.io/media", recursive: true, new System.Threading.CancellationTokenSource(20000).Token);
             Assert.AreNotEqual(media, actual);
         }
     }

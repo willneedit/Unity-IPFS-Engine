@@ -39,26 +39,22 @@ namespace PeerTalk
         {
             var exceptions = new List<Exception>();
             var running = tasks.ToList();
-            while (running.Count > 0)
+            while (running.Any())
             {
                 cancel.ThrowIfCancellationRequested();
-                var winner = await Task.WhenAny(running).ConfigureAwait(false);
-                if (!winner.IsCanceled && !winner.IsFaulted)
-                {
-                    return await winner;
-                }
+                Task<T> winner = await Task.WhenAny(running).ConfigureAwait(false);
+                running.Remove(winner);
+                if (winner.IsCompletedSuccessfully) return await winner;
+
                 if (winner.IsFaulted)
                 {
                     if (winner.Exception is AggregateException ae)
-                    {
                         exceptions.AddRange(ae.InnerExceptions);
-                    }
                     else
-                    {
                         exceptions.Add(winner.Exception);
-                    }
                 }
-                running.Remove(winner);
+
+                await Task.Yield();
             }
             cancel.ThrowIfCancellationRequested();
             throw new AggregateException("No task(s) returned a result.", exceptions);
