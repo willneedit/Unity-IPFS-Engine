@@ -24,6 +24,7 @@ namespace PeerTalk.Protocols
         {
             Protocols = new Dictionary<string, Func<IPeerProtocol>>();
             Register<Multistream1>();
+            // Register<SecureCommunication.TLS>();
             // Register<SecureCommunication.Noise>(); // Missing: unmanaged libsodium
             Register<SecureCommunication.Secio1>();
             Register<Plaintext1>();

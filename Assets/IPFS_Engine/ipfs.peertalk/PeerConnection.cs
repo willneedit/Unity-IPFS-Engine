@@ -195,6 +195,7 @@ namespace PeerTalk
                 try
                 {
                     await EstablishProtocolAsync(protocol.ToString(), cancel).ConfigureAwait(false);
+                    log.Debug($"Secure communication negotiation agreed on {protocol}");
                 }
                 catch (Exception e)
                 {
