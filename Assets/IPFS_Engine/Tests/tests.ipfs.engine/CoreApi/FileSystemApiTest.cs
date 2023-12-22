@@ -872,7 +872,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74 - Bootstrap servers don't relay files")]
+        // [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74 - Bootstrap servers don't relay files")]
         public void ReadTextFromNetworkAsync()
 		{
 			Task.Run(ReadTextFromNetwork).Wait();
@@ -880,6 +880,7 @@ namespace Ipfs.Engine
 
 		public async Task ReadTextFromNetwork()
         {
+            TestFixture.AssemblyInitialize();
             var ipfs = TestFixture.Ipfs;
             await ipfs.StartAsync();
 
@@ -888,7 +889,7 @@ namespace Ipfs.Engine
                 var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
                 await ipfs.Block.RemoveAsync(folder, true);
 
-                var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
                 var text = await ipfs.FileSystem.ReadAllTextAsync($"{folder}/about", cts.Token);
                 StringAssert.Contains(text, "IPFS -- Inter-Planetary File system");
             }
