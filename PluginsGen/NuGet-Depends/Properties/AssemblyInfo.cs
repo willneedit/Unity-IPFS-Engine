@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("ipfs.peertalk-Plugins")]
+[assembly: AssemblyTitle("NuGet-Depends")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ipfs.peertalk-Plugins")]
+[assembly: AssemblyProduct("NuGet-Depends")]
 [assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("fb989a64-d328-4f6e-9ff2-84499461331d")]
+[assembly: Guid("766286d9-a2d6-4517-852f-a9f15a9adda7")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //
