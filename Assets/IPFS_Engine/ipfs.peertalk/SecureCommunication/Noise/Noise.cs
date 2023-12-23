@@ -28,7 +28,7 @@ namespace PeerTalk.SecureCommunication
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"/{Name}/{Version}";
+            return $"/{Name}";
         }
 
         private static byte[] payloadSigPrefix = System.Text.Encoding.UTF8.GetBytes("noise-libp2p-static-key:");
@@ -271,8 +271,7 @@ namespace PeerTalk.SecureCommunication
         {
             var payload = new NoiseHandshakePayload();
 
-            payload.Data = null;
-            payload.IdentityKey = Convert.FromBase64String(connection.LocalPeer.PublicKey);
+            payload.IdentityKey = Convert.FromBase64String(connection.LocalPeer.PublicKey);            
 
             using (var ms = new MemoryStream())
             {
@@ -280,6 +279,16 @@ namespace PeerTalk.SecureCommunication
                 ms.Write(myStaticPublicKey, 0, myStaticPublicKey.Length);
                 payload.IdentitySig = connection.LocalPeerKey.Sign(ms.ToArray());
             }
+
+            payload.Extensions = new()
+            {
+                //StreamMuxers = { "/yamux/1.0.0" }
+                StreamMuxers = new() 
+                {
+                    // "/yamux/1.0.0",
+                    "/mplex/6.7.0"
+                }
+            };
 
             return payload;
         }

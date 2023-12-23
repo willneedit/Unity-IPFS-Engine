@@ -245,10 +245,7 @@ namespace PeerTalk
         public async Task EstablishProtocolAsync(string name, Stream stream, CancellationToken cancel = default(CancellationToken))
         {
             var protocols = ProtocolRegistry.Protocols.Keys
-                .Where(k => k == name || k.StartsWith(name))
-                .Select(k => VersionedName.Parse(k))
-                .OrderByDescending(vn => vn)
-                .Select(vn => vn.ToString());
+                .Where(k => k == name || k.StartsWith(name));
             foreach (var protocol in protocols)
             {
                 await Message.WriteAsync(protocol, stream, cancel).ConfigureAwait(false);

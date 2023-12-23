@@ -1,4 +1,5 @@
 ﻿using ProtoBuf;
+using System.Collections.Generic;
 
 /*
 syntax = "proto3";
@@ -14,6 +15,17 @@ message NoiseHandshakePayload {
 namespace PeerTalk.SecureCommunication
 {
     [ProtoContract]
+    class NoiseExtensions
+    {
+        [ProtoMember(1)]
+        public List<byte[]> WebtransportCerthashes;
+
+        [ProtoMember(2)]
+        public List<string> StreamMuxers;
+
+    }
+
+    [ProtoContract]
     class NoiseHandshakePayload
     {
         #pragma warning disable 0649
@@ -23,8 +35,11 @@ namespace PeerTalk.SecureCommunication
         [ProtoMember(2)]
         public byte[] IdentitySig;
 
-        [ProtoMember(3)]
-        public byte[] Data;
+        // [ProtoMember(3)]
+        // public byte[] Data;
+
+        [ProtoMember(4)]
+        public NoiseExtensions Extensions;
         #pragma warning restore 0649
     }
 }
