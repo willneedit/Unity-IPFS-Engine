@@ -43,7 +43,7 @@ namespace PeerTalk
         {
             new Multistream1(),
             // new SecureCommunication.TLS(),
-            // new SecureCommunication.Noise(), // Missing: unmanaged libsodium
+            new SecureCommunication.Noise(), // Missing: unmanaged libsodium
             new SecureCommunication.Secio1(),
             new Identify1(),
             new Mplex67()
