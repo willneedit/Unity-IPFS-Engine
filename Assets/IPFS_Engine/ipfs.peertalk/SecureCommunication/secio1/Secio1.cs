@@ -154,7 +154,7 @@ namespace PeerTalk.SecureCommunication
 
             // =============================================================================
             // step 2.1. Verify -- verify their exchange packet is good.
-            var remotePeerKey = Key.CreatePublicKeyFromIpfs(remoteProposal.PublicKey);
+            var remotePeerKey = Key.UnmarshalPublicKey(remoteProposal.PublicKey);
             using (var ms = new MemoryStream())
             {
                 ProtoBuf.Serializer.Serialize(ms, remoteProposal);

@@ -1,12 +1,17 @@
-﻿using Org.BouncyCastle.Asn1.X9;
+﻿using Org.BouncyCastle.Asn1.Sec;
+using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
+using Org.BouncyCastle.X509;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,9 +26,9 @@ namespace PeerTalk.Cryptography
         const string EcSigningAlgorithmName = "SHA-256withECDSA";
         const string Ed25519SigningAlgorithmName = "Ed25519";
 
-        AsymmetricKeyParameter publicKey;
-        AsymmetricKeyParameter privateKey;
-        string signingAlgorithmName;
+        private AsymmetricKeyParameter publicKey;
+        private AsymmetricKeyParameter privateKey;
+        private string signingAlgorithmName;
 
         private Key()
         {
@@ -69,40 +74,86 @@ namespace PeerTalk.Cryptography
         }
 
         /// <summary>
-        ///   Create a public key from the IPFS message.
+        ///   Unmarshal the public key from the transmission package, see
+        ///   https://github.com/libp2p/specs/tree/master/noise
+        ///   https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md
         /// </summary>
         /// <param name="bytes">
-        ///   The IPFS encoded protobuf PublicKey message.
+        ///   The Iencoded protobuf PublicKey message.
         /// </param>
         /// <returns>
         ///   The public key.
         /// </returns>
-        public static Key CreatePublicKeyFromIpfs(byte[] bytes)
+        public static Key UnmarshalPublicKey(byte[] bytes)
         {
             var key = new Key();
 
             var ms = new MemoryStream(bytes, false);
-            var ipfsKey = ProtoBuf.Serializer.Deserialize<PublicKeyMessage>(ms);
+            var ipfsKey = Serializer.Deserialize<PublicKeyMessage>(ms);
 
             switch (ipfsKey.Type)
             {
-                case KeyType.RSA:
+                case KeyType.RSA: // PKIX DER format
                     key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
                     key.signingAlgorithmName = RsaSigningAlgorithmName;
                     break;
                 case KeyType.Ed25519:
-                    key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
-                    key.signingAlgorithmName = Ed25519SigningAlgorithmName;
+                    key.UnmarshalEd25519key(ipfsKey);
                     break;
                 case KeyType.Secp256k1:
-                    key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
-                    key.signingAlgorithmName = EcSigningAlgorithmName;
-                    break;
+                    throw new NotImplementedException(); // FIXME unknown encoding. Secp256k1 takes 520 bits (65 bytes), not 32.
+                    //key.publicKey = PublicKeyFactory.CreateKey(ipfsKey.Data);
+                    //key.signingAlgorithmName = EcSigningAlgorithmName;
+                    //break;
                 default:
                     throw new InvalidDataException($"Unknown key type of {ipfsKey.Type}.");
             }
             
             return key;
+        }
+
+        private void UnmarshalEd25519key(PublicKeyMessage ipfsKey)
+        {
+            // Envelope the naked binary public key material to satisfy BouncyCastle
+            byte[] pkixKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");
+            ipfsKey.Data.CopyTo(pkixKeyData, 12);
+            publicKey = PublicKeyFactory.CreateKey(pkixKeyData);
+            signingAlgorithmName = Ed25519SigningAlgorithmName;
+        }
+
+        public byte[] MarshalPublicKey()
+        {
+            byte[] spki = SubjectPublicKeyInfoFactory
+                .CreateSubjectPublicKeyInfo(publicKey)
+                .GetDerEncoded();
+            AsymmetricKeyParameter pk = PublicKeyFactory.CreateKey(spki);
+
+            KeyType type;
+            if (pk is RsaKeyParameters) type = KeyType.RSA;
+            else if (pk is Ed25519PublicKeyParameters) type = KeyType.Ed25519;
+            else if (pk is ECPublicKeyParameters) type = KeyType.Secp256k1;
+            else throw new NotImplementedException();
+
+            byte[] data;
+            switch (type)
+            {
+                case KeyType.RSA: data = spki; break;
+                case KeyType.Ed25519: data = spki[12..]; break; // Strip PKIX ASN1 boilerplate
+                case KeyType.Secp256k1: throw new NotImplementedException(); // See above
+                default: throw new InvalidDataException();
+            }
+
+            PublicKeyMessage pkm = new()
+            {
+                Type = type,
+                Data = data,
+            };
+
+            using (var ms = new MemoryStream())
+            {
+                Serializer.Serialize(ms, pkm);
+                return ms.ToArray();
+            }
         }
 
         /// <summary>
@@ -139,7 +190,64 @@ namespace PeerTalk.Cryptography
             return key;
         }
 
-        enum KeyType
+        public static Key GenerateKeyPair(string keyType, int size = 2048)
+        {
+            IAsymmetricCipherKeyPairGenerator g;
+            string san;
+            switch (keyType)
+            {
+                case "rsa":
+                    g = GeneratorUtilities.GetKeyPairGenerator("RSA");
+                    g.Init(new RsaKeyGenerationParameters(
+                        BigInteger.ValueOf(0x10001), new SecureRandom(), size, 25));
+                    san = RsaSigningAlgorithmName;
+                    break;
+                case "ed25519":
+                    g = GeneratorUtilities.GetKeyPairGenerator("Ed25519");
+                    g.Init(new Ed25519KeyGenerationParameters(new SecureRandom()));
+                    san = Ed25519SigningAlgorithmName;
+                    break;
+                case "secp256k1":
+                    g = GeneratorUtilities.GetKeyPairGenerator("EC");
+                    g.Init(new ECKeyGenerationParameters(SecObjectIdentifiers.SecP256k1, new SecureRandom()));
+                    san = EcSigningAlgorithmName;
+                    break;
+                default:
+                    throw new Exception($"Invalid key type '{keyType}'.");
+            }
+
+            var keyPair = g.GenerateKeyPair();
+
+            return new()
+            {
+                signingAlgorithmName = san,
+                privateKey = keyPair.Private,
+                publicKey = keyPair.Public,
+            };
+        }
+
+        public static Key ImportPublicKey(string publicKey)
+        {
+            byte[] encapsulated = Convert.FromBase64String(publicKey);
+            MemoryStream ms = new(encapsulated, false);
+            PublicKeyMessage pkm = Serializer.Deserialize<PublicKeyMessage>(ms);
+
+            AsymmetricKeyParameter pk = PublicKeyFactory.CreateKey(pkm.Data);
+
+            string algName;
+            if (pk is RsaKeyParameters) algName = RsaSigningAlgorithmName;
+            else if (pk is Ed25519PublicKeyParameters) algName = Ed25519SigningAlgorithmName;
+            else if (pk is ECPublicKeyParameters) algName = EcSigningAlgorithmName;
+            else throw new NotImplementedException();
+
+            return new()
+            {
+                publicKey = pk,
+                signingAlgorithmName = algName
+            };
+        }
+
+        internal enum KeyType
         {
             RSA = 0,
             Ed25519 = 1,
@@ -156,7 +264,6 @@ namespace PeerTalk.Cryptography
             public byte[] Data { get; set; }
         }
 
-#if false
         [ProtoContract]
         class PrivateKeyMessage
         {
@@ -165,6 +272,5 @@ namespace PeerTalk.Cryptography
             [ProtoMember(2, IsRequired = true)]
             public byte[] Data;
         }
-#endif
     }
 }

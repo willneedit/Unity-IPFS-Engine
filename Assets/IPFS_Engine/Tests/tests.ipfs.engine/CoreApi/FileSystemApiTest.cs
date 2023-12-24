@@ -900,6 +900,29 @@ namespace Ipfs.Engine
         }
 
         [Test]
+        public void Connect_To_KnownGoodAsync()
+        {
+            Task.Run(Connect_To_KnownGood).Wait();
+        }
+
+        public async Task Connect_To_KnownGood()
+        {
+            MultiAddress test = new MultiAddress("/ip4/127.0.0.1/tcp/65343/p2p/12D3KooWMLxQjwZicEP8XBSVEtL9NLwGt8ehQZ5dvJSMwNQUowRy");
+
+            TestFixture.AssemblyInitialize();
+            using (var a = new TempNode())
+            {
+                a.Options.Discovery.DisableMdns = true;
+                a.Options.Swarm.MinConnections = 0;
+                a.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+                await a.StartAsync();
+                Console.WriteLine($"A is {await a.LocalPeer}");
+
+                await a.Swarm.ConnectAsync(test);
+            }
+        }
+
+        [Test]
         public void Read_From_OtherNodeAsync()
 		{
 			Task.Run(Read_From_OtherNode).Wait();

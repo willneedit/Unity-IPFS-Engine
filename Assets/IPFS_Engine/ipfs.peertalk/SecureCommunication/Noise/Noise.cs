@@ -250,7 +250,8 @@ namespace PeerTalk.SecureCommunication
             var peerStaticKey = state.RemoteStaticPublicKey;
             try
             {
-                var peerIdentityKey = Key.CreatePublicKeyFromIpfs(payload.IdentityKey);
+                // Unmarshal from the remote public key
+                var peerIdentityKey = Key.UnmarshalPublicKey(payload.IdentityKey);
 
                 using (var ms = new MemoryStream())
                 {
@@ -271,7 +272,9 @@ namespace PeerTalk.SecureCommunication
         {
             var payload = new NoiseHandshakePayload();
 
-            payload.IdentityKey = Convert.FromBase64String(connection.LocalPeer.PublicKey);            
+            // Marshal the public key to the transmission format
+            Key key = Key.ImportPublicKey(connection.LocalPeer.PublicKey);
+            payload.IdentityKey = key.MarshalPublicKey();
 
             using (var ms = new MemoryStream())
             {
