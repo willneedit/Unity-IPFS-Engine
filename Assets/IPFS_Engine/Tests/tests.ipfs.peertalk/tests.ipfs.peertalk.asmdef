@@ -28,7 +28,8 @@
         "Nito.Collections.Deque.dll",
         "Nito.Disposables.dll",
         "Semver.dll",
-        "Google.Protobuf.dll"
+        "Google.Protobuf.dll",
+        "SimpleBase.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

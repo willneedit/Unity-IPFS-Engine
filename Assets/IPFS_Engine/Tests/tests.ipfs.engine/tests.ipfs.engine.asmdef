@@ -24,7 +24,8 @@
         "CBOR.dll",
         "protobuf-net.dll",
         "Common.Logging.Core.dll",
-        "Nito.AsyncEx.Coordination.dll"
+        "Nito.AsyncEx.Coordination.dll",
+        "SimpleBase.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],
