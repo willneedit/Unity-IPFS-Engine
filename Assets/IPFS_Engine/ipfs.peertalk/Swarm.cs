@@ -628,12 +628,7 @@ namespace PeerTalk
             try
             {
                 MountProtocols(connection);
-                IEncryptionProtocol[] security = null;
-                lock (protocols)
-                {
-                    security = protocols.OfType<IEncryptionProtocol>().ToArray();
-                }
-                await connection.InitiateAsync(security, cancel).ConfigureAwait(false);
+                await connection.InitiateAsync(protocols, cancel).ConfigureAwait(false);
                 await connection.MuxerEstablished.Task.ConfigureAwait(false);
                 Identify1 identify = null;
                 lock (protocols)

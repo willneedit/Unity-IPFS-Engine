@@ -183,31 +183,20 @@ namespace PeerTalk
         ///   the remote peer.
         /// </remarks>
         public async Task InitiateAsync(
-            IEnumerable<IEncryptionProtocol> securityProtocols,
+            IEnumerable<IPeerProtocol> protocols,
             CancellationToken cancel = default(CancellationToken))
         {
+            IEncryptionProtocol[] securityProtocols = null;
+            lock (protocols)
+            {
+                securityProtocols = protocols.OfType<IEncryptionProtocol>().ToArray();
+            }
+
             await EstablishProtocolAsync("/multistream/", cancel).ConfigureAwait(false);
 
-            // Find the first security protocol that is also supported by the remote.
-            var exceptions = new List<Exception>();
-            foreach (var protocol in securityProtocols)
-            {
-                try
-                {
-                    await EstablishProtocolAsync(protocol.ToString(), cancel).ConfigureAwait(false);
-                    log.Debug($"Secure communication negotiation agreed on {protocol}");
-                }
-                catch (Exception e)
-                {
-                    exceptions.Add(e);
-                    continue;
-                }
-
-                await protocol.EncryptAsync(this, cancel).ConfigureAwait(false);
-                break;
-            }
-            if (!SecurityEstablished.Task.IsCompleted)
-                throw new AggregateException("Could not establish a secure connection.", exceptions);
+            // Find an excryption protocol and start encrypting
+            IEncryptionProtocol match = await MatchProtocolAsync(securityProtocols, Stream, cancel).ConfigureAwait(false);
+            await match.EncryptAsync(this, cancel).ConfigureAwait(false);
 
             await EstablishProtocolAsync("/multistream/", cancel).ConfigureAwait(false);
             await EstablishProtocolAsync("/mplex/", cancel).ConfigureAwait(false);
@@ -233,6 +222,39 @@ namespace PeerTalk
         public Task EstablishProtocolAsync(string name, CancellationToken cancel)
         {
             return EstablishProtocolAsync(name, Stream, cancel);
+        }
+
+        /// <summary>
+        ///  Offers the remote a suitable list of protocols to pick one.
+        /// </summary>
+        /// <param name="protocols">Protocols to be offered</param>
+        /// <param name="cancel">Cancel token</param>
+        /// <returns>The protocol the server and client agreed on</returns>
+        /// <exception cref="AggregateException">Error, or no protocol matched</exception>
+        public async Task<T> MatchProtocolAsync<T>(IEnumerable<T> protocols, Stream stream, CancellationToken cancel) where T : IPeerProtocol
+        {
+            var exceptions = new List<Exception>();
+            T matched = default;
+            foreach (var protocol in protocols)
+            {
+                try
+                {
+                    log.Debug($"Offering protocol: {protocol}");
+                    await EstablishProtocolAsync(protocol.ToString(), stream, cancel).ConfigureAwait(false);
+                    log.Debug($"Agreed on {protocol}");
+                    matched = protocol;
+                    break;
+                }
+                catch (Exception e)
+                {
+                    exceptions.Add(e);
+                    continue;
+                }
+            }
+
+            if (matched == null)
+                throw new AggregateException("Could not agree on the offered protocols", exceptions);
+            return matched;
         }
 
         /// <summary>
