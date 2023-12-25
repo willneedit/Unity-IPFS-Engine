@@ -20,8 +20,8 @@ namespace PeerTalk.SecureCommunication
         [ProtoMember(1)]
         public List<byte[]> WebtransportCerthashes;
 
-        [ProtoMember(2)]
-        public List<string> StreamMuxers;
+        // [ProtoMember(2)]
+        // public List<string> StreamMuxers;
 
     }
 

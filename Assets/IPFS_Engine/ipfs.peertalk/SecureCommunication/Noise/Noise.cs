@@ -283,14 +283,10 @@ namespace PeerTalk.SecureCommunication
                 payload.IdentitySig = connection.LocalPeerKey.Sign(ms.ToArray());
             }
 
-            payload.Extensions = new()
+            payload.Extensions = 
+            new()
             {
-                //StreamMuxers = { "/yamux/1.0.0" }
-                StreamMuxers = new() 
-                {
-                    // "/yamux/1.0.0",
-                    "/mplex/6.7.0"
-                }
+                WebtransportCerthashes = new()
             };
 
             return payload;
