@@ -199,7 +199,15 @@ namespace PeerTalk
             await match.EncryptAsync(this, cancel).ConfigureAwait(false);
 
             await EstablishProtocolAsync("/multistream/", cancel).ConfigureAwait(false);
-            await EstablishProtocolAsync("/mplex/", cancel).ConfigureAwait(false);
+
+            // TODO IMuxerProtocol, merge Muxer <--> Mplex67, implement Yamux
+            IPeerProtocol[] muxerProtocols = new IPeerProtocol[]
+            {
+                new Mplex67()
+            };
+
+            IPeerProtocol muxerMatch = await MatchProtocolAsync(muxerProtocols, Stream, cancel).ConfigureAwait(false);
+            // await EstablishProtocolAsync("/mplex/", cancel).ConfigureAwait(false);
 
             var muxer = new Muxer
             {
@@ -234,7 +242,6 @@ namespace PeerTalk
         public async Task<T> MatchProtocolAsync<T>(IEnumerable<T> protocols, Stream stream, CancellationToken cancel) where T : IPeerProtocol
         {
             var exceptions = new List<Exception>();
-            T matched = default;
             foreach (var protocol in protocols)
             {
                 try
@@ -242,8 +249,7 @@ namespace PeerTalk
                     log.Debug($"Offering protocol: {protocol}");
                     await EstablishProtocolAsync(protocol.ToString(), stream, cancel).ConfigureAwait(false);
                     log.Debug($"Agreed on {protocol}");
-                    matched = protocol;
-                    break;
+                    return protocol;
                 }
                 catch (Exception e)
                 {
@@ -252,9 +258,8 @@ namespace PeerTalk
                 }
             }
 
-            if (matched == null)
-                throw new AggregateException("Could not agree on the offered protocols", exceptions);
-            return matched;
+            // Ran out of options.
+            throw new AggregateException("Could not agree on the offered protocols", exceptions);
         }
 
         /// <summary>
