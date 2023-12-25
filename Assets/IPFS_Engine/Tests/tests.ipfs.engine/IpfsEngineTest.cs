@@ -313,5 +313,26 @@ namespace Ipfs.Engine
                 await ipfs.Config.SetAsync("Addresses.Swarm", swarm);
             }
         }
+
+        [Test]
+        [Ignore("For debugging together with an external server to connect to")]
+        public void PassiveAsync()
+        {
+            Task.Run(Passive).Wait();
+        }
+
+        public async Task Passive()
+        {
+            TestFixture.AssemblyInitialize();
+            IpfsEngine ipfs = TestFixture.Ipfs;
+
+            await ipfs.Bootstrap.RemoveAllAsync();
+
+            await ipfs.StartAsync();
+            await Task.Delay(TimeSpan.FromMinutes(2));
+            await ipfs.StopAsync();
+
+            await ipfs.Bootstrap.AddDefaultsAsync();
+        }
     }
 }

@@ -900,14 +900,91 @@ namespace Ipfs.Engine
         }
 
         [Test]
+        [Ignore("For debugging - needs a node with a 'known good' implementation like https://github.com/ipfs/helia")]
         public void Connect_To_KnownGoodAsync()
         {
             Task.Run(Connect_To_KnownGood).Wait();
+
+#if false
+/* eslint-disable no-console */
+
+import { noise } from '@chainsafe/libp2p-noise'
+import { yamux } from '@chainsafe/libp2p-yamux'
+// import { unixfs } from '@helia/unixfs'
+// import { bootstrap } from '@libp2p/bootstrap'
+import { tcp } from '@libp2p/tcp'
+import { multiaddr } from '@multiformats/multiaddr'
+import { MemoryBlockstore } from 'blockstore-core'
+import { MemoryDatastore } from 'datastore-core'
+import { createHelia } from 'helia'
+import { createLibp2p } from 'libp2p'
+import { identifyService } from 'libp2p/identify'
+
+async function createNode () {
+  // the blockstore is where we store the blocks that make up files
+  const blockstore = new MemoryBlockstore()
+
+  // application-specific data lives in the datastore
+  const datastore = new MemoryDatastore()
+
+  // libp2p is the networking layer that underpins Helia
+  const libp2p = await createLibp2p({
+    datastore,
+    addresses: {
+      listen: [
+        '/ip4/127.0.0.1/tcp/0'
+      ]
+    },
+    transports: [
+      tcp()
+    ],
+    connectionEncryption: [
+      noise()
+    ],
+    streamMuxers: [
+      yamux()
+    ],
+    peerDiscovery: [
+      // bootstrap({
+      //   list: [
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/qmnnoodu7bfjpfotzyxmnlwuqjyrvwtbzg5gbmjtezgajn',
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/qmqcu2ecmqaqqpr2i9bchdtgnjchtbq5tbxjj16u19ulta',
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/qmblhanmojpwscr5zhtx6bhjx9kiknn6tpvbucqanj75nb',
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/qmczf59bwwk5xfi76czx8cbj4bhtzza3gu1zjyzcyw3dwt'
+      //   ]
+      // })
+    ],
+    services: {
+      identify: identifyService()
+    }
+  })
+
+  return await createHelia({
+    datastore,
+    blockstore,
+    libp2p
+  })
+}
+
+// create one helia node
+const node1 = await createNode()
+console.log('node1 addr:', node1.libp2p.getMultiaddrs()[0])
+
+// For testing outgoing connections
+// const addr = multiaddr('/ip4/127.0.0.1/tcp/10234/ipfs/Qmem9kJYvjS3gv6fHs34ZbkewLSbpc2XyUd4apACv6DoRB')
+
+// For the comparison with the bootstrap server's communication
+// const addr = multiaddr('/ip4/145.40.118.135/tcp/4001/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt')
+
+// Uncomment to contact the debuggee or the bootstrapper
+// node1.libp2p.dial(addr)
+
+#endif
         }
 
         public async Task Connect_To_KnownGood()
         {
-            MultiAddress test = new MultiAddress("/ip4/127.0.0.1/tcp/65343/p2p/12D3KooWMLxQjwZicEP8XBSVEtL9NLwGt8ehQZ5dvJSMwNQUowRy");
+            MultiAddress test = new MultiAddress("/ip4/127.0.0.1/tcp/50591/p2p/12D3KooWLyKhDa722xdPuXTHBoQwteEMUqRK23LbsbK7HFDCvqWp");
 
             TestFixture.AssemblyInitialize();
             using (var a = new TempNode())

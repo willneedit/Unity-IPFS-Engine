@@ -21,17 +21,18 @@ namespace Ipfs.Engine
         static TestFixture()
         {
             Ipfs.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-test");
-            Ipfs.Options.KeyChain.DefaultKeySize = 512;
+            Ipfs.Options.KeyChain.DefaultKeyType = "ed25519";
+            Ipfs.Options.KeyChain.DefaultKeySize = 2048;
             Ipfs.Config.SetAsync(
                 "Addresses.Swarm", 
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/0" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/10234" })
             ).Wait();
 
             IpfsOther.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-other");
             IpfsOther.Options.KeyChain.DefaultKeySize = 512;
             IpfsOther.Config.SetAsync(
                 "Addresses.Swarm",
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/0" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/10235" })
             ).Wait();
         }
 
