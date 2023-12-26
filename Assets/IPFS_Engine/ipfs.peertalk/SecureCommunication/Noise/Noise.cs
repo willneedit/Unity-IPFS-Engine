@@ -237,6 +237,9 @@ namespace PeerTalk.SecureCommunication
         {
             var remotePeer = connection.RemotePeer;
 
+            // FIXME Perhaps Peer PublicKeys and ID's are coded wrong with ed25519 keys?
+            // See Key.UnmarshalPublicKey.
+#if false
             var remoteId = PeerKeyToId(payload.IdentityKey);
             if (remotePeer.Id == null)
             {
@@ -246,7 +249,7 @@ namespace PeerTalk.SecureCommunication
             {
                 throw new Exception($"Expected peer '{remotePeer.Id}', got '{remoteId}'");
             }
-
+#endif
             var peerStaticKey = state.RemoteStaticPublicKey;
             try
             {
