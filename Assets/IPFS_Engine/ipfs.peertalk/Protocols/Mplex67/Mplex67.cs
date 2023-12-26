@@ -38,12 +38,6 @@ namespace PeerTalk.Protocols
             return AttachMuxerAsync(connection, stream, cancel);
         }
 
-        /// <inheritdoc />
-        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
-        {
-            return Task.CompletedTask;
-        }
-
         public async Task AttachMuxerAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
         {
             log.Debug("start processing requests from " + connection.RemoteAddress);
