@@ -1,6 +1,7 @@
 ﻿using Common.Logging;
 using Ipfs;
 using Nito.AsyncEx;
+using PeerTalk.Multiplex;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.Multiplex
+namespace PeerTalk.Protocols
 {
     /// <summary>
     ///   Supports multiple protocols over a single channel (stream).
@@ -58,7 +59,7 @@ namespace PeerTalk.Multiplex
         public event EventHandler<Substream> SubstreamClosed;
 
         readonly AsyncLock ChannelWriteLock = new AsyncLock();
-        
+
         /// <summary>
         ///   The substreams that are open.
         /// </summary>
@@ -109,7 +110,7 @@ namespace PeerTalk.Multiplex
         /// <returns>
         ///   A duplex stream.
         /// </returns>
-        public async Task<Substream> CreateStreamAsync(string name = "", CancellationToken cancel = default(CancellationToken))
+        public async Task<Substream> CreateStreamAsync(string name = "", CancellationToken cancel = default)
         {
             var streamId = NextStreamId;
             NextStreamId += 2;
@@ -141,7 +142,7 @@ namespace PeerTalk.Multiplex
         /// <remarks>
         ///   Internal method called by Substream.Dispose().
         /// </remarks>
-        public async Task<Substream> RemoveStreamAsync(Substream stream, CancellationToken cancel = default(CancellationToken))
+        public async Task<Substream> RemoveStreamAsync(Substream stream, CancellationToken cancel = default)
         {
             if (Substreams.TryRemove(stream.Id, out Substream _))
             {
@@ -174,7 +175,7 @@ namespace PeerTalk.Multiplex
         ///   Any encountered errors will close the <see cref="Channel"/>.
         ///   </para>
         /// </remarks>
-        public async Task ProcessRequestsAsync(CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessRequestsAsync(CancellationToken cancel = default)
         {
             try
             {
@@ -182,7 +183,7 @@ namespace PeerTalk.Multiplex
                 {
                     // Read the packet prefix.
                     var header = await Header.ReadAsync(Channel, cancel).ConfigureAwait(false);
-                    var length = await Varint.ReadVarint32Async(Channel, cancel).ConfigureAwait(false);
+                    var length = await Channel.ReadVarint32Async(cancel).ConfigureAwait(false);
                     if (log.IsTraceEnabled)
                         log.TraceFormat("received '{0}', stream={1}, length={2}", header.PacketType, header.StreamId, length);
 

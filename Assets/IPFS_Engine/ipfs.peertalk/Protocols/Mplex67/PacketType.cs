@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PeerTalk.Multiplex
+namespace PeerTalk.Protocols
 {
     /// <summary>
     ///   The purpose of the multiplex message.

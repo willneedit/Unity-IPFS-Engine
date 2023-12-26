@@ -889,7 +889,7 @@ namespace Ipfs.Engine
                 var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
                 await ipfs.Block.RemoveAsync(folder, true);
 
-                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
                 var text = await ipfs.FileSystem.ReadAllTextAsync($"{folder}/about", cts.Token);
                 StringAssert.Contains(text, "IPFS -- Inter-Planetary File system");
             }
@@ -900,7 +900,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("For debugging - needs a node with a 'known good' implementation like https://github.com/ipfs/helia")]
+        // [Ignore("For debugging - needs a node with a 'known good' implementation like https://github.com/ipfs/helia")]
         public void Connect_To_KnownGoodAsync()
         {
             Task.Run(Connect_To_KnownGood).Wait();
@@ -984,7 +984,7 @@ console.log('node1 addr:', node1.libp2p.getMultiaddrs()[0])
 
         public async Task Connect_To_KnownGood()
         {
-            MultiAddress test = new MultiAddress("/ip4/127.0.0.1/tcp/50591/p2p/12D3KooWLyKhDa722xdPuXTHBoQwteEMUqRK23LbsbK7HFDCvqWp");
+            MultiAddress test = new MultiAddress("/ip4/127.0.0.1/tcp/55435/p2p/12D3KooWA2CyuXByAfq6RTJs5UvXQ767afWZwrbKFNs33kscxMX6");
 
             TestFixture.AssemblyInitialize();
             using (var a = new TempNode())

@@ -16,7 +16,7 @@ namespace PeerTalk.Protocols
     ///    A Stream Multiplexer protocol.
     /// </summary>
     /// <seealso href="https://github.com/libp2p/mplex"/>
-    public class Mplex67 : IPeerProtocol
+    public class Mplex67 : IMuxerProtocol
     {
         static ILog log = LogManager.GetLogger(typeof(Mplex67));
 
@@ -33,14 +33,25 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
+        public Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
+        {
+            return AttachMuxerAsync(connection, stream, cancel);
+        }
+
+        /// <inheritdoc />
+        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
+        {
+            return Task.CompletedTask;
+        }
+
+        public async Task AttachMuxerAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
         {
             log.Debug("start processing requests from " + connection.RemoteAddress);
             var muxer = new Muxer
             {
                 Channel = stream,
                 Connection = connection,
-                Receiver = true
+                Initiator = !connection.IsIncoming
             };
             muxer.SubstreamCreated += (s, e) => _ = connection.ReadMessagesAsync(e, CancellationToken.None);
 
@@ -49,12 +60,6 @@ namespace PeerTalk.Protocols
             await muxer.ProcessRequestsAsync().ConfigureAwait(false);
 
             log.Debug("stop processing from " + connection.RemoteAddress);
-        }
-
-        /// <inheritdoc />
-        public Task ProcessResponseAsync(PeerConnection connection, CancellationToken cancel = default(CancellationToken))
-        {
-            return Task.CompletedTask;
         }
     }
 }

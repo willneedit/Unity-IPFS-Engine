@@ -1,7 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
 using PeerTalk.Cryptography;
-using PeerTalk.Multiplex;
 using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;
@@ -187,9 +186,12 @@ namespace PeerTalk
             CancellationToken cancel = default(CancellationToken))
         {
             IEncryptionProtocol[] securityProtocols = null;
+            IMuxerProtocol[] muxerProtocols = null;
+
             lock (protocols)
             {
                 securityProtocols = protocols.OfType<IEncryptionProtocol>().ToArray();
+                muxerProtocols = protocols.OfType<IMuxerProtocol>().ToArray();
             }
 
             await EstablishProtocolAsync("/multistream/", cancel).ConfigureAwait(false);
@@ -201,24 +203,9 @@ namespace PeerTalk
             await EstablishProtocolAsync("/multistream/", cancel).ConfigureAwait(false);
 
             // TODO IMuxerProtocol, merge Muxer <--> Mplex67, implement Yamux
-            IPeerProtocol[] muxerProtocols = new IPeerProtocol[]
-            {
-                new Mplex67()
-            };
 
-            IPeerProtocol muxerMatch = await MatchProtocolAsync(muxerProtocols, Stream, cancel).ConfigureAwait(false);
-            // await EstablishProtocolAsync("/mplex/", cancel).ConfigureAwait(false);
-
-            var muxer = new Muxer
-            {
-                Channel = Stream,
-                Initiator = true,
-                Connection = this
-            };
-            muxer.SubstreamCreated += (s, e) => _ = ReadMessagesAsync(e, CancellationToken.None);
-            this.MuxerEstablished.SetResult(muxer);
-
-            _ = muxer.ProcessRequestsAsync();
+            IMuxerProtocol muxerMatch = await MatchProtocolAsync(muxerProtocols, Stream, cancel).ConfigureAwait(false);
+            _ = muxerMatch.AttachMuxerAsync(this, Stream, cancel).ConfigureAwait(false);
         }
 
         /// <summary>

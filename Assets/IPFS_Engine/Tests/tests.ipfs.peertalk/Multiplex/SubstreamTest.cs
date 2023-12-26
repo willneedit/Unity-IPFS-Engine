@@ -1,5 +1,6 @@
 ﻿using Ipfs;
 using NUnit.Framework;
+using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -169,7 +170,7 @@ namespace PeerTalk.Multiplex
 		public async Task Writing()
         {
             var ms = new MemoryStream();
-            var muxer = new Muxer { Channel = ms };
+            var muxer = new Protocols.Muxer { Channel = ms };
             var stream = new Substream { Muxer = muxer };
             var m1 = new byte[1];
             stream.AddData(new byte[] { 10 });

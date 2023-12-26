@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.Multiplex
+namespace PeerTalk.Protocols
 {
     /// <summary>
     ///   The header of a multiplex message.
@@ -63,10 +63,10 @@ namespace PeerTalk.Multiplex
         /// <returns>
         ///   A task that represents the asynchronous operation.
         /// </returns>
-        public async Task WriteAsync(Stream stream, CancellationToken cancel = default(CancellationToken))
+        public async Task WriteAsync(Stream stream, CancellationToken cancel = default)
         {
-            var header = (StreamId << 3) | (long)PacketType;
-            await Varint.WriteVarintAsync(stream, header, cancel).ConfigureAwait(false);
+            var header = StreamId << 3 | (long)PacketType;
+            await stream.WriteVarintAsync(header, cancel).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace PeerTalk.Multiplex
         ///   A task that represents the asynchronous operation.  The task's result
         ///   is the decoded <see cref="Header"/>.
         /// </returns>
-        public static async Task<Header> ReadAsync(Stream stream, CancellationToken cancel = default(CancellationToken))
+        public static async Task<Header> ReadAsync(Stream stream, CancellationToken cancel = default)
         {
-            var varint = await Varint.ReadVarint64Async(stream, cancel).ConfigureAwait(false);
+            var varint = await stream.ReadVarint64Async(cancel).ConfigureAwait(false);
             return new Header
             {
                 StreamId = varint >> 3,

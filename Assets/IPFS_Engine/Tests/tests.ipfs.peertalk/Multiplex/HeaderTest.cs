@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;
 using System.IO;

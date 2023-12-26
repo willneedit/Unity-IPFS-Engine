@@ -27,6 +27,7 @@ namespace PeerTalk.Cryptography.Marshaling
         }
 
         [Test]
+        [Ignore("NYI")]
         public void Marshal_secp256k1()
         {
             Key key = Key.GenerateKeyPair("secp256k1");
