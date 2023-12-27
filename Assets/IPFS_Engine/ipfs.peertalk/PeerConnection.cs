@@ -136,7 +136,7 @@ namespace PeerTalk
         /// <remarks>
         ///   This can be awaited.
         /// </remarks>
-        public TaskCompletionSource<bool> SecurityEstablished { get; } = new TaskCompletionSource<bool>();
+        public TaskCompletionSource<bool> SecurityEstablished { get; } = new();
 
         /// <summary>
         ///   Signals that the muxer for the connection is established.
@@ -144,7 +144,7 @@ namespace PeerTalk
         /// <remarks>
         ///   This can be awaited.
         /// </remarks>
-        public TaskCompletionSource<MplexMuxer> MuxerEstablished { get; } = new TaskCompletionSource<MplexMuxer>();
+        public TaskCompletionSource<IMuxerControl> MuxerEstablished { get; } = new();
 
         /// <summary>
         ///   Signals that the identity of the remote endpoint is established.
@@ -156,7 +156,7 @@ namespace PeerTalk
         ///   The data in <see cref="RemotePeer"/> is not complete until
         ///   the identity is establish.
         /// </remarks>
-        public TaskCompletionSource<Peer> IdentityEstablished { get; } = new TaskCompletionSource<Peer>();
+        public TaskCompletionSource<Peer> IdentityEstablished { get; } = new();
 
         /// <summary>
         ///   When the connection was last used.

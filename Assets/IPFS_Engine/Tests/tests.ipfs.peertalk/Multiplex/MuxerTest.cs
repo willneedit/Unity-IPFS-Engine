@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 namespace PeerTalk.Muxer
 {
     [TestFixture]
-    public class MuxerTest
+    public class MplexMuxerTest
     {
         [Test]
         public void Defaults()
         {
             var muxer = new MplexMuxer();
             Assert.AreEqual(true, muxer.Initiator);
-            Assert.AreEqual(false, muxer.Receiver);
         }
 
         [Test]
@@ -26,12 +25,10 @@ namespace PeerTalk.Muxer
         {
             var muxer = new MplexMuxer { Initiator = true };
             Assert.AreEqual(true, muxer.Initiator);
-            Assert.AreEqual(false, muxer.Receiver);
             Assert.AreEqual(0, muxer.NextStreamId & 1);
 
-            muxer.Receiver = true;
+            muxer.Initiator = false;
             Assert.AreEqual(false, muxer.Initiator);
-            Assert.AreEqual(true, muxer.Receiver);
             Assert.AreEqual(1, muxer.NextStreamId & 1);
         }
 

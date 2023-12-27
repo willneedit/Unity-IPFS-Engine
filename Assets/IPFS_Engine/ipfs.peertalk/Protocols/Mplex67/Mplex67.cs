@@ -37,7 +37,7 @@ namespace PeerTalk.Muxer
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
         {
             log.Debug("start processing requests from " + connection.RemoteAddress);
-            var muxer = new MplexMuxer
+            IMuxerControl muxer = new MplexMuxer
             {
                 Channel = stream,
                 Connection = connection,

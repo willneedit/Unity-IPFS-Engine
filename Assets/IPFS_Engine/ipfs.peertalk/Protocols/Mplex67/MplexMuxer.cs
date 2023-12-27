@@ -20,7 +20,7 @@ namespace PeerTalk.Muxer
     /// <remarks>
     ///   See <see href="https://github.com/libp2p/mplex"/> for the spec.
     /// </remarks>
-    public class MplexMuxer
+    public class MplexMuxer : IMuxerControl
     {
         static ILog log = LogManager.GetLogger(typeof(MplexMuxer));
 
@@ -74,7 +74,6 @@ namespace PeerTalk.Muxer
         /// <value>
         ///   <b>true</b> if the muxer is the initiator.
         /// </value>
-        /// <seealso cref="Receiver"/>
         public bool Initiator
         {
             get { return (NextStreamId & 1) == 0; }
@@ -83,19 +82,6 @@ namespace PeerTalk.Muxer
                 if (value != Initiator)
                     NextStreamId += 1;
             }
-        }
-
-        /// <summary>
-        ///   Determines if the muxer is the receiver.
-        /// </summary>
-        /// <value>
-        ///   <b>true</b> if the muxer is the receiver.
-        /// </value>
-        /// <seealso cref="Initiator"/>
-        public bool Receiver
-        {
-            get { return !Initiator; }
-            set { Initiator = !value; }
         }
 
         /// <summary>
@@ -216,7 +202,7 @@ namespace PeerTalk.Muxer
 
                             // Special hack for go-ipfs
 #if true
-                            if (Receiver && (substream.Id & 1) == 1)
+                            if (!Initiator && (substream.Id & 1) == 1)
                             {
                                 log.Debug($"go-hack sending newstream {substream.Id}");
                                 using (await AcquireWriteAccessAsync().ConfigureAwait(false))

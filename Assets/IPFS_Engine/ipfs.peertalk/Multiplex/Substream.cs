@@ -59,7 +59,7 @@ namespace PeerTalk.Multiplex
         /// <summary>
         ///   The multiplexor associated with the substream.
         /// </summary>
-        public MplexMuxer Muxer { get; set; }
+        public IMuxerControl Muxer { get; set; }
 
         /// <inheritdoc />
         public override bool CanRead => !eos;
