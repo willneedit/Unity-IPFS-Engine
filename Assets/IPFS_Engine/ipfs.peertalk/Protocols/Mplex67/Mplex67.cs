@@ -1,14 +1,8 @@
-﻿using Ipfs;
-using Common.Logging;
+﻿using Common.Logging;
 using Semver;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using PeerTalk.Multiplex;
 using PeerTalk.Protocols;
 
 namespace PeerTalk.Muxer
@@ -37,7 +31,7 @@ namespace PeerTalk.Muxer
         public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
         {
             log.Debug("start processing requests from " + connection.RemoteAddress);
-            IMuxerControl muxer = new MplexMuxer
+            MplexMuxer muxer = new()
             {
                 Channel = stream,
                 Connection = connection,

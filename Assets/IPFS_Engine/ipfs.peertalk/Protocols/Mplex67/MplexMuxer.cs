@@ -51,12 +51,12 @@ namespace PeerTalk.Muxer
         /// <summary>
         ///   Raised when the remote end creates a new stream.
         /// </summary>
-        public event EventHandler<Substream> SubstreamCreated;
+        public event EventHandler<Stream> SubstreamCreated;
 
         /// <summary>
         ///   Raised when the remote end closes a stream.
         /// </summary>
-        public event EventHandler<Substream> SubstreamClosed;
+        public event EventHandler<Stream> SubstreamClosed;
 
         readonly AsyncLock ChannelWriteLock = new AsyncLock();
 
@@ -96,7 +96,7 @@ namespace PeerTalk.Muxer
         /// <returns>
         ///   A duplex stream.
         /// </returns>
-        public async Task<Substream> CreateStreamAsync(string name = "", CancellationToken cancel = default)
+        public async Task<Stream> CreateStreamAsync(string name = "", CancellationToken cancel = default)
         {
             var streamId = NextStreamId;
             NextStreamId += 2;
@@ -128,7 +128,7 @@ namespace PeerTalk.Muxer
         /// <remarks>
         ///   Internal method called by Substream.Dispose().
         /// </remarks>
-        public async Task<Substream> RemoveStreamAsync(Substream stream, CancellationToken cancel = default)
+        public async Task RemoveStreamAsync(Substream stream, CancellationToken cancel = default)
         {
             if (Substreams.TryRemove(stream.Id, out Substream _))
             {
@@ -146,7 +146,7 @@ namespace PeerTalk.Muxer
                 }
             }
 
-            return stream;
+            return;
         }
 
         /// <summary>
