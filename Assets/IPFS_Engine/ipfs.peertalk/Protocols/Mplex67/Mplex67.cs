@@ -9,8 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using PeerTalk.Multiplex;
+using PeerTalk.Protocols;
 
-namespace PeerTalk.Protocols
+namespace PeerTalk.Muxer
 {
     /// <summary>
     ///    A Stream Multiplexer protocol.
@@ -33,7 +34,7 @@ namespace PeerTalk.Protocols
         }
 
         /// <inheritdoc />
-        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default(CancellationToken))
+        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
         {
             log.Debug("start processing requests from " + connection.RemoteAddress);
             var muxer = new MplexMuxer

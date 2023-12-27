@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.Protocols
+namespace PeerTalk.Muxer
 {
     /// <summary>
     ///   Supports multiple protocols over a single channel (stream).

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.Protocols
+namespace PeerTalk.Muxer
 {
     [TestFixture]
     public class MuxerTest

@@ -46,7 +46,7 @@ namespace PeerTalk
             new SecureCommunication.Noise(), // Missing: unmanaged libsodium
             new SecureCommunication.Secio1(),
             new Identify1(),
-            new Mplex67()
+            new Muxer.Mplex67()
         };
 
         /// <summary>

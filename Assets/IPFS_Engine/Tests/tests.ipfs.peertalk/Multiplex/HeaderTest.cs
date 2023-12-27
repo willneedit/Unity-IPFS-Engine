@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using PeerTalk.Protocols;
+using PeerTalk.Muxer;
 using System;
 using System.Collections.Generic;
 using System.IO;

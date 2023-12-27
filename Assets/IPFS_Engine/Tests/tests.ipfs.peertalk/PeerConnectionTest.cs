@@ -65,7 +65,7 @@ namespace PeerTalk
             connection.AddProtocol(new Identify1());
             Assert.AreEqual(1, connection.Protocols.Count);
 
-            connection.AddProtocols(new IPeerProtocol[] { new Mplex67(), new Plaintext1() });
+            connection.AddProtocols(new IPeerProtocol[] { new Muxer.Mplex67(), new Plaintext1() });
             Assert.AreEqual(3, connection.Protocols.Count);
         }
 

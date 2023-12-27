@@ -1,6 +1,7 @@
 ﻿using Common.Logging;
 using Ipfs;
 using PeerTalk.Cryptography;
+using PeerTalk.Muxer;
 using PeerTalk.Protocols;
 using System;
 using System.Collections.Generic;

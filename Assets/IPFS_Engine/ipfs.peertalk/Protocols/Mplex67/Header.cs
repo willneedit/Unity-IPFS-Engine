@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PeerTalk.Protocols
+namespace PeerTalk.Muxer
 {
     /// <summary>
     ///   The header of a multiplex message.
