@@ -12,9 +12,5 @@ namespace PeerTalk.Protocols
     /// <summary>
     ///   Applies a stream multiplexer to a <see cref="PeerConnection"/>.
     /// </summary>
-    public interface IMuxerProtocol : IPeerProtocol
-    {
-        public Task AttachMuxerAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default);
-
-    }
+    public interface IMuxerProtocol : IPeerProtocol    {    }
 }

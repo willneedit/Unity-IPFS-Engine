@@ -205,7 +205,7 @@ namespace PeerTalk
             // TODO IMuxerProtocol, merge Muxer <--> Mplex67, implement Yamux
 
             IMuxerProtocol muxerMatch = await MatchProtocolAsync(muxerProtocols, Stream, cancel).ConfigureAwait(false);
-            _ = muxerMatch.AttachMuxerAsync(this, Stream, cancel).ConfigureAwait(false);
+            _ = muxerMatch.ProcessMessageAsync(this, Stream, cancel).ConfigureAwait(false);
         }
 
         /// <summary>
