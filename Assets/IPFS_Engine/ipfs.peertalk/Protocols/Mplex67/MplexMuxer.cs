@@ -20,9 +20,9 @@ namespace PeerTalk.Protocols
     /// <remarks>
     ///   See <see href="https://github.com/libp2p/mplex"/> for the spec.
     /// </remarks>
-    public class Muxer
+    public class MplexMuxer
     {
-        static ILog log = LogManager.GetLogger(typeof(Muxer));
+        static ILog log = LogManager.GetLogger(typeof(MplexMuxer));
 
         /// <summary>
         ///   The next stream ID to create.

@@ -16,7 +16,7 @@ namespace PeerTalk.Protocols
         [Test]
         public void Defaults()
         {
-            var muxer = new Muxer();
+            var muxer = new MplexMuxer();
             Assert.AreEqual(true, muxer.Initiator);
             Assert.AreEqual(false, muxer.Receiver);
         }
@@ -24,7 +24,7 @@ namespace PeerTalk.Protocols
         [Test]
         public void InitiatorReceiver()
         {
-            var muxer = new Muxer { Initiator = true };
+            var muxer = new MplexMuxer { Initiator = true };
             Assert.AreEqual(true, muxer.Initiator);
             Assert.AreEqual(false, muxer.Receiver);
             Assert.AreEqual(0, muxer.NextStreamId & 1);
@@ -44,7 +44,7 @@ namespace PeerTalk.Protocols
 		public async Task NewStream_Send()
         {
             var channel = new MemoryStream();
-            var muxer = new Muxer { Channel = channel, Initiator = true };
+            var muxer = new MplexMuxer { Channel = channel, Initiator = true };
             var nextId = muxer.NextStreamId;
             var stream = await muxer.CreateStreamAsync("foo");
 
@@ -76,12 +76,12 @@ namespace PeerTalk.Protocols
 		public async Task NewStream_Receive()
         {
             var channel = new MemoryStream();
-            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var muxer1 = new MplexMuxer { Channel = channel, Initiator = true };
             var foo = await muxer1.CreateStreamAsync("foo");
             var bar = await muxer1.CreateStreamAsync("bar");
 
             channel.Position = 0;
-            var muxer2 = new Muxer { Channel = channel };
+            var muxer2 = new MplexMuxer { Channel = channel };
             int n = 0;
             muxer2.SubstreamCreated += (s, e) => ++n;
             await muxer2.ProcessRequestsAsync();
@@ -97,13 +97,13 @@ namespace PeerTalk.Protocols
 		public async Task NewStream_AlreadyAssigned()
         {
             var channel = new MemoryStream();
-            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var muxer1 = new MplexMuxer { Channel = channel, Initiator = true };
             var foo = await muxer1.CreateStreamAsync("foo");
-            var muxer2 = new Muxer { Channel = channel, Initiator = true };
+            var muxer2 = new MplexMuxer { Channel = channel, Initiator = true };
             var bar = await muxer2.CreateStreamAsync("bar");
 
             channel.Position = 0;
-            var muxer3 = new Muxer { Channel = channel };
+            var muxer3 = new MplexMuxer { Channel = channel };
             await muxer3.ProcessRequestsAsync(new CancellationTokenSource(500).Token);
        
             // The channel is closed because of 2 new streams with same id.
@@ -120,12 +120,12 @@ namespace PeerTalk.Protocols
 		public async Task NewStream_Event()
         {
             var channel = new MemoryStream();
-            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var muxer1 = new MplexMuxer { Channel = channel, Initiator = true };
             var foo = await muxer1.CreateStreamAsync("foo");
             var bar = await muxer1.CreateStreamAsync("bar");
 
             channel.Position = 0;
-            var muxer2 = new Muxer { Channel = channel };
+            var muxer2 = new MplexMuxer { Channel = channel };
             int createCount = 0;
             muxer2.SubstreamCreated += (s, e) =>
             {
@@ -144,7 +144,7 @@ namespace PeerTalk.Protocols
 		public async Task CloseStream_Event()
         {
             var channel = new MemoryStream();
-            var muxer1 = new Muxer { Channel = channel, Initiator = true };
+            var muxer1 = new MplexMuxer { Channel = channel, Initiator = true };
             using (var foo = await muxer1.CreateStreamAsync("foo"))
             using (var bar = await muxer1.CreateStreamAsync("bar"))
             {
@@ -152,7 +152,7 @@ namespace PeerTalk.Protocols
             }
 
             channel.Position = 0;
-            var muxer2 = new Muxer { Channel = channel };
+            var muxer2 = new MplexMuxer { Channel = channel };
             int closeCount = 0;
             muxer2.SubstreamClosed += (s, e) =>
             {
@@ -170,7 +170,7 @@ namespace PeerTalk.Protocols
 
 		public async Task AcquireWrite()
         {
-            var muxer = new Muxer();
+            var muxer = new MplexMuxer();
             var tasks = new List<Task<string>>
             {
                 Task<string>.Run(async () =>

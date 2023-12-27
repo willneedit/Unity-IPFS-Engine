@@ -143,7 +143,7 @@ namespace PeerTalk
         /// <remarks>
         ///   This can be awaited.
         /// </remarks>
-        public TaskCompletionSource<Muxer> MuxerEstablished { get; } = new TaskCompletionSource<Muxer>();
+        public TaskCompletionSource<MplexMuxer> MuxerEstablished { get; } = new TaskCompletionSource<MplexMuxer>();
 
         /// <summary>
         ///   Signals that the identity of the remote endpoint is established.
