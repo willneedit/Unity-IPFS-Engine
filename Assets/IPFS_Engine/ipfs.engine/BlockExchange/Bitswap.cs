@@ -75,6 +75,7 @@ namespace Ipfs.Engine.BlockExchange
         {
             Protocols = new IBitswapProtocol[]
             {
+                new Bitswap12 { Bitswap = this },
                 new Bitswap11 { Bitswap = this },
                 new Bitswap1 { Bitswap = this }
             };
@@ -508,9 +509,9 @@ namespace Ipfs.Engine.BlockExchange
                     }
                     return;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    log.Debug($"{peer} refused {protocol}");
+                    log.Debug($"{peer} refused {protocol} ({e.Message})");
                 }
             }
 

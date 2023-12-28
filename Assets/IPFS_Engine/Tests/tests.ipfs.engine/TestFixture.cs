@@ -25,14 +25,14 @@ namespace Ipfs.Engine
             Ipfs.Options.KeyChain.DefaultKeySize = 2048;
             Ipfs.Config.SetAsync(
                 "Addresses.Swarm", 
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/10234" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/12345" })
             ).Wait();
 
             IpfsOther.Options.Repository.Folder = Path.Combine(Path.GetTempPath(), "ipfs-other");
             IpfsOther.Options.KeyChain.DefaultKeySize = 512;
             IpfsOther.Config.SetAsync(
                 "Addresses.Swarm",
-                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/10235" })
+                JToken.FromObject(new string[] { "/ip4/0.0.0.0/tcp/12346" })
             ).Wait();
         }
 
