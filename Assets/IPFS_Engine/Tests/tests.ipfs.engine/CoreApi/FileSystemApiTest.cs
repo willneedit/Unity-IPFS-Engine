@@ -1,6 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Tar;
 using Ipfs.CoreApi;
 using NUnit.Framework;
+using Org.BouncyCastle.Crypto.Prng;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1047,6 +1048,135 @@ console.log('node1 addr:', node1.libp2p.getMultiaddrs()[0])
                 var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 var content = await a.FileSystem.ReadAllTextAsync(cid, cts.Token);
                 Assert.AreEqual("some content", content);
+            }
+        }
+
+        [Test]
+        public void Read_From_AlienNodeAsync()
+        {
+            Task.Run(Read_From_AlienNode).Wait();
+
+// Corresponding node setup: https://github.com/ipfs-examples/helia-examples.git
+#if false
+/* eslint-disable no-console */
+
+import { noise } from '@chainsafe/libp2p-noise'
+// import { yamux } from '@chainsafe/libp2p-yamux'
+import { unixfs } from '@helia/unixfs'
+import { mplex } from '@libp2p/mplex'
+// import { bootstrap } from '@libp2p/bootstrap'
+import { tcp } from '@libp2p/tcp'
+import { MemoryBlockstore } from 'blockstore-core'
+import { MemoryDatastore } from 'datastore-core'
+import { createHelia } from 'helia'
+import { createLibp2p } from 'libp2p'
+import { identifyService } from 'libp2p/identify'
+
+async function createNode () {
+  // the blockstore is where we store the blocks that make up files
+  const blockstore = new MemoryBlockstore()
+
+  // application-specific data lives in the datastore
+  const datastore = new MemoryDatastore()
+
+  // libp2p is the networking layer that underpins Helia
+  const libp2p = await createLibp2p({
+    datastore,
+    addresses: {
+      listen: [
+        '/ip4/127.0.0.1/tcp/0'
+      ]
+    },
+    transports: [
+      tcp()
+    ],
+    connectionEncryption: [
+      noise()
+    ],
+    streamMuxers: [
+      mplex()
+    ],
+    peerDiscovery: [
+      // bootstrap({
+      //   list: [
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/QmNnooDu7bfjPFoTZYxMNLWUQJyrVwtbZg5gBMjTezGAJN',
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/QmQCU2EcMqAqQPR2i9bChDtGNJchTbq5TbXJJ16u19uLTa',
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/QmbLHAnMoJPWSCR5Zhtx6BHJX9KiKNN6tpvbUcqanj75Nb',
+      //     '/dnsaddr/bootstrap.libp2p.io/p2p/QmcZf59bWwK5XFi76CZX8cbJ4BhTzzA3gU1ZjYZcYW3dwt'
+      //   ]
+      // })
+    ],
+    services: {
+      identify: identifyService()
+    }
+  })
+
+  return await createHelia({
+    datastore,
+    blockstore,
+    libp2p
+  })
+}
+
+// create two helia nodes
+const node1 = await createNode()
+const node2 = await createNode()
+
+// connect them together
+const multiaddrs = node2.libp2p.getMultiaddrs()
+await node1.libp2p.dial(multiaddrs[0])
+
+// create a filesystem on top of Helia, in this case it's UnixFS
+const fs = unixfs(node1)
+
+// we will use this TextEncoder to turn strings into Uint8Arrays
+const encoder = new TextEncoder()
+
+// add the bytes to your node and receive a unique content identifier
+const cid = await fs.addBytes(encoder.encode('Hello World 301'))
+
+// create a filesystem on top of the second Helia node
+const fs2 = unixfs(node2)
+
+// this decoder will turn Uint8Arrays into strings
+const decoder = new TextDecoder()
+let text = ''
+
+// use the second Helia node to fetch the file from the first Helia node
+for await (const chunk of fs2.cat(cid)) {
+  text += decoder.decode(chunk, {
+    stream: true
+  })
+}
+
+console.log('Added file:', cid.toString())
+console.log('Node2 addr:', multiaddrs[0])
+console.log('Fetched file contents:', text)
+#endif
+        }
+
+        private async Task Read_From_AlienNode()
+        {
+            MultiAddress uplink = new("/ip4/127.0.0.1/tcp/54483/p2p/12D3KooWA9VRseBXT9sNvA5j9331NVLUsqrGWASwmWCJZoj6eneS"); // Copy and saste the Node2 add here
+            string file = "bafkreia7g3sdmf5f3s4uihaqyzzqb7mugg32yuqnm2q5b5jwtklh36ggkm"; // Should be constant
+
+            using (TempNode nodeA = new TempNode())
+            {
+                var psk = new PeerTalk.Cryptography.PreSharedKey().Generate();
+
+                // Start bootstrap node.
+                nodeA.Options.Discovery.DisableMdns = false;
+                nodeA.Options.Swarm.MinConnections = 0;
+                nodeA.Options.Swarm.PrivateNetworkKey = null;
+                nodeA.Options.Discovery.BootstrapPeers = new MultiAddress[0];
+
+                await nodeA.StartAsync();
+                await nodeA.Swarm.ConnectAsync(uplink);
+
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                var content = await nodeA.FileSystem.ReadAllTextAsync(file, cts.Token);
+
+                Assert.AreEqual("Hello World 301", content);
             }
         }
 
