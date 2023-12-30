@@ -19,6 +19,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Ipfs.Core.Cryptography.Proto;
+
 namespace Ipfs.Engine.Cryptography
 {
     /// <summary>
@@ -173,16 +175,16 @@ namespace Ipfs.Engine.Cryptography
                         .CreateSubjectPublicKeyInfo(kp.Public)
                         .GetDerEncoded();
                     // Add protobuf cruft.
-                    var publicKey = new Proto.PublicKey
+                    var publicKey = new PublicKey
                     {
                         Data = spki
                     };
                     if (kp.Public is RsaKeyParameters)
-                        publicKey.Type = Proto.KeyType.RSA;
+                        publicKey.Type = KeyType.RSA;
                     else if (kp.Public is Ed25519PublicKeyParameters)
-                        publicKey.Type = Proto.KeyType.Ed25519;
+                        publicKey.Type = KeyType.Ed25519;
                     else if (kp.Public is ECPublicKeyParameters)
-                        publicKey.Type = Proto.KeyType.Secp256k1;
+                        publicKey.Type = KeyType.Secp256k1;
                     else
                         throw new NotSupportedException($"The key type {kp.Public.GetType().Name} is not supported.");
 
@@ -404,18 +406,18 @@ namespace Ipfs.Engine.Cryptography
         private static MultiHash CreateKeyId(AsymmetricKeyParameter template, byte[] spki)
         {
             // Add protobuf cruft.
-            var publicKey = new Proto.PublicKey
+            var publicKey = new PublicKey
             {
                 Data = spki
             };
             if (template is RsaKeyParameters)
-                publicKey.Type = Proto.KeyType.RSA;
+                publicKey.Type = KeyType.RSA;
             else if (template is ECPublicKeyParameters)
-                publicKey.Type = Proto.KeyType.Secp256k1;
+                publicKey.Type = KeyType.Secp256k1;
             else if (template is Ed25519PublicKeyParameters)
             {
                 publicKey.Data = spki[12..];
-                publicKey.Type = Proto.KeyType.Ed25519;
+                publicKey.Type = KeyType.Ed25519;
             }
             else
                 throw new NotSupportedException($"The key type {template.GetType().Name} is not supported.");
@@ -437,15 +439,7 @@ namespace Ipfs.Engine.Cryptography
 
         public static MultiHash CreateKeyId(byte[] spki)
         {
-            AsymmetricKeyParameter pk = PublicKeyFactory.CreateKey(spki);
-
-            Proto.KeyType type;
-            if (pk is RsaKeyParameters) type = Proto.KeyType.RSA;
-            else if (pk is Ed25519PublicKeyParameters) type = Proto.KeyType.Ed25519;
-            else if (pk is ECPublicKeyParameters) type = Proto.KeyType.Secp256k1;
-            else throw new NotImplementedException();
-
-            return CreateKeyId(pk, spki);
+            return CreateKeyId(PublicKeyFactory.CreateKey(spki), spki);
         }
 
         AsymmetricCipherKeyPair GetKeyPairFromPrivateKey(AsymmetricKeyParameter privateKey)

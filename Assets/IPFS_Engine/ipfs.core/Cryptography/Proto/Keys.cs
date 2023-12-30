@@ -1,8 +1,8 @@
-﻿using ProtoBuf;
+using ProtoBuf;
 
-namespace Ipfs.Engine.Cryptography.Proto
+namespace Ipfs.Core.Cryptography.Proto
 {
-    enum KeyType
+    public enum KeyType
     {
         RSA = 0,
         Ed25519 = 1,
@@ -11,7 +11,7 @@ namespace Ipfs.Engine.Cryptography.Proto
     }
 
     [ProtoContract]
-    class PublicKey
+    public class PublicKey
     {
         [ProtoMember(1, IsRequired = true)]
         public KeyType Type;
