@@ -479,12 +479,7 @@ namespace Ipfs
         public bool Matches(Stream data)
         {
             var digest = Algorithm.Hasher().ComputeHash(data);
-            for (int i = digest.Length - 1; 0 <= i; --i)
-            {
-                if (digest[i] != Digest[i])
-                    return false;
-            }
-            return true;
+            return digest != null && digest.SequenceEqual(Digest);
         }
 
         void RaiseUnknownHashingAlgorithm(HashingAlgorithm algorithm)
