@@ -73,6 +73,21 @@ namespace Ipfs.Engine.Cryptography
                     cekWrapAlgorithm: CmsEnvelopedDataGenerator.Aes256Wrap
                     );
             }
+            // Key agreement with Edwards curve keys seem to be unsupported in BouncyCastle.
+            // Or rather, these ones can only do signatures?
+#if false
+            else if(kp.Private is Ed25519PrivateKeyParameters)
+            {
+                var cert = await CreateBCCertificateAsync(keyName, cancel).ConfigureAwait(false);
+                edGen.AddKeyAgreementRecipient(
+                    agreementAlgorithm: CmsEnvelopedDataGenerator.ECDHSha1Kdf, // Wrong!
+                    senderPrivateKey: kp.Private,
+                    senderPublicKey: kp.Public,
+                    recipientCert: cert,
+                    cekWrapAlgorithm: CmsEnvelopedDataGenerator.Aes256Wrap
+                    );
+            }
+#endif
             else
             {
                 throw new NotSupportedException($"The key type {kp.Private.GetType().Name} is not supported.");
