@@ -1,0 +1,152 @@
+
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.X509;
+using System;
+using System.IO;
+
+namespace Ipfs.Core.Cryptography.Proto
+{
+
+    public partial class PublicKey
+    {
+        /// <summary>
+        /// Serialize the public key according to
+        /// https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md
+        /// </summary>
+        /// <returns>The byte array with the protobuffered public key</returns>
+        public byte[] Serialize()
+        {
+            using (var ms = new MemoryStream())
+            {
+                ProtoBuf.Serializer.Serialize(ms, this);
+                ms.Position = 0;
+                return ms.ToArray();
+            }
+        }
+
+        public static PublicKey Deserialize(Stream s) 
+            => ProtoBuf.Serializer.Deserialize<PublicKey>(s);
+
+        /// <summary>
+        /// Deserialize the public key according to
+        /// https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns>The protobuffered public key</returns>
+        public static PublicKey Deserialize(byte[] data)
+        {
+            using(MemoryStream ms = new MemoryStream(data, false)) 
+            {
+                return Deserialize(ms);
+            }
+        }
+
+        /// <summary>
+        /// Do the signature verification with this public key
+        /// </summary>
+        /// <param name="data">The data to be verified</param>
+        /// <param name="signature">The signature we're check against</param>
+        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="InvalidDataException">The verification failed</exception>
+        public void Verify(byte[] data, byte[] signature)
+        {
+            AsymmetricKeyParameter publicKey;
+            string signingAlgorithmName;
+
+            // Make the key material palatable for BouncyCastle...
+            switch(Type)
+            {
+                case KeyType.RSA:
+                    // RSA public keys are encoded as SubjectPublicKeyInfo
+                    publicKey = PublicKeyFactory.CreateKey(Data);
+                    signingAlgorithmName = "SHA-256withRSA";
+                    break;
+                case KeyType.Ed25519:
+                    {
+                        // Edwards curve keys are nekkid 32 bytes, envelope it with the SPKI boilerplate
+                        byte[] pkixKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");
+                        Data.CopyTo(pkixKeyData, 12);
+                        publicKey = PublicKeyFactory.CreateKey(pkixKeyData);
+                        signingAlgorithmName = "Ed25519";
+                    }
+                    break;
+                // Secp256k1 keys are encoded with the "standard Bitcoin EC encoding" (??)
+                // "SHA-256withECDSA" for KeyType.Secp256k1
+
+                // ECDSA are encoded as SPKI, too.
+                default:
+                    throw new NotImplementedException($"Using key {Type.GetType().Name} is not yet supported");
+            }
+
+            // ...And do the stuff.
+            var signer = SignerUtilities.GetSigner(signingAlgorithmName);
+            signer.Init(false, publicKey);
+            signer.BlockUpdate(data, 0, data.Length);
+            if (!signer.VerifySignature(signature))
+                throw new InvalidDataException("Data does not match the signature.");
+        }
+
+        /// <summary>
+        /// Do the publickey-to-ID according to
+        /// https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md#encoding
+        /// </summary>
+        /// <returns>The ID as MultiHash</returns>
+        public MultiHash ToId()
+        {
+            using (var ms = new MemoryStream())
+            {
+                ProtoBuf.Serializer.Serialize(ms, this);
+
+                // If the length of the serialized bytes <= 42, then we compute the "identity" multihash of 
+                // the serialized bytes. The idea here is that if the serialized byte array 
+                // is short enough, we can fit it in a multihash verbatim without having to 
+                // condense it using a hash function.
+
+                // Really 48, not 42? Doesn't matter, encoded Secp256k1 and Ed25519 are
+                // 36 and 37 bytes long, respectively.
+                var alg = (ms.Length <= 48) ? "identity" : "sha2-256";
+
+                ms.Position = 0;
+                return MultiHash.ComputeHash(ms, alg);
+            }
+        }
+
+        public static PublicKey Import(AsymmetricKeyParameter publicKey)
+        {
+            var spki = SubjectPublicKeyInfoFactory
+                .CreateSubjectPublicKeyInfo(publicKey)
+                .GetDerEncoded();
+
+            KeyType type;
+            byte[] bytes;
+
+            if (publicKey is RsaKeyParameters)
+            {
+                // RSA encoded as SubjectsPublicKeyInfo
+                bytes = spki;
+                type = KeyType.RSA;
+            }
+            else if (publicKey is Ed25519PublicKeyParameters)
+            {
+                // Ed25519 are naked 32 bytes
+                bytes = spki[12..];
+                type = KeyType.Ed25519;
+            }
+            else if (publicKey is ECPublicKeyParameters)
+            {
+                bytes = spki; // FIXME Bitcoin EC encoding, anywhere? (33 bytes)
+                type = KeyType.Secp256k1;
+            }
+            else
+                throw new NotSupportedException($"The key type {publicKey.GetType().Name} is not supported.");
+
+            return new PublicKey
+            {
+                Type = type,
+                Data = bytes,
+            };
+        }
+    }
+}

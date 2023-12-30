@@ -11,7 +11,7 @@ namespace Ipfs.Core.Cryptography.Proto
     }
 
     [ProtoContract]
-    public class PublicKey
+    public partial class PublicKey
     {
         [ProtoMember(1, IsRequired = true)]
         public KeyType Type;

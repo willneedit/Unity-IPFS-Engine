@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using Ipfs.Core.Cryptography.Proto;
 using Ipfs.Registry;
 using Org.BouncyCastle.Security;
 using PeerTalk.Cryptography;
@@ -61,7 +62,7 @@ namespace PeerTalk.SecureCommunication
                 Exchanges = "P-256,P-384,P-521",
                 Ciphers = "AES-256,AES-128",
                 Hashes = "SHA256,SHA512",
-                PublicKey = Convert.FromBase64String(localPeer.PublicKey)
+                PublicKey = localPeer.PublicKey.Serialize()
             };
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix(stream, localProposal, PrefixStyle.Fixed32BigEndian);
@@ -197,7 +198,7 @@ namespace PeerTalk.SecureCommunication
             log.Debug($"Secure session with {remotePeer}");
 
             // Fill in the remote peer
-            remotePeer.PublicKey = Convert.ToBase64String(remoteProposal.PublicKey);
+            remotePeer.PublicKey = PublicKey.Deserialize(remoteProposal.PublicKey);
 
             // Set secure task done
             connection.Stream = secureStream;

@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using Ipfs.Core.Cryptography.Proto;
 using ProtoBuf;
 using Semver;
 using System;
@@ -50,7 +51,7 @@ namespace PeerTalk.Protocols
             };
             if (peer.PublicKey != null)
             {
-                res.PublicKey = Convert.FromBase64String(peer.PublicKey);
+                res.PublicKey = peer.PublicKey.Serialize();
             }
 
             ProtoBuf.Serializer.SerializeWithLengthPrefix<Identify>(stream, res, PrefixStyle.Base128);
@@ -116,10 +117,10 @@ namespace PeerTalk.Protocols
             {
                 throw new InvalidDataException("Public key is missing.");
             }
-            remote.PublicKey = Convert.ToBase64String(info.PublicKey);
+            remote.PublicKey = PublicKey.Deserialize(info.PublicKey);
             if (remote.Id == null)
             {
-                remote.Id = MultiHash.ComputeHash(info.PublicKey);
+                remote.Id = remote.PublicKey.ToId();
             }
 
             if (info.ListenAddresses != null)

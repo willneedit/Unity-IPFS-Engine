@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using Ipfs.Core.Cryptography.Proto;
 using Noise;
 using PeerTalk.Cryptography;
 using PeerTalk.Protocols;
@@ -261,7 +262,7 @@ namespace PeerTalk.SecureCommunication
                     peerIdentityKey.Verify(ms.ToArray(), payload.IdentitySig);
                 }
 
-                remotePeer.PublicKey = Convert.ToBase64String(payload.IdentityKey);
+                remotePeer.PublicKey = PublicKey.Deserialize(payload.IdentityKey);
             } catch (Exception e)
             {
                 log.Error($"Identity Verification Failure: {e.Message}", e);
@@ -274,8 +275,7 @@ namespace PeerTalk.SecureCommunication
             var payload = new NoiseHandshakePayload();
 
             // Marshal the public key to the transmission format
-            Key key = Key.ImportPublicKey(connection.LocalPeer.PublicKey);
-            payload.IdentityKey = key.MarshalPublicKey();
+            payload.IdentityKey = connection.LocalPeer.PublicKey.Serialize();
 
             using (var ms = new MemoryStream())
             {

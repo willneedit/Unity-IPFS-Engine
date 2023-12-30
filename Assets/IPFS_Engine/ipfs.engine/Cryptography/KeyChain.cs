@@ -161,38 +161,17 @@ namespace Ipfs.Engine.Cryptography
         ///   a type and the DER encoding of the PKCS Subject Public Key Info.
         /// </remarks>
         /// <seealso href="https://tools.ietf.org/html/rfc5280#section-4.1.2.7"/>
-        public async Task<string> GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
+        public async Task<PublicKey> GetPublicKeyAsync(string name, CancellationToken cancel = default(CancellationToken))
         {
             // TODO: Rename to GetIpfsPublicKeyAsync
-            string result = null;
+            PublicKey result = null;
             var ekey = await Store.TryGetAsync(name, cancel).ConfigureAwait(false);
             if (ekey != null)
             {
                 UseEncryptedKey(ekey, key =>
                 {
                     var kp = GetKeyPairFromPrivateKey(key);
-                    var spki = SubjectPublicKeyInfoFactory
-                        .CreateSubjectPublicKeyInfo(kp.Public)
-                        .GetDerEncoded();
-                    // Add protobuf cruft.
-                    var publicKey = new PublicKey
-                    {
-                        Data = spki
-                    };
-                    if (kp.Public is RsaKeyParameters)
-                        publicKey.Type = KeyType.RSA;
-                    else if (kp.Public is Ed25519PublicKeyParameters)
-                        publicKey.Type = KeyType.Ed25519;
-                    else if (kp.Public is ECPublicKeyParameters)
-                        publicKey.Type = KeyType.Secp256k1;
-                    else
-                        throw new NotSupportedException($"The key type {kp.Public.GetType().Name} is not supported.");
-
-                    using (var ms = new MemoryStream())
-                    {
-                        ProtoBuf.Serializer.Serialize(ms, publicKey);
-                        result = Convert.ToBase64String(ms.ToArray());
-                    }
+                    result = PublicKey.Import(kp.Public);
                 });
             }
             return result;

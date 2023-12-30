@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+
 
 namespace Ipfs
 {
@@ -33,11 +35,11 @@ namespace Ipfs
         ///   The base 64 encoding of the node's public key.  The default is <b>null</b>
         /// </value>
         /// <remarks>
-        ///   The IPFS public key is the base-64 encoding of a protobuf encoding containing 
-        ///   a type and the DER encoding of the PKCS Subject Public Key Info.
+        ///   libp2p encoded public key (Type/Data), expanded
         /// </remarks>
         /// <seealso href="https://tools.ietf.org/html/rfc5280#section-4.1.2.7"/>
-        public string PublicKey { get; set; }
+        /// <seealso cref="https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md"/>
+        public Core.Cryptography.Proto.PublicKey PublicKey { get; set; }
 
         /// <summary>
         ///   The multiple addresses of the node.
