@@ -392,25 +392,33 @@ namespace Ipfs.Engine.Cryptography
         ///   a protobuf encoding containing a type and 
         ///   the DER encoding of the PKCS SubjectPublicKeyInfo.
         /// </remarks>
-        MultiHash CreateKeyId (AsymmetricKeyParameter key)
+        public static MultiHash CreateKeyId (AsymmetricKeyParameter key)
         {
             var spki = SubjectPublicKeyInfoFactory
                 .CreateSubjectPublicKeyInfo(key)
                 .GetDerEncoded();
 
+            return CreateKeyId(key, spki);
+        }
+
+        private static MultiHash CreateKeyId(AsymmetricKeyParameter template, byte[] spki)
+        {
             // Add protobuf cruft.
             var publicKey = new Proto.PublicKey
             {
                 Data = spki
             };
-            if (key is RsaKeyParameters)
+            if (template is RsaKeyParameters)
                 publicKey.Type = Proto.KeyType.RSA;
-            else if (key is ECPublicKeyParameters)
+            else if (template is ECPublicKeyParameters)
                 publicKey.Type = Proto.KeyType.Secp256k1;
-            else if (key is Ed25519PublicKeyParameters)
+            else if (template is Ed25519PublicKeyParameters)
+            {
+                publicKey.Data = spki[12..];
                 publicKey.Type = Proto.KeyType.Ed25519;
+            }
             else
-                throw new NotSupportedException($"The key type {key.GetType().Name} is not supported.");
+                throw new NotSupportedException($"The key type {template.GetType().Name} is not supported.");
 
             using (var ms = new MemoryStream())
             {
@@ -425,6 +433,19 @@ namespace Ipfs.Engine.Cryptography
                 ms.Position = 0;
                 return MultiHash.ComputeHash(ms, alg);
             }
+        }
+
+        public static MultiHash CreateKeyId(byte[] spki)
+        {
+            AsymmetricKeyParameter pk = PublicKeyFactory.CreateKey(spki);
+
+            Proto.KeyType type;
+            if (pk is RsaKeyParameters) type = Proto.KeyType.RSA;
+            else if (pk is Ed25519PublicKeyParameters) type = Proto.KeyType.Ed25519;
+            else if (pk is ECPublicKeyParameters) type = Proto.KeyType.Secp256k1;
+            else throw new NotImplementedException();
+
+            return CreateKeyId(pk, spki);
         }
 
         AsymmetricCipherKeyPair GetKeyPairFromPrivateKey(AsymmetricKeyParameter privateKey)
