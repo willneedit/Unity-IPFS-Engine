@@ -10,9 +10,12 @@ using System.Linq;
 
 namespace Ipfs.Core.Cryptography.Proto
 {
-
     public partial class PublicKey : IEquatable<PublicKey>
     {
+        const string RsaSigningAlgorithmName = "SHA-256withRSA";
+        const string EcSigningAlgorithmName = "SHA-256withECDSA";
+        const string Ed25519SigningAlgorithmName = "Ed25519";
+
         /// <summary>
         /// Serialize the public key according to
         /// https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md
@@ -63,7 +66,7 @@ namespace Ipfs.Core.Cryptography.Proto
                 case KeyType.RSA:
                     // RSA public keys are encoded as SubjectPublicKeyInfo
                     publicKey = PublicKeyFactory.CreateKey(Data);
-                    signingAlgorithmName = "SHA-256withRSA";
+                    signingAlgorithmName = RsaSigningAlgorithmName;
                     break;
                 case KeyType.Ed25519:
                     {
@@ -71,11 +74,11 @@ namespace Ipfs.Core.Cryptography.Proto
                         byte[] pkixKeyData = Convert.FromBase64String("MCowBQYDK2VwAyEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");
                         Data.CopyTo(pkixKeyData, 12);
                         publicKey = PublicKeyFactory.CreateKey(pkixKeyData);
-                        signingAlgorithmName = "Ed25519";
+                        signingAlgorithmName = Ed25519SigningAlgorithmName;
                     }
                     break;
                 // Secp256k1 keys are encoded with the "standard Bitcoin EC encoding" (??)
-                // "SHA-256withECDSA" for KeyType.Secp256k1
+                // EcSigningAlgorithmName for KeyType.Secp256k1
 
                 // ECDSA are encoded as SPKI, too.
                 default:

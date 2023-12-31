@@ -15,6 +15,7 @@ using PeerTalk.Protocols;
 using PeerTalk.Cryptography;
 using Ipfs.CoreApi;
 using Nito.AsyncEx;
+using Ipfs.Core.Cryptography;
 
 namespace PeerTalk
 {
@@ -125,7 +126,7 @@ namespace PeerTalk
         /// <value>
         ///   Used to prove the identity of the <see cref="LocalPeer"/>.
         /// </value>
-        public Key LocalPeerKey { get; set; }
+        public KeyPair LocalPeerKey { get; set; }
 
         /// <summary>
         ///   Other nodes. Key is the bae58 hash of the peer ID.

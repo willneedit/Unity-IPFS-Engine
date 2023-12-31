@@ -1,5 +1,6 @@
 ﻿using Common.Logging;
 using Ipfs;
+using Ipfs.Core.Cryptography;
 using PeerTalk.Cryptography;
 using PeerTalk.Muxer;
 using PeerTalk.Protocols;
@@ -51,7 +52,7 @@ namespace PeerTalk
         /// <value>
         ///   Used to prove the identity of the <see cref="LocalPeer"/>.
         /// </value>
-        public Key LocalPeerKey { get; set; }
+        public KeyPair LocalPeerKey { get; set; }
 
         /// <summary>
         ///   Determine which peer (local or remote) initiated the connection.

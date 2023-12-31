@@ -20,6 +20,7 @@ using System.Collections.Concurrent;
 using System.Security;
 using PeerTalk.SecureCommunication;
 using PeerTalk.Cryptography;
+using Ipfs.Core.Cryptography;
 
 namespace Ipfs.Engine
 {
@@ -159,7 +160,7 @@ namespace Ipfs.Engine
                 var swarm = new Swarm
                 {
                     LocalPeer = peer,
-                    LocalPeerKey = PeerTalk.Cryptography.Key.CreatePrivateKey(self),
+                    LocalPeerKey = KeyPair.Import(self),
                     NetworkProtector = Options.Swarm.PrivateNetworkKey == null
                         ? null
                         : new Psk1Protector { Key = Options.Swarm.PrivateNetworkKey }
