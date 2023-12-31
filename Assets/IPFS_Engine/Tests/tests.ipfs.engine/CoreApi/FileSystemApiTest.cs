@@ -901,7 +901,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        // [Ignore("For debugging - needs a node with a 'known good' implementation like https://github.com/ipfs/helia")]
+        [Ignore("For debugging - needs a node with a 'known good' implementation like https://github.com/ipfs/helia")]
         public void Connect_To_KnownGoodAsync()
         {
             Task.Run(Connect_To_KnownGood).Wait();
@@ -1052,6 +1052,7 @@ console.log('node1 addr:', node1.libp2p.getMultiaddrs()[0])
         }
 
         [Test]
+        [Ignore("For debugging - needs a node with a 'known good' implementation like https://github.com/ipfs/helia")]
         public void Read_From_AlienNodeAsync()
         {
             Task.Run(Read_From_AlienNode).Wait();

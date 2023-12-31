@@ -1,35 +1,26 @@
-using Ipfs;
 using NUnit.Framework;
-using System;
-using System.Linq;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto.Modes;
-using Org.BouncyCastle.Crypto.Engines;
-using System.Text;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Utilities;
 
-namespace PeerTalk.Cryptography.Marshaling
+using Ipfs.Core.Cryptography.Proto;
+
+namespace Ipfs.Cryptography
 {
     [TestFixture]
-    public class UnmarshalPublicKey
+    public class SerializePublicKeyTest
     {
-        private void test_key(string marshaledKey)
+        private void test_key(string serializedKey)
         {
-            byte[] data = SimpleBase.Base16.Decode(marshaledKey);
-            Key key = Key.UnmarshalPublicKey(data);
-        }
+            // Do a round trip with the known test vectors
+            byte[] data = SimpleBase.Base16.Decode(serializedKey);
+            PublicKey key = PublicKey.Deserialize(data);
+            byte[] actual = key.Serialize();
 
+            Assert.AreEqual(data, actual);
+        }
         // Test vectors seen in
         // https://github.com/libp2p/specs/blob/master/peer-ids/peer-ids.md
 
         [Test]
-        public void Unmarshal_RSA()
+        public void RSA()
         {
             test_key(
                 "080012a60430820222300d06092a864886f70d01010105000382020f003082" +
@@ -54,15 +45,15 @@ namespace PeerTalk.Cryptography.Marshaling
 
         [Test]
         [Ignore("No source for the 'standard Bitcoin EC encoding for Secp256k1 public and private keys'")]
-        public void Unmarshal_secp256k1()
+        public void Secp256k1()
         {
             test_key(
                 "08021221037777e994e452c21604f91de093ce415f5432f701dd8cd1a7a6fea0e630bfca99");
-        
+
         }
 
         [Test]
-        public void Unmarshal_ed25519()
+        public void Ed25519()
         {
             test_key("080112201ed1e8fae2c4a144b8be8fd4b47bf3d3b34b871c3cacf6010f0e42d474fce27e");
         }

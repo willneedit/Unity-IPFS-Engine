@@ -151,37 +151,22 @@ namespace Ipfs.Core.Cryptography.Proto
             };
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as PublicKey);
-        }
+        public static implicit operator PublicKey(string b64string)
+            => Deserialize(Convert.FromBase64String(b64string));
+
+        public override bool Equals(object obj) 
+            => Equals(obj as PublicKey);
 
         public bool Equals(PublicKey other)
-        {
-            return other is not null &&
-                   Type == other.Type &&
-                   other.Data.SequenceEqual(Data);
-        }
+            => other is not null && Type == other.Type && other.Data.SequenceEqual(Data);
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Type, Data);
-        }
+        public override int GetHashCode() 
+            => HashCode.Combine(Type, Data);
 
-        public static implicit operator PublicKey(string b64string)
-        {
-            byte[] bytes = Convert.FromBase64String(b64string);
-            return PublicKey.Deserialize(bytes);
-        }
+        public static bool operator ==(PublicKey left, PublicKey right) 
+            => EqualityComparer<PublicKey>.Default.Equals(left, right);
 
-        public static bool operator ==(PublicKey left, PublicKey right)
-        {
-            return EqualityComparer<PublicKey>.Default.Equals(left, right);
-        }
-
-        public static bool operator !=(PublicKey left, PublicKey right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(PublicKey left, PublicKey right) 
+            => !(left == right);
     }
 }

@@ -15,7 +15,8 @@
     "precompiledReferences": [
         "nunit.framework.dll",
         "Google.Protobuf.dll",
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "SimpleBase.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],
