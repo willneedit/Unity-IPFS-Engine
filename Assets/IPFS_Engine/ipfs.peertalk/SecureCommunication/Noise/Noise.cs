@@ -228,41 +228,36 @@ namespace PeerTalk.SecureCommunication
             return readTotal;
         }
 
-        private static MultiHash PeerKeyToId(byte[] key)
-        {
-            var ridAlg = (key.Length <= 48) ? "identity" : "sha2-256";
-            return MultiHash.ComputeHash(key, ridAlg);
-        }
-
         private static void ValidatePayload(PeerConnection connection, HandshakeState state, NoiseHandshakePayload payload)
         {
             var remotePeer = connection.RemotePeer;
 
-            // FIXME Perhaps Peer PublicKeys and ID's are coded wrong with ed25519 keys?
-            // See Key.UnmarshalPublicKey.
-            var remoteId = PeerKeyToId(payload.IdentityKey);
+            try
+            {
+                remotePeer.PublicKey = PublicKey.Deserialize(payload.IdentityKey);
+            }
+            catch(Exception e)
+            {
+                log.Error($"Invalid peer public key: {e.Message}", e);
+                throw;
+            }
+
+            var remoteId = remotePeer.PublicKey.ToId();
+
             if (remotePeer.Id == null)
-            {
                 remotePeer.Id = remoteId;
-            }
             else if (remoteId != remotePeer.Id)
-            {
                 throw new Exception($"Expected peer '{remotePeer.Id}', got '{remoteId}'");
-            }
+
             var peerStaticKey = state.RemoteStaticPublicKey;
             try
             {
-                // Unmarshal from the remote public key
-                var peerIdentityKey = Key.UnmarshalPublicKey(payload.IdentityKey);
-
                 using (var ms = new MemoryStream())
                 {
                     ms.Write(payloadSigPrefix, 0, payloadSigPrefix.Length);
                     ms.Write(peerStaticKey.ToArray(), 0, peerStaticKey.Length);
-                    peerIdentityKey.Verify(ms.ToArray(), payload.IdentitySig);
+                    remotePeer.PublicKey.Verify(ms.ToArray(), payload.IdentitySig);
                 }
-
-                remotePeer.PublicKey = PublicKey.Deserialize(payload.IdentityKey);
             } catch (Exception e)
             {
                 log.Error($"Identity Verification Failure: {e.Message}", e);

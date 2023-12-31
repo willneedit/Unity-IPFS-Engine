@@ -155,7 +155,7 @@ namespace PeerTalk.SecureCommunication
 
             // =============================================================================
             // step 2.1. Verify -- verify their exchange packet is good.
-            var remotePeerKey = Key.UnmarshalPublicKey(remoteProposal.PublicKey);
+            var remotePeerKey = PublicKey.Deserialize(remoteProposal.PublicKey);
             using (var ms = new MemoryStream())
             {
                 ProtoBuf.Serializer.Serialize(ms, remoteProposal);
