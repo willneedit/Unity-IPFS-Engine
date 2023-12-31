@@ -103,10 +103,8 @@ namespace Ipfs
         {
             if (Id == null)
                 return false;
-            // FIXME CreateKeyId() needs migration from ipfs.engine to ipfs.core
-            // FIXME ipfs.peertalk Key.cs Marshal/Unmarshal needs deduplication
-            //if (PublicKey != null && !Id.Matches(Convert.FromBase64String(PublicKey)))
-            //    return false;
+            if (PublicKey != null && Id != PublicKey.ToId())
+                return false;
 
             return true;
         }

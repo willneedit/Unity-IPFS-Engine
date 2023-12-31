@@ -4,12 +4,14 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.X509;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Ipfs.Core.Cryptography.Proto
 {
 
-    public partial class PublicKey
+    public partial class PublicKey : IEquatable<PublicKey>
     {
         /// <summary>
         /// Serialize the public key according to
@@ -147,6 +149,39 @@ namespace Ipfs.Core.Cryptography.Proto
                 Type = type,
                 Data = bytes,
             };
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as PublicKey);
+        }
+
+        public bool Equals(PublicKey other)
+        {
+            return other is not null &&
+                   Type == other.Type &&
+                   other.Data.SequenceEqual(Data);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Type, Data);
+        }
+
+        public static implicit operator PublicKey(string b64string)
+        {
+            byte[] bytes = Convert.FromBase64String(b64string);
+            return PublicKey.Deserialize(bytes);
+        }
+
+        public static bool operator ==(PublicKey left, PublicKey right)
+        {
+            return EqualityComparer<PublicKey>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(PublicKey left, PublicKey right)
+        {
+            return !(left == right);
         }
     }
 }

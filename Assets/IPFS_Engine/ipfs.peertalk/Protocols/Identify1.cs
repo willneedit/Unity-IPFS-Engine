@@ -117,7 +117,16 @@ namespace PeerTalk.Protocols
             {
                 throw new InvalidDataException("Public key is missing.");
             }
-            remote.PublicKey = PublicKey.Deserialize(info.PublicKey);
+
+            try
+            {
+                remote.PublicKey = PublicKey.Deserialize(info.PublicKey);
+            }
+            catch(Exception)
+            {
+                throw new InvalidDataException("Public key is corrupted.");
+            }
+
             if (remote.Id == null)
             {
                 remote.Id = remote.PublicKey.ToId();
