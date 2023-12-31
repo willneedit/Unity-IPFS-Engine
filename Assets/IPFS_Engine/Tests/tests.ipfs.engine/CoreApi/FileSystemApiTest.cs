@@ -892,7 +892,7 @@ namespace Ipfs.Engine
 
                 var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
                 var text = await ipfs.FileSystem.ReadAllTextAsync($"{folder}/about", cts.Token);
-                StringAssert.Contains(text, "IPFS -- Inter-Planetary File system");
+                StringAssert.Contains("IPFS -- Inter-Planetary File system", text);
             }
             finally
             {
