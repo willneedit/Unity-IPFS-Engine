@@ -118,6 +118,21 @@ namespace Ipfs.Core.Cryptography.Proto
             }
         }
 
+        /// <summary>
+        /// Converts the peer ID to its public key, if possible
+        /// </summary>
+        /// <param name="peerId">The peer Id</param>
+        /// <returns>The public key. null if it's not taken as-is in its peer ID</returns>
+        public static PublicKey FromId(MultiHash peerId)
+        {
+            if (!peerId.IsIdentityHash) return null;
+
+            return Deserialize(peerId.Digest);
+        }
+
+        public static PublicKey FromId(string peerId) 
+            => FromId(new MultiHash(peerId));
+
         public static PublicKey Import(AsymmetricKeyParameter publicKey)
         {
             var spki = SubjectPublicKeyInfoFactory

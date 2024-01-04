@@ -1,14 +1,15 @@
+using Ipfs.Core.Cryptography.Proto;
 using NUnit.Framework;
 
 namespace Ipfs.Cryptography
 {
     [TestFixture]
-    public class DeserializePublicKeyTest
+    public class PublicKeyAsPeerId
     {
-        private void test_key(string serializedKey)
+        private PublicKey test_key(string serializedKey)
         {
             byte[] data = SimpleBase.Base16.Decode(serializedKey);
-            Core.Cryptography.Proto.PublicKey key = Core.Cryptography.Proto.PublicKey.Deserialize(data);
+            return PublicKey.Deserialize(data);
         }
 
         // Test vectors seen in
@@ -17,7 +18,7 @@ namespace Ipfs.Cryptography
         [Test]
         public void RSA()
         {
-            test_key(
+            PublicKey key = test_key(
                 "080012a60430820222300d06092a864886f70d01010105000382020f003082" +
                 "020a0282020100e1beab071d08200bde24eef00d049449b07770ff9910257b" +
                 "2d7d5dda242ce8f0e2f12e1af4b32d9efd2c090f66b0f29986dbb645dae988" +
@@ -36,21 +37,26 @@ namespace Ipfs.Cryptography
                 "6c1c21bdf0c6cfe951c18f1ee4078c79c13d63edb6e14feaeffabc90ad317e" +
                 "4875fe648101b0864097e998f0ca3025ef9638cd2b0caecd3770ab54a1d9c6" +
                 "ca959b0f5dcbc90caeefc4135baca6fd475224269bbe1b0203010001");
-        }
 
-        [Test]
-        [Ignore("ref. BIP-340, and Schnorr signing is currently unsupported in BC")]
-        public void Secp256k1()
-        {
-            test_key(
-                "08021221037777e994e452c21604f91de093ce415f5432f701dd8cd1a7a6fea0e630bfca99");
-        
+            MultiHash peerId = key.ToId();
+
+            // RSA keys are too long to use it as-is
+            Assert.IsNull(PublicKey.FromId(peerId));
         }
 
         [Test]
         public void Ed25519()
         {
-            test_key("080112201ed1e8fae2c4a144b8be8fd4b47bf3d3b34b871c3cacf6010f0e42d474fce27e");
+            PublicKey key = test_key("080112201ed1e8fae2c4a144b8be8fd4b47bf3d3b34b871c3cacf6010f0e42d474fce27e");
+
+            MultiHash peerId = key.ToId();
+
+            PublicKey clone = PublicKey.FromId(peerId);
+
+            // Ed25519 keys are small enough to be taken as-is and can be taken as the public key itself.
+            Assert.IsNotNull(PublicKey.FromId(peerId));
+            Assert.AreEqual(key, clone);
         }
+
     }
 }

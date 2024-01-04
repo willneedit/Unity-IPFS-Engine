@@ -59,7 +59,7 @@ namespace Ipfs.Engine
         }
 
         [Test]
-        [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74 - Bootstrap servers don't relay folders")]
+        // [Ignore("https://github.com/richardschneider/net-ipfs-engine/issues/74 - Bootstrap servers don't relay folders")]
         public void FindProviderAsync()
 		{
 			Task.Run(FindProvider).Wait();
@@ -69,7 +69,7 @@ namespace Ipfs.Engine
         {
             void ProvidersFound(Peer peer)
             {
-                throw new NotImplementedException();
+                /**/
             }
 
             var folder = "QmS4ustL54uo8FzR9455qaxZwuMiUhyvMcX9Ba8nUH4uVv";
