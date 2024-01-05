@@ -22,7 +22,7 @@ namespace Ipfs.Core.Cryptography
         public PublicKey PublicKey
         { 
             get {
-                if (privateKey == null) DerivePublicKey();
+                if (publicKey == null) DerivePublicKey();
                 return publicKey; 
             } 
         }
