@@ -566,6 +566,24 @@ namespace PeerTalk
         }
 
         /// <summary>
+        /// No-catch version of MultiAddress.ResolveAsync - return an empty List if the resolve fails.
+        /// </summary>
+        /// <param name="a">The MultiAddress to resolve to</param>
+        /// <param name="cancel"></param>
+        /// <returns>The resolved Multiaddress, or an empty list if the resolution fails</returns>
+        async Task<List<MultiAddress>> SafeResolveAsync(MultiAddress a, CancellationToken cancel)
+        {
+            try
+            {
+                return await a.ResolveAsync(cancel);
+            }
+            catch 
+            {
+                return new();
+            }
+        }
+
+        /// <summary>
         ///   Establish a duplex stream between the local and remote peer.
         /// </summary>
         /// <param name="remote"></param>
@@ -594,7 +612,7 @@ namespace PeerTalk
             var blackList = listeners.Keys
                 .Select(a => a.WithoutPeerId())
                 .ToArray();
-            var possibleAddresses = (await Task.WhenAll(addrs.Select(a => a.ResolveAsync(cancel))).ConfigureAwait(false))
+            var possibleAddresses = (await Task.WhenAll(addrs.Select(a => SafeResolveAsync(a, cancel))).ConfigureAwait(false))
                 .SelectMany(a => a)
                 .Where(a => !blackList.Contains(a.WithoutPeerId()))
                 .Select(a => a.WithPeerId(remote.Id))

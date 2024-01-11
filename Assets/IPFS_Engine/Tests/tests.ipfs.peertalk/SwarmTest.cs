@@ -1143,6 +1143,51 @@ namespace PeerTalk
         }
 
         [Test]
+        public void Dial_PeerWithMisconfiguredTransportsAsync()
+        {
+            Task.Run(Dial_PeerWithMisconfiguredTransports).Wait();
+        }
+
+        public async Task Dial_PeerWithMisconfiguredTransports()
+        {
+            const string id = "QmdpwjdB94eNm2Lcvp9JqoCxswo3AKQqjLuNZyLixmCM1h";
+            var peerB = new Peer
+            {
+                AgentVersion = "peerB",
+                Id = id,
+                PublicKey = "CAASXjBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDlTSgVLprWaXfmxDr92DJE1FP0wOexhulPqXSTsNh5ot6j+UiuMgwb0shSPKzLx9AuTolCGhnwpTBYHVhFoBErAgMBAAE=",
+                Addresses = new List<MultiAddress>
+                {
+                    new MultiAddress($"/dnsaddr/does.not.exist/tcp/4242/ipfs/{id}"),
+                    new MultiAddress($"/ip4/127.0.0.1/tcp/0/ipfs/{id}")
+                }
+
+            };
+            var swarmB = new Swarm { LocalPeer = peerB };
+            await swarmB.StartAsync();
+            var peerBAddress = await swarmB.StartListeningAsync("/ip4/127.0.0.1/tcp/0");
+
+            var swarm = new Swarm { LocalPeer = self };
+            await swarm.StartAsync();
+            try
+            {
+                using (var stream = await swarm.DialAsync(peerB, "/ipfs/id/1.0.0"))
+                {
+                    Assert.IsNotNull(stream);
+                    Assert.IsTrue(stream.CanRead);
+                    Assert.IsTrue(stream.CanWrite);
+                }
+            }
+            finally
+            {
+                await swarm.StopAsync();
+                await swarmB.StopAsync();
+            }
+        }
+
+
+
+        [Test]
         public void Dial_Peer_UnknownProtocolAsync()
 		{
 			Task.Run(Dial_Peer_UnknownProtocol).Wait();
