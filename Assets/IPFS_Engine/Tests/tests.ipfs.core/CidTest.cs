@@ -325,6 +325,29 @@ namespace Ipfs
         }
 
         [Test]
+        public void Implicit_Conversion_From_NullString()
+        {
+            string hash = null;
+            Cid cid = hash;
+            Assert.IsNull(cid);
+        }
+
+        [Test]
+        public void Implicit_Conversion_From_NullCid()
+        {
+            Cid cid = null;
+            string s = cid;
+            Assert.IsNull(s);
+        }
+
+        [Test]
+        public void Implicit_Conversion_From_Invalid_String()
+        {
+            string hash = "?";
+            Assert.Throws<FormatException>(() => { Cid cid = hash; });
+        }
+
+        [Test]
         public void Streaming_V0()
         {
             Cid cid = "QmaozNR7DZHQK1ZcU9p7QdrshMvXqWK6gpu5rmrkPdT3L4";

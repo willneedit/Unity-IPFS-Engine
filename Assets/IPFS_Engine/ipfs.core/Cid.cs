@@ -599,6 +599,7 @@ namespace Ipfs
         /// </remarks>
         static public implicit operator Cid(string s)
         {
+            if (s == null) return null;
             return Cid.Decode(s);
         }
 
@@ -616,6 +617,7 @@ namespace Ipfs
         /// </remarks>
         static public implicit operator string(Cid id)
         {
+            if (id == null) return null;
             return id.Encode();
         }
 
