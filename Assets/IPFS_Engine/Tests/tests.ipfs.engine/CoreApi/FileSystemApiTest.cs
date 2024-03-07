@@ -233,7 +233,7 @@ namespace Ipfs.Engine
             stopWatch.Start();
             var node = ipfs.FileSystem.AddFileAsync(path).Result;
             stopWatch.Stop();
-            Console.WriteLine("Add file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+            UnityEngine.Debug.Log($"Add file took {stopWatch.Elapsed.TotalSeconds} seconds.");
 
             Assert.AreEqual("QmeZkAUfUFPq5YWGBan2ZYNd9k59DD1xW62pGJrU3C6JRo", (string)node.Id);
 
@@ -259,7 +259,7 @@ namespace Ipfs.Engine
                 }
             }
             stopWatch.Stop();
-            Console.WriteLine("Readfile file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+            UnityEngine.Debug.Log($"Readfile file took {stopWatch.Elapsed.TotalSeconds} seconds.");
         }
 
 
@@ -275,7 +275,7 @@ namespace Ipfs.Engine
             stopWatch.Start();
             var node = ipfs.FileSystem.AddFileAsync(path).Result;
             stopWatch.Stop();
-            Console.WriteLine("Add file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+            UnityEngine.Debug.Log($"Add file took {stopWatch.Elapsed.TotalSeconds} seconds.");
 
             Assert.AreEqual("QmeFhfB4g2GFbxYb7usApWzq8uC1vmuxJajFpiJiT5zLoy", (string)node.Id);
 
@@ -301,7 +301,67 @@ namespace Ipfs.Engine
                 }
             }
             stopWatch.Stop();
-            Console.WriteLine("Readfile file took {0} seconds.", stopWatch.Elapsed.TotalSeconds);
+            UnityEngine.Debug.Log($"Readfile file took {stopWatch.Elapsed.TotalSeconds} seconds.");
+        }
+
+        [Test]
+        public void Read_PartOfDirectoryAsync()
+        {
+            Task.Run(Read_PartOfDirectory).Wait();
+        }
+
+        public async Task Read_PartOfDirectory()
+        {
+            const string indexname = "zzz_index.txt";
+
+            IpfsEngine ipfs = TestFixture.Ipfs;
+            Stopwatch stopWatch = new Stopwatch();
+
+            AddFile(); // warm up
+
+            var temp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(temp);
+            File.Copy("Assets/IPFS_Engine/Tests/tests.ipfs.engine/starx2.mp4", Path.Combine(temp, "movie.mp4"));
+            File.WriteAllText(Path.Combine(temp, indexname), "index");
+
+            try
+            {
+                stopWatch.Start();
+                IFileSystemNode dir = ipfs.FileSystem.AddDirectoryAsync(temp).Result;
+                stopWatch.Stop();
+
+                UnityEngine.Debug.Log($"Add directory took {stopWatch.Elapsed.TotalSeconds} seconds.");
+
+                Assert.IsTrue(dir.IsDirectory);
+                IFileSystemLink[] files = dir.Links.ToArray();
+                Assert.AreEqual(2, files.Length);
+
+                // Make sure that the small file is the _last_ one.
+                Assert.AreEqual(indexname, files[1].Name);
+
+                stopWatch.Restart();
+                Assert.AreEqual("index", ipfs.FileSystem.ReadAllTextAsync($"{dir.Id}/{indexname}").Result);
+                stopWatch.Stop();
+                UnityEngine.Debug.Log($"Readfile (random access) took {stopWatch.Elapsed.TotalSeconds} seconds.");
+                double time_part = stopWatch.Elapsed.TotalSeconds;
+
+                byte[] buffer = new byte[1024 * 1024];
+
+                stopWatch.Restart();
+                Stream tar = await ipfs.FileSystem.GetAsync(dir.Id);
+                // Do read all of this.
+                while(tar.Read(buffer, 0, buffer.Length) > 0);
+                stopWatch.Stop();
+                UnityEngine.Debug.Log($"Readfile (whole archive) took {stopWatch.Elapsed.TotalSeconds} seconds.");
+                double time_full = stopWatch.Elapsed.TotalSeconds;
+
+                // 10% of the neede time for the archive should be the indication
+                // that it's a partial read.
+                Assert.IsTrue(time_part < (time_full * 0.10f));
+
+            }
+            finally
+            { Directory.Delete(temp, true); }
         }
 
         [Test]
