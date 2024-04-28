@@ -25,9 +25,10 @@ namespace PeerTalk.Muxer
             return $"/{Name}/{Version}";
         }
 
-        public async Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
+        public Task ProcessMessageAsync(PeerConnection connection, Stream stream, CancellationToken cancel = default)
         {
             throw new NotImplementedException();
+#if false
             log.Debug("start processing requests from " + connection.RemoteAddress);
             MplexMuxer muxer = new MplexMuxer
             {
@@ -42,6 +43,7 @@ namespace PeerTalk.Muxer
             await muxer.ProcessRequestsAsync().ConfigureAwait(false);
 
             log.Debug("stop processing from " + connection.RemoteAddress);
+#endif
         }
     }
 }
